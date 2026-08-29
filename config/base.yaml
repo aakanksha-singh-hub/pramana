@@ -1,0 +1,108 @@
+# Pramana — default simulator parameters.
+# Amounts are in INR. Time is in days unless suffixed.
+
+population:
+  n_payers: 25000
+  n_payees: 20000
+  months: 12
+  # lambda: combined population share of the four legitimate high-fan-in
+  # payee roles (property_manager, education_institution, utility_biller,
+  # merchant_small). Fixed at pre-registration; see PREREGISTRATION.md.
+  lam: 0.10
+
+payer:
+  # monthly income, lognormal, drives balances and payment sizes
+  income_mu: 10.9          # exp(10.9) ~= INR 54,000
+  income_sigma: 0.62
+  balance_multiple_mu: 0.85   # balance ~ multiple of monthly income
+  balance_multiple_sigma: 0.45
+  tenure_days_min: 120
+  tenure_days_max: 3600
+  device_age_days_mu: 420
+  device_age_days_sigma: 300
+  n_geo_regions: 40
+
+relationships:
+  # Probability a payer holds each relationship type, and the per-month
+  # transaction rate of each instance. Calibrated to ~7.2 payments per payer
+  # per month, i.e. ~2.1M transactions over the 12-month window.
+  p_has_rent: 0.34
+  rate_rent: 1.0
+  p_has_utility: 0.92
+  n_utility_lambda: 1.4
+  rate_utility: 1.0
+  p_has_employer: 0.55
+  rate_salary_reimburse: 0.35
+  p_has_loan: 0.28
+  rate_loan: 1.0
+  p_has_education: 0.22
+  rate_education: 0.33        # seasonal: term months only
+  n_friends_lambda: 4.0
+  rate_friend: 0.40
+  n_family_lambda: 1.6
+  rate_family: 0.75
+  n_merchant_lambda: 3.2
+  rate_merchant: 0.45
+  # Legitimate investment relationships exist so that the coached-safe purpose
+  # classes retain genuine legitimate mass; without them a coached declaration
+  # would itself become a fraud giveaway and rho would be self-defeating.
+  p_has_investment: 0.30
+  rate_investment: 0.45
+  n_medical_lambda: 0.6
+  rate_medical: 0.22
+  # staggered starts: fraction of relationships that begin mid-window, so that
+  # legitimate-but-unfamiliar payees exist at every point in the test period
+  p_relationship_starts_midwindow: 0.22
+
+amounts:
+  rent_mu: 9.55            # exp(9.55) ~= INR 14,000
+  rent_sigma: 0.55
+  utility_mu: 7.35         # ~ INR 1,560
+  utility_sigma: 0.62
+  education_mu: 10.15      # ~ INR 25,600
+  education_sigma: 0.70
+  friend_mu: 7.10          # ~ INR 1,215
+  friend_sigma: 1.05
+  family_mu: 8.60          # ~ INR 5,430
+  family_sigma: 0.85
+  merchant_mu: 6.90        # ~ INR 990
+  merchant_sigma: 1.15
+  loan_mu: 9.20            # ~ INR 9,900
+  loan_sigma: 0.60
+  medical_mu: 8.40         # ~ INR 4,450
+  medical_sigma: 1.00
+  investment_mu: 9.60      # ~ INR 14,760
+  investment_sigma: 0.95
+  salary_reimburse_mu: 8.10
+  salary_reimburse_sigma: 0.80
+
+ledger:
+  adhoc_rate: 0.55         # Poisson mean, ad-hoc payments per payer per month
+  p_adhoc_novel_payee: 0.62
+
+fraud:
+  # Target base rates. Calibrated in fidelity.py against the RBI-cited
+  # 45%-of-volume / 98.5%-of-value asymmetry above INR 10,000.
+  target_rate_volume: 0.008
+  target_rate_value: 0.06
+  p_coercion_given_scam: 0.75
+  p_coercion_given_legit: 0.02
+  # multi-transaction scam episodes
+  txns_per_episode_lambda: 2.1
+  # rho: coaching effectiveness. Primary sweep axis.
+  rho: 0.4
+
+features:
+  # beta: additive gaussian noise sigma applied to standardised B3 features
+  beta: 0.5
+  # K: purpose cardinality (3, 6 or 11)
+  K: 11
+
+split:
+  train_months: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  test_months: [10, 11, 12]
+
+evaluation:
+  fpr_operating_points: [0.001, 0.005, 0.01]
+  recall_operating_points: [0.5, 0.7, 0.9]
+  bootstrap_n: 1000
