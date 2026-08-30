@@ -32,7 +32,7 @@ def main() -> None:
     cfg = yaml.safe_load(open("config/base.yaml"))
     blocks = sys.argv[1:] or list(GRIDS)
     cells = [c for b in blocks for c in expand(GRIDS[b], b)]
-    run_sweep(cfg, cells, n_jobs=int(6), n_boot=cfg["evaluation"]["bootstrap_n"])
+    run_sweep(cfg, cells, n_jobs=7, n_boot=cfg["evaluation"]["bootstrap_n"])
 
 
 if __name__ == "__main__":
