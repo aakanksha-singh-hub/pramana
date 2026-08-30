@@ -578,7 +578,8 @@ function screenPhase(root) {
           el('span', { style: 'color:var(--muted)' }, [
             r.status === 'never significant' ? 'no measurable value at any coaching level'
               : r.status === 'significant throughout' ? 'no coaching level in range removes the signal'
-              : 'value disappears between these two grid points']),
+              : 'value disappears between these two grid points']
+            .concat(r.non_monotonic ? [el('span', { class: 'tag mid', style: 'margin-left:8px' }, ['non-monotonic ' + r.significant_grid])] : [])),
         ]))]),
       el('div', { class: 'callout', style: 'margin:0' }, [
         el('p', { html: 'ρ* is <b>bracketed by the sweep grid</b>, not interpolated. It lies between the last coaching level whose CI clears zero on every seed and the first that does not. A finer number would be an interpolation this design does not support.' }),

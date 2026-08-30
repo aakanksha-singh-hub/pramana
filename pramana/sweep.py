@@ -151,30 +151,41 @@ def arm_table(out_dir: Path = RAW_DIR) -> pd.DataFrame:
 
 def rho_star(df: pd.DataFrame, arm: str, metric: str, adversary: str = "uniform",
              K: int = 11, beta: float = 0.5) -> pd.DataFrame:
-    """rho*, per lambda: the largest rho at which the incremental value of the
-    arm is still significant on *every* seed.
+    """rho*, per lambda: the coaching level at which incremental value first
+    stops being significant on every seed.
 
-    Reported as an interval, because rho is sampled on a grid: the value is
-    known to lie between the last significant grid point and the first
-    non-significant one. Anything finer would be an interpolation the design
-    does not support.
+    Reported as an interval, because rho is sampled on a grid: the value lies
+    between the last coaching level that clears zero and the first that does
+    not. Anything finer would be an interpolation the design does not support.
+
+    The crossing is the *first* one, walking rho upward, not the last
+    significant grid point. Those differ whenever significance is
+    non-monotonic in rho, and reporting the last point there would overstate
+    how much coaching the signal survives. Non-monotonic rows are flagged
+    rather than smoothed, because a signal that reappears at higher coaching
+    is a finding about the model, not noise to be tidied away.
     """
     sel = df[(df.arm == arm) & (df.metric == metric) & (df.adversary == adversary)
              & (df.K == K) & (df.beta == beta)]
     out = []
     for lam, g in sel.groupby("lam"):
         per_rho = g.groupby("rho")["ci_lo"].min()          # worst seed
-        sig = per_rho[per_rho > 0]
         rhos = sorted(per_rho.index)
-        if len(sig) == 0:
-            out.append({"lam": lam, "rho_star_lo": np.nan, "rho_star_hi": 0.0,
-                        "status": "never significant"})
-            continue
-        last = max(sig.index)
-        after = [r for r in rhos if r > last]
-        out.append({
-            "lam": lam, "rho_star_lo": last,
-            "rho_star_hi": min(after) if after else np.inf,
-            "status": "significant throughout" if not after else "bracketed",
-        })
+        sig = {r: bool(per_rho[r] > 0) for r in rhos}
+
+        first_fail = next((r for r in rhos if not sig[r]), None)
+        if first_fail is None:
+            rec = {"lam": lam, "rho_star_lo": rhos[-1], "rho_star_hi": np.inf,
+                   "status": "significant throughout"}
+        elif first_fail == rhos[0]:
+            rec = {"lam": lam, "rho_star_lo": np.nan, "rho_star_hi": rhos[0],
+                   "status": "never significant"}
+        else:
+            prev = rhos[rhos.index(first_fail) - 1]
+            rec = {"lam": lam, "rho_star_lo": prev, "rho_star_hi": first_fail,
+                   "status": "bracketed"}
+        rec["non_monotonic"] = bool(
+            first_fail is not None and any(sig[r] for r in rhos if r > first_fail))
+        rec["significant_grid"] = "".join("1" if sig[r] else "0" for r in rhos)
+        out.append(rec)
     return pd.DataFrame(out).sort_values("lam")

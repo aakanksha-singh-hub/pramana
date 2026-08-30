@@ -115,6 +115,10 @@ def main() -> None:
         recs = rs[key]
         x = [r["lam"] for r in recs]
         y = [1.15 if np.isinf(r["rho_star_hi"]) else r["rho_star_hi"] for r in recs]
+        for r in recs:
+            if r.get("non_monotonic"):
+                print(f"  NOTE lam={r['lam']}: significance is non-monotonic in rho "
+                      f"(grid {r['significant_grid']})")
         lo = [0.0 if np.isnan(r["rho_star_lo"]) else r["rho_star_lo"] for r in recs]
         ax.plot(x, y, "o-", color=colour, label=f"{adversary} adversary")
         ax.fill_between(x, lo, y, color=colour, alpha=0.18)
