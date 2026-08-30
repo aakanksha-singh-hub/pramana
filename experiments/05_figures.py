@@ -197,9 +197,14 @@ def main() -> None:
     print(f"cells collected: {df[['rho','lam','K','beta','seed','adversary']].drop_duplicates().shape[0]}")
     for adversary in sorted(df.adversary.unique()):
         print(f"\n=== {adversary} adversary — rho* by lambda (recall @ FPR 0.1%) ===")
-        print(rho_star(df, ARM, "recall@fpr=0.001", adversary).to_string(index=False))
+        rsx = rho_star(df, ARM, "recall@fpr=0.001", adversary)
+        print(rsx.to_string(index=False) if len(rsx) else "  (no cells)")
         g = surface(df, ARM, "recall@fpr=0.001", adversary)
-        print(g.pivot(index="lam", columns="rho", values="delta").round(4).to_string())
+        if len(g):
+            print(g.pivot(index="lam", columns="rho", values="delta").round(4).to_string())
+            sg = surface(df, ARM, "recall@fpr=0.001", adversary)
+            print("\nsignificant (CI lower bound > 0 on every seed):")
+            print(sg.pivot(index="lam", columns="rho", values="significant").to_string())
     print(f"\nfigures -> {FIG}")
 
 
