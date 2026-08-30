@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { @apply bg-[#fbfcfd] text-ink font-sans antialiased; }
+.card { @apply bg-white border border-line rounded-lg; }
+.mono { @apply font-mono text-[12px]; }

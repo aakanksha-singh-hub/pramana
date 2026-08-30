@@ -1,0 +1,1031 @@
+192 cells, 192 pending, 15 (lambda, seed) groups, 7 workers
+base ledger lam=0.0 seed=0 ready (15s)
+base ledger lam=0.0 seed=1 ready (15s)
+base ledger lam=0.0 seed=2 ready (15s)
+base ledger lam=0.05 seed=0 ready (13s)
+base ledger lam=0.05 seed=1 ready (13s)
+base ledger lam=0.05 seed=2 ready (13s)
+base ledger lam=0.1 seed=0 ready (0s)
+base ledger lam=0.1 seed=1 ready (14s)
+base ledger lam=0.1 seed=2 ready (13s)
+base ledger lam=0.2 seed=0 ready (13s)
+base ledger lam=0.2 seed=1 ready (13s)
+base ledger lam=0.2 seed=2 ready (13s)
+base ledger lam=0.35 seed=0 ready (13s)
+base ledger lam=0.35 seed=1 ready (13s)
+base ledger lam=0.35 seed=2 ready (13s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+  done rho0p0_lam0p0_K11_beta0p5_advuniform_seed1.json (1061s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+  done rho0p0_lam0p0_K11_beta0p5_advuniform_seed2.json (1066s)
+  done rho0p0_lam0p0_K11_beta0p5_advuniform_seed0.json (1069s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+  done rho0p0_lam0p05_K11_beta0p5_advuniform_seed1.json (1078s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+  done rho0p0_lam0p1_K11_beta0p5_advuniform_seed0.json (1088s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+  done rho0p0_lam0p05_K11_beta0p5_advuniform_seed2.json (1096s)
+  done rho0p0_lam0p05_K11_beta0p5_advuniform_seed0.json (1096s)
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: divide by zero encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: overflow encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T
+/Users/aakankshasingh/Documents/Projects/mastercard/.venv/lib/python3.12/site-packages/scipy/linalg/_basic.py:1555: RuntimeWarning: invalid value encountered in matmul
+  B = (u * psigma_diag) @ u.conj().T

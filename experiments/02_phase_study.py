@@ -8,6 +8,7 @@ Secondary 1-D sweeps: purpose cardinality K, beneficiary noise beta.
 
 from __future__ import annotations
 
+import os
 import sys
 
 import yaml
@@ -30,9 +31,13 @@ GRIDS = {
 
 def main() -> None:
     cfg = yaml.safe_load(open("config/base.yaml"))
+    # Block order matters: the pre-registered primary surface and its two
+    # pre-registered secondary sweeps run first, so the frozen analysis is
+    # complete before the added prevalence-matched surface starts.
     blocks = sys.argv[1:] or list(GRIDS)
     cells = [c for b in blocks for c in expand(GRIDS[b], b)]
-    run_sweep(cfg, cells, n_jobs=7, n_boot=cfg["evaluation"]["bootstrap_n"])
+    run_sweep(cfg, cells, n_jobs=int(os.environ.get("PRAMANA_JOBS", 7)),
+              n_boot=cfg["evaluation"]["bootstrap_n"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: pramana
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 7860
+    healthCheckPath: /api/health
