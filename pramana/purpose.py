@@ -109,14 +109,39 @@ def declare_fraud(scam_type: str, rho: float, rng: np.random.Generator) -> str:
     return SCAM_NARRATIVE_PURPOSE[scam_type]
 
 
-def declare_fraud_vec(scam_types: np.ndarray, rho: float, rng: np.random.Generator) -> np.ndarray:
+def declare_fraud_vec(scam_types: np.ndarray, rho: float, rng: np.random.Generator,
+                      safe_weights: np.ndarray | None = None) -> np.ndarray:
+    """Vectorised fraudulent declaration.
+
+    ``safe_weights`` selects the adversary model.
+
+    ``None`` is the pre-registered adversary: a coached declaration is drawn
+    uniformly from COACHED_SAFE_SET. Because legitimate "investment" is rare,
+    a uniform draw leaves a base-rate trace, so even perfect coaching does not
+    make the declaration information-free.
+
+    Supplying weights gives the *prevalence-matched* adversary: the coached
+    declaration is drawn in proportion to the legitimate frequency of each
+    safe purpose, so at rho = 1 the declared code carries no marginal
+    information about the label at all and any remaining B4 value must come
+    from the purpose-beneficiary interaction rather than from the code itself.
+    This is a secondary analysis; it never touches the primary surface.
+    """
     coached = rng.random(len(scam_types)) < rho
     safe = np.array(COACHED_SAFE_SET, dtype=object)
     out = np.array([SCAM_NARRATIVE_PURPOSE[s] for s in scam_types], dtype=object)
     n_c = int(coached.sum())
     if n_c:
-        out[coached] = safe[rng.integers(0, len(safe), size=n_c)]
+        if safe_weights is None:
+            out[coached] = safe[rng.integers(0, len(safe), size=n_c)]
+        else:
+            w = np.asarray(safe_weights, dtype=float)
+            w = w / w.sum()
+            out[coached] = safe[rng.choice(len(safe), size=n_c, p=w)]
     return out
+
+
+ADVERSARIES = ("uniform", "prevalence")
 
 
 # ---------------------------------------------------------------------------

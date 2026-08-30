@@ -116,6 +116,10 @@ def build_base(cfg: dict, lam: float, seed: int, use_cache: bool = True) -> pd.D
 
     out = pd.concat([df[META_COLS], b1, b2, b3], axis=1)
     out = out.loc[:, ~out.columns.duplicated()]
+    # low-cardinality string columns dominate memory otherwise; the sweep runs
+    # several of these frames concurrently
+    for c in ("channel", "true_purpose", "scam_type", "payee_role"):
+        out[c] = out[c].astype("category")
 
     if use_cache:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)

@@ -48,6 +48,12 @@ PAYEE_ROLES: dict[str, RoleSpec] = {
     "education_institution": RoleSpec(0.010, (1000, 4000), (100, 2000),  0.25, 0.55, True,  0.55),
     "utility_biller":        RoleSpec(0.010, (1500, 5000), (500, 5000),  0.20, 0.90, True,  0.75),
     "merchant_small":        RoleSpec(0.150, (200, 2000),  (20, 300),    0.45, 0.30, True,  0.45),
+    # Legitimate accounts that sweep funds onward as fast as a mule does.
+    # They exist in every real network and they are why beneficiary
+    # intelligence cannot be an oracle; see CHANGELOG.md.
+    "settlement_agent":      RoleSpec(0.015, (120, 1800),  (60, 900),    0.88, 0.25, True,  0.65),
+    "gig_worker":            RoleSpec(0.040, (30, 900),    (3, 40),      0.80, 0.18, True,  0.40),
+    "chit_fund_collector":   RoleSpec(0.020, (90, 1500),   (15, 120),    0.84, 0.45, True,  0.35),
     # ------------------------------------------------------------------------
     "merchant_large":        RoleSpec(0.050, (1000, 4000), (300, 5000),  0.35, 0.35, True,  0.80),
     "employer":              RoleSpec(0.020, (1000, 4000), (0, 3),       0.05, 0.95, True,  0.20),
@@ -64,7 +70,28 @@ LAMBDA_ROLES: tuple[str, ...] = (
     "education_institution",
     "utility_biller",
     "merchant_small",
+    "settlement_agent",
+    "gig_worker",
+    "chit_fund_collector",
 )
+
+#: Roles for which a newly opened account is plausible. A payment network sees
+#: a steady stream of account openings, so "thin file" is not by itself
+#: evidence of a mule. Institutional roles are excluded: a three-week-old
+#: utility biller with five thousand inbound payers is not a real object.
+NEW_ACCOUNT_ELIGIBLE: frozenset[str] = frozenset({
+    "individual_friend", "family_member", "landlord_individual",
+    "property_manager", "merchant_small", "settlement_agent",
+    "gig_worker", "chit_fund_collector",
+})
+
+#: Fraction of eligible legitimate accounts opened during the window.
+P_NEW_ACCOUNT: float = 0.14
+
+#: Fraction of mule accounts that also carry ordinary legitimate traffic -
+#: accounts that were a real person's before they were sold, rented or
+#: coerced, and that keep receiving payments from friends and customers.
+P_MULE_HAS_COVER_TRAFFIC: float = 0.35
 
 MULE_ROLES: tuple[str, ...] = ("mule_fresh", "mule_aged", "scam_collection")
 
@@ -184,7 +211,12 @@ def sample_payees(n: int, lam: float, rng: np.random.Generator,
         f_lo, f_hi = spec.fan_in_30d
         fan_in = float(np.exp(rng.uniform(np.log(max(f_lo, 0.5)), np.log(max(f_hi, 1)))))
         if spec.legit:
-            birth_day = -age
+            if role in NEW_ACCOUNT_ELIGIBLE and rng.random() < P_NEW_ACCOUNT:
+                birth_day = float(rng.uniform(-60.0, horizon - 25.0))
+                age = max(-birth_day, 1.0)
+                fan_in *= 0.55        # a new account has not built its base yet
+            else:
+                birth_day = -age
             use_day = float("nan")
         else:
             use_day = float(rng.uniform(15.0, horizon - 5.0))

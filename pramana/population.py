@@ -15,6 +15,7 @@ import numpy as np
 from .entities import (
     LAMBDA_ROLES,
     PAYEE_ROLES,
+    P_MULE_HAS_COVER_TRAFFIC,
     Payee,
     Payer,
     Relationship,
@@ -34,18 +35,27 @@ PURPOSE_ROLE_PREFERENCE: dict[str, tuple[dict[str, float], dict[str, float]]] = 
                           {"merchant_large": 1.00}),
     "education_fees":    ({"education_institution": 1.00},
                           {"merchant_large": 1.00}),
-    "merchant_purchase": ({"merchant_small": 0.70, "merchant_large": 0.30},
+    "merchant_purchase": ({"merchant_small": 0.58, "merchant_large": 0.24,
+                           "settlement_agent": 0.12, "gig_worker": 0.06},
                           {"merchant_large": 1.00}),
     "salary_reimburse":  ({"employer": 1.00}, {"employer": 1.00}),
     "family_support":    ({"family_member": 1.00}, {"family_member": 1.00}),
-    "friend_transfer":   ({"individual_friend": 1.00}, {"individual_friend": 1.00}),
+    "friend_transfer":   ({"individual_friend": 0.88, "gig_worker": 0.12},
+                          {"individual_friend": 1.00}),
     "loan_repayment":    ({"merchant_large": 0.50, "individual_friend": 0.50},
                           {"merchant_large": 0.50, "individual_friend": 0.50}),
-    "investment":        ({"merchant_large": 0.40, "merchant_small": 0.30,
-                           "individual_friend": 0.30},
+    # Chit funds and rotating savings groups are the sharpest case in the whole
+    # population: legitimate, collecting from many unrelated payers, sweeping
+    # the pot straight out to that month's member, and declared as
+    # "investment" - which is also where a coached scammer steers.
+    "investment":        ({"chit_fund_collector": 0.42, "merchant_large": 0.24,
+                           "merchant_small": 0.16, "individual_friend": 0.18},
                           {"merchant_large": 0.55, "individual_friend": 0.45}),
     "medical":           ({"merchant_small": 0.60, "merchant_large": 0.40},
                           {"merchant_large": 1.00}),
+    "other":             ({"individual_friend": 0.50, "merchant_small": 0.30,
+                           "gig_worker": 0.20},
+                          {"individual_friend": 1.00}),
 }
 
 #: Months in which education fees are actually paid (Indian academic calendar:
@@ -78,11 +88,29 @@ class _RolePicker:
         ids = np.array([p.payee_id for p in payees])
         roles = np.array([p.role for p in payees], dtype=object)
         fan = np.array([p.fan_in_30d for p in payees])
+
+        # A share of mule accounts were ordinary accounts first and still
+        # receive ordinary payments. They join the individual/merchant pools,
+        # so "this payee is a mule" stops being equivalent to "this payment is
+        # fraud" and beneficiary intelligence has to work for its result.
+        cover = np.array([
+            (not p.legit) and rng.random() < P_MULE_HAS_COVER_TRAFFIC
+            for p in payees])
         for role in PAYEE_ROLES:
-            m = roles == role
+            genuine = roles == role
+            m = genuine
+            if role in ("individual_friend", "merchant_small"):
+                m = genuine | cover
             if not m.any():
                 continue
-            w = fan[m]
+            w = fan[m].copy()
+            if role in ("individual_friend", "merchant_small") and genuine.any():
+                # A cover-traffic mule attracts ordinary traffic in proportion
+                # to its ordinary life, not to the inbound volume it gets as a
+                # mule; weighting by the latter would flood the legitimate
+                # stream with mule-bound payments.
+                typical = float(np.median(fan[genuine]))
+                w[cover[m] & ~genuine[m]] = typical
             self.by_role[role] = ids[m]
             self.weights[role] = w / w.sum()
 

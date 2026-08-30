@@ -33,6 +33,8 @@ ROLE_TICKET: dict[str, float] = {
     "landlord_individual": 14000.0, "property_manager": 15500.0,
     "education_institution": 26000.0, "utility_biller": 1600.0,
     "merchant_small": 950.0, "merchant_large": 1400.0, "employer": 4200.0,
+    "settlement_agent": 3500.0, "gig_worker": 900.0,
+    "chit_fund_collector": 4500.0,
     "mule_fresh": 42000.0, "mule_aged": 38000.0, "scam_collection": 30000.0,
 }
 
@@ -42,7 +44,8 @@ ROLE_OUTFLOW: dict[str, float] = {
     "individual_friend": 4.0, "family_member": 3.0, "landlord_individual": 5.0,
     "property_manager": 22.0, "education_institution": 40.0,
     "utility_biller": 30.0, "merchant_small": 14.0, "merchant_large": 70.0,
-    "employer": 60.0, "mule_fresh": 3.5, "mule_aged": 4.5,
+    "employer": 60.0, "settlement_agent": 45.0, "gig_worker": 6.0,
+    "chit_fund_collector": 4.0, "mule_fresh": 3.5, "mule_aged": 4.5,
     "scam_collection": 5.0,
 }
 
@@ -52,7 +55,25 @@ ROLE_RECIPROCITY: dict[str, float] = {
     "landlord_individual": 0.06, "property_manager": 0.04,
     "education_institution": 0.02, "utility_biller": 0.01,
     "merchant_small": 0.05, "merchant_large": 0.03, "employer": 0.35,
+    "settlement_agent": 0.04, "gig_worker": 0.20,
+    "chit_fund_collector": 0.30,
     "mule_fresh": 0.01, "mule_aged": 0.01, "scam_collection": 0.01,
+}
+
+#: Share of a month's inflow still held at month end.
+#:
+#: Generated from its own per-role process rather than as ``1 - fanout``.
+#: The two are correlated across roles, as they would be in production, but a
+#: purely algebraic link would have put the same evidence into B3 twice and
+#: overstated how much beneficiary intelligence a real system actually has.
+ROLE_RETENTION: dict[str, float] = {
+    "individual_friend": 0.72, "family_member": 0.80,
+    "landlord_individual": 0.70, "property_manager": 0.55,
+    "education_institution": 0.62, "utility_biller": 0.58,
+    "merchant_small": 0.45, "merchant_large": 0.50, "employer": 0.85,
+    "settlement_agent": 0.12, "gig_worker": 0.22,
+    "chit_fund_collector": 0.18,
+    "mule_fresh": 0.06, "mule_aged": 0.10, "scam_collection": 0.08,
 }
 
 
@@ -88,7 +109,12 @@ def payee_month_panel(pop: Population, months: int,
 
     period_obs = np.clip(period[:, None] + rng.normal(0.0, 0.09, shape), 0.0, 1.0)
     geo_obs = np.clip(geo[:, None] + rng.normal(0.0, 0.06, shape), 0.0, 1.0)
-    retention = np.clip(1.0 - fanout_obs + rng.normal(0.0, 0.05, shape), 0.0, 1.0)
+    ret_mu = np.array([ROLE_RETENTION[r] for r in role])
+    retention = np.clip(
+        ret_mu[:, None] + rng.normal(0.0, 0.16, shape)
+        # a heavier-than-usual inflow month leaves more behind at month end
+        + 0.06 * np.log(np.maximum(wobble, 1e-3)),
+        0.0, 1.0)
 
     return {
         "inflow_n": inflow_n.astype(np.float32),

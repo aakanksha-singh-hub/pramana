@@ -1,0 +1,5 @@
+tuning on 450,000 rows, 37 baseline features, 0.8051% fraud, 17,500 payers
+[ 1/24] PR-AUC 0.94946 +/- 0.00549  (95s)  {'n_estimators': 800, 'learning_rate': 0.08, 'num_leaves': 127, 'min_child_samples': 150, 'colsample_bytree': 0.8, 'subsample': 1.0, 'subsample_freq': 1, 'reg_lambda': 20.0, 'max_depth': -1}
+[ 2/24] PR-AUC 0.94789 +/- 0.00374  (20s)  {'n_estimators': 300, 'learning_rate': 0.05, 'num_leaves': 63, 'min_child_samples': 150, 'colsample_bytree': 1.0, 'subsample': 0.7, 'subsample_freq': 1, 'reg_lambda': 1.0, 'max_depth': 12}
+[ 3/24] PR-AUC 0.93840 +/- 0.00958  (14s)  {'n_estimators': 300, 'learning_rate': 0.12, 'num_leaves': 31, 'min_child_samples': 40, 'colsample_bytree': 1.0, 'subsample': 0.7, 'subsample_freq': 1, 'reg_lambda': 1.0, 'max_depth': -1}
+[ 4/24] PR-AUC 0.94964 +/- 0.00586  (59s)  {'n_estimators': 600, 'learning_rate': 0.05, 'num_leaves': 255, 'min_child_samples': 40, 'colsample_bytree': 0.8, 'subsample': 0.85, 'subsample_freq': 1, 'reg_lambda': 5.0, 'max_depth': 8}
