@@ -21,7 +21,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from joblib import Parallel, delayed
+from joblib import Parallel, delayed, parallel_config
 
 from .dataset import build_base
 from .harness import run_cell
@@ -94,9 +94,10 @@ def run_sweep(cfg: dict, cells: list[dict], n_jobs: int = 6,
     # inner_max_num_threads=1 stops every worker's BLAS and OpenMP pools from
     # each trying to use the whole machine. Without it, n_jobs processes spawn
     # n_jobs x n_cores threads and the run collapses into contention and swap.
-    Parallel(n_jobs=n_jobs, backend="loky", verbose=0,
-             inner_max_num_threads=1)(
-        delayed(_run_group)(k, v, cfg, n_boot, out_dir) for k, v in sorted(groups.items()))
+    with parallel_config(backend="loky", inner_max_num_threads=1):
+        Parallel(n_jobs=n_jobs, verbose=0)(
+            delayed(_run_group)(k, v, cfg, n_boot, out_dir)
+            for k, v in sorted(groups.items()))
 
 
 # ---------------------------------------------------------------------------
