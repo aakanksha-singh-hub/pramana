@@ -298,6 +298,24 @@ def s2_problem(doc, d):
               "at authorisation time, that this payment is not what the payer thinks it is. "
               "That gap is the subject of this work.")
 
+    h2(doc, "Why this failure mode is different")
+    para(doc, "Card fraud and account takeover are unauthorised: the genuine customer did "
+              "not make the payment, so authentication and device intelligence are aimed at "
+              "the right target. APP fraud inverts that. The customer did make the payment, "
+              "on their own device, through their own credentials, having passed every "
+              "check. What failed was not the authorisation but the payer's model of what "
+              "the payment was for.")
+    para(doc, "That inversion has three practical consequences. Liability is contested, "
+              "because no control was bypassed. Reversal is hard, because the transfer was "
+              "valid at the moment it was made. And detection has to work with a signal "
+              "that no existing field carries: the payer's own belief about the "
+              "counterparty. A network sees who paid whom, how much, from what device, at "
+              "what time. It does not see 'this was supposed to be my daughter's tuition'.")
+    para(doc, "The question this project asks is whether asking for that belief, and "
+              "checking it against what the beneficiary actually looks like, is worth the "
+              "cost of collecting it — and for how long that remains true once attackers "
+              "know the check exists. The second half is the part that is usually left out.")
+
     h2(doc, "The forward surface")
     para(doc, "Agentic commerce makes the same gap structural rather than incidental. US "
               "AI-platform retail e-commerce is roughly $20.6bn in 2026, about 1.5% of "
@@ -393,11 +411,64 @@ def s4_identify(doc, d):
               "purpose–beneficiary interaction. It is reported as a clearly separated "
               "secondary surface; it never touches the pre-registered primary axis.")
 
+    h2(doc, "The declaration model for legitimate payments")
+    para(doc, "A signal is only worth measuring against a realistic null. Legitimate payers "
+              "do not declare purpose perfectly: they pick the nearest menu item, they pick "
+              "'other' when in a hurry, and some categories are genuinely ambiguous. The "
+              "simulator therefore passes every legitimate declaration through a "
+              "row-stochastic confusion matrix whose diagonal ranges from 0.65 "
+              "(friend_transfer, which people routinely record as family_support or other) "
+              "to 0.91 (utility_bill, which is unambiguous) to 1.00 (other, which is the "
+              "null category and cannot be mislabelled into something else). The aggregate "
+              "mislabel rate is approximately 18%.")
+    para(doc, "This matters more than it looks. If legitimate declarations were noiseless, "
+              "any fraudulent mislabel would stand out, and the measured value of the signal "
+              "would be an artefact of that idealisation. The confusion matrix is the "
+              "honest null against which coaching is measured.")
+
+    h2(doc, "The eleven-class taxonomy")
+    table(doc, ["Purpose", "Beneficiary signature it implies"], [
+        ["rent", "periodic, stable payee, few payers, high periodicity"],
+        ["salary_reimburse", "employer-like, very low fan-in"],
+        ["family_support", "recurring, reciprocal, small payer set"],
+        ["friend_transfer", "low signature, bidirectional, sporadic"],
+        ["education_fees", "institutional, seasonal, high fan-in, legitimate"],
+        ["utility_bill", "institutional, periodic, very high fan-in, legitimate"],
+        ["merchant_purchase", "commercial, high fan-in, legitimate"],
+        ["loan_repayment", "periodic, institutional or individual"],
+        ["investment", "no strong legitimate signature in P2P — the scam favourite"],
+        ["medical", "sporadic, institutional"],
+        ["other", "deliberate null category"],
+    ], widths=[1.5, 4.8])
+    para(doc, "Cardinality is swept: K = 3 collapses this to {personal, commercial, other}, "
+              "K = 6 to a mid grouping, K = 11 is the full taxonomy. A coarser menu is "
+              "cheaper to deploy and easier for a payer to answer correctly, so the "
+              "question of how much resolution the signal actually needs is an "
+              "operational one, not a modelling detail.")
+
     h2(doc, "The agentic threat model")
-    para(doc, "Ten attack families against a signed mandate, listed in full in §7. Two of "
-              "them — an in-scope malicious purchase and a prompt-injected but in-scope "
-              "purchase — are included precisely because deterministic checking cannot "
+    para(doc, "Ten attack families against a signed mandate. Eight are scope, freshness, "
+              "binding or revocation violations, and are caught structurally. Two are not, "
+              "and they are in the list precisely because deterministic checking cannot "
               "catch them.")
+    table(doc, ["ID", "Attack family", "Expected catcher"], [
+        ["A1", "Amount escalation beyond mandate cap", "C1 amount scope"],
+        ["A2", "Category violation", "C2 category scope"],
+        ["A3", "Mandate replay", "C5 nonce freshness"],
+        ["A4", "Cumulative aggregation across individually in-scope carts", "C6 cumulative cap"],
+        ["A5", "Expired mandate reuse", "C4 temporal validity"],
+        ["A6", "Forged agent attestation", "C7 agent binding"],
+        ["A7", "Line-item substitution after user confirmation", "C8 confirmation binding"],
+        ["A8", "Post-revocation burst", "C9 revocation state"],
+        ["A9", "In-scope malicious purchase", "none — bounded, not detected"],
+        ["A10", "Prompt-injected but in-scope purchase", "none — bounded, not detected"],
+    ], widths=[0.5, 3.8, 2.0])
+    para(doc, "Each family is constructed to exercise its own check and nothing else. A4, "
+              "for instance, re-presents the mandate with a fresh nonce, re-signed by the "
+              "principal, so that C5 and C10 both pass and only the cumulative cap can stop "
+              "it — otherwise the test would report a catch that came from an invalid "
+              "signature rather than from aggregation control. A test asserts this: every "
+              "family must fail the check it claims to exercise.")
 
 
 def s5_generate(doc, d):
@@ -421,6 +492,76 @@ def s5_generate(doc, d):
               "purpose of a fraudulent payment is decided at feature-construction time from "
               "the scam narrative and ρ, which is also what makes ρ sweepable without "
               "regenerating the ledger.")
+
+    h2(doc, "Population and scale")
+    table(doc, ["Parameter", "Value"], [
+        ["Payers", "25,000"],
+        ["Beneficiaries", "20,000"],
+        ["Window", "12 months"],
+        ["Transactions per ledger", "~2.04 million"],
+        ["Payments per payer per month", "~6.8"],
+        ["Beneficiary roles", "15"],
+        ["Scam families", "6"],
+        ["Fraud share of volume", "0.80% (never rebalanced)"],
+    ], widths=[2.6, 2.0], align_right=(1,))
+    para(doc, "Class balance is never adjusted. No resampling, no positive-class weighting. "
+              "A rebalanced fraud dataset produces numbers that do not transfer to an "
+              "operating point, and an operating point is the only thing this study reports.")
+
+    h2(doc, "Relationships, and why staggered starts matter")
+    para(doc, "Each payer holds a portfolio of standing relationships — a landlord, one or "
+              "two utility billers, an employer, friends, family, merchants, sometimes a "
+              "loan, a chit fund or a school. Monthly ties draw a stable base amount once "
+              "and jitter it by about 5% per payment, so rent has a periodic, stable "
+              "signature that a mule inflow cannot reproduce. Sporadic ties jitter widely.")
+    para(doc, "22% of relationships begin part-way through the observation window. This is "
+              "not cosmetic. A payer who moved house last month has a landlord with no "
+              "history at all, and that is exactly the profile a naive rule flags as fraud. "
+              "Without staggered starts, 'first payment to this beneficiary' would be an "
+              "almost perfect fraud rule and the false-positive population — the population "
+              "that actually determines whether a control is deployable — would not exist. "
+              "A separate stream of ad-hoc payments to beneficiaries the payer has no "
+              "standing tie with provides the same function at higher volume.")
+    para(doc, "Conversely, a bank's records predate a twelve-month observation window, so "
+              "pair-level history is seeded with the tie's pre-window age. A five-year-old "
+              "landlord relationship must not look as unfamiliar as a fresh mule in month "
+              "one. Ad-hoc and fraudulent pairs receive no seed, because they genuinely "
+              "have none.")
+
+    h2(doc, "Session telemetry from a duress latent")
+    para(doc, "B2 is generated from a coercion latent rather than the label: "
+              "P(coercion | scam) = 0.75 and P(coercion | legitimate) = 0.02. A coerced "
+              "session runs long, hesitates on the confirmation screen, edits the amount and "
+              "the payee field repeatedly, switches applications while a call is in "
+              "progress, and types more slowly than that person normally does.")
+    para(doc, "Two features deliberately break the clean mapping. Pasting a payee identifier "
+              "is common under coercion (80%) but also common on any genuinely unfamiliar "
+              "payee (45%) and uncommon on a familiar one (12%). Device novelty depends "
+              "partly on coercion and partly on the payer. Without these dependencies a "
+              "single session feature would be a clean coercion proxy, and B2 would be "
+              "measuring the label rather than behaviour. The baseline is meant to be "
+              "strong, not lucky.")
+
+    h2(doc, "Beneficiary features, and the two lookahead guards")
+    para(doc, "Payee-level network aggregates are drawn per payee-month from the role's "
+              "latent parameters rather than counted off the simulated panel. The 25,000 "
+              "simulated payers are a sample of each beneficiary's true inbound payer base, "
+              "so counting in-sample in-degree would understate a utility biller by three "
+              "orders of magnitude while leaving a mule roughly correct. The fidelity "
+              "scorecard reports the Spearman correlation between in-sample observed "
+              "in-degree and the generated aggregates, which is what licenses the choice.")
+    bullets(doc, [
+        ("Report counts are strictly as-of-time.", "Report timestamps are stored and "
+         "searched at the transaction day, never summed ahead of time, so no test row can "
+         "see a report filed after it. Only 35% of victims file, and filing carries a "
+         "gamma-distributed delay averaging about eighteen days for victim realisation, "
+         "NCRP filing and network propagation."),
+        ("Legitimate beneficiaries attract disputes.", "At a rate scaled by fan-in, so that "
+         "prior-report count is informative without being a perfect label."),
+        ("Payer velocity uses only prior rows.", "Trailing 24-hour and 7-day counts and "
+         "sums, the expanding z-score of log amount against the payer's own history, and "
+         "recency are all computed from transactions that precede the row in time."),
+    ])
 
     h2(doc, "The second trap, and λ")
     callout(doc, "If every high-fan-in payee is a mule, beneficiary intelligence alone is "
@@ -538,13 +679,43 @@ def s6_defend(doc, d):
               "model is fitted, so B4b never sees a cleaner view of the beneficiary than the "
               "B3 arm it is compared against.")
 
+    h2(doc, "How the consistency model is fitted")
+    para(doc, "Inside every cell, on that cell's training split alone:")
+    bullets(doc, [
+        "Take training rows whose label is legitimate.",
+        "Fit a quantile transformer with normal output on their beneficiary block, so "
+        "heavy-tailed features such as inflow value and account age become comparable.",
+        "For each declared-purpose class with at least 400 rows, estimate a mean and a "
+        "Ledoit-Wolf shrunk covariance on the transformed block. Rarer classes fall back to "
+        "a global legitimate reference.",
+        "At scoring time, emit a Mahalanobis distance, a Gaussian log-likelihood, and "
+        "thirteen per-feature standardised residuals.",
+    ])
+    para(doc, "Shrinkage is not optional here. Several beneficiary features are close to "
+              "collinear within a purpose class, and an unshrunk covariance would invert "
+              "unstably and produce residuals dominated by numerical noise rather than by "
+              "the beneficiary.")
+
     h2(doc, "The baseline gets the advantage")
     para(doc, "Hyperparameters were selected by 24-candidate random search under 5-fold "
               "payer-grouped cross-validation using the B1+B2+B3 feature set alone, then "
               "frozen and reused verbatim for every arm including both B4 variants. The "
-              "incumbent received the entire tuning budget; the challenger received none. "
-              "Splits are simultaneously grouped by payer and separated in time (months 1–9 "
-              "train, 10–12 test). Class balance is never adjusted.")
+              "incumbent received the entire tuning budget; the challenger received none.")
+    para(doc, "Splits satisfy two constraints simultaneously. Grouped: 30% of payers are "
+              "held out and a payer appears on exactly one side, which stops the model "
+              "memorising individuals. Temporal: training is months 1–9 and test is months "
+              "10–12, which stops it learning from the future. Either constraint alone "
+              "would leave an obvious route to an inflated result.")
+
+    h2(doc, "Why the bootstrap is clustered on payers")
+    para(doc, "A payer's transactions are correlated — same device, same habits, same "
+              "beneficiary portfolio, and in the fraudulent case the same scam episode. "
+              "Resampling rows would treat those as independent observations and report "
+              "confidence intervals that are too narrow, which is exactly the failure that "
+              "makes a small effect look real. Every interval in this document comes from "
+              "1000 resamples of test payers, and the same resample weights are shared "
+              "across arms so that the paired delta is computed on matched samples. That "
+              "pairing is what makes an effect of a few percentage points resolvable at all.")
 
     h2(doc, "Deterministic checks on the agentic surface")
     para(doc, "Ten checks, no model, no threshold, no training data. Each returns a boolean "
@@ -695,6 +866,26 @@ def s8_feasibility(doc, d):
          "paper proposes four friction controls. A detection signal is complementary to all "
          "four, and this work characterises the conditions under which it is worth having."),
     ])
+    h2(doc, "A deployment sketch")
+    para(doc, "Nothing here requires a new machine-learning capability. What it requires is "
+              "a field, a reference table, and a policy.")
+    bullets(doc, [
+        ("Capture.", "A purpose selection at initiation, from a menu whose cardinality is "
+         "an operational choice the K sweep informs directly. A coarser menu is cheaper and "
+         "easier to answer correctly."),
+        ("Retention.", "The declaration must survive to the point where the decision is "
+         "made. This is the real integration work and it is a governance problem, not a "
+         "protocol one."),
+        ("Reference build.", "Offline, from confirmed-good history: per purpose class, the "
+         "mean and shrunk covariance of the beneficiary feature vector. Refreshed on "
+         "whatever cadence the beneficiary features themselves are refreshed on."),
+        ("Scoring.", "One lookup and one quadratic form over thirteen dimensions. "
+         "Microseconds, and no additional model to maintain."),
+        ("Policy.", "The phase diagram is the deployment decision. If the operating regime "
+         "sits in a hatched cell, the field is not worth acting on there, whatever it costs "
+         "to collect."),
+    ])
+
     h2(doc, "What this analysis is actually for")
     callout(doc, "Before a payment network spends money collecting another signal, can we "
                  "quantify when that signal remains useful under adversarial pressure?")
