@@ -1,0 +1,1551 @@
+{
+  "generated": "2026-08-30T20:24:57.456178+00:00",
+  "config": {
+    "rho": 0.4,
+    "lam": 0.1,
+    "K": 11,
+    "beta": 0.5,
+    "seed": 0
+  },
+  "b3_cols": [
+    "payee_account_age_days",
+    "payee_unique_inflow_payers_30d",
+    "payee_inflow_amount_30d",
+    "payee_fanout_ratio_24h",
+    "payee_unique_outflow_payees_30d",
+    "payee_reciprocity_flag",
+    "payer_payee_relationship_months",
+    "payer_payee_prior_txn_count",
+    "payee_report_count",
+    "payee_payer_geo_dispersion",
+    "payee_inflow_amount_cv",
+    "payee_inflow_periodicity_score",
+    "payee_balance_retention_ratio"
+  ],
+  "purpose_reference_distribution": {
+    "utility_bill": {
+      "payee_account_age_days": {
+        "p10": 1475.0873046875001,
+        "p50": 2688.91259765625,
+        "p90": 4694.787890625
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": 645.9028442382812,
+        "p50": 2814.63623046875,
+        "p90": 5043.929980468751
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -502776.65624999994,
+        "p50": 4460876.5,
+        "p90": 10670446.600000001
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": -0.02189912497997283,
+        "p50": 0.19423401355743408,
+        "p90": 0.41596896052360544
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": 11.91090602874756,
+        "p50": 30.254993438720703,
+        "p90": 48.65930557250977
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.26156826615333556,
+        "p50": 0.001902275369502604,
+        "p90": 0.2736963629722596
+      },
+      "payer_payee_relationship_months": {
+        "p10": 1.1641916275024415,
+        "p50": 12.796756744384766,
+        "p90": 28.38101310729981
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": 1.6707964897155763,
+        "p50": 12.740935325622559,
+        "p90": 28.73069419860841
+      },
+      "payee_report_count": {
+        "p10": -0.2355037122964859,
+        "p50": 0.025334622710943222,
+        "p90": 0.465246617794037
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.5140689730644226,
+        "p50": 0.7577135562896729,
+        "p90": 0.9915269136428836
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.0012946600792929557,
+        "p50": 0.34050440788269043,
+        "p90": 0.6602936983108523
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.6394614934921264,
+        "p50": 0.8972116112709045,
+        "p90": 1.1368985891342163
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.3080797910690308,
+        "p50": 0.5746113657951355,
+        "p90": 0.8412152171134949
+      }
+    },
+    "rent": {
+      "payee_account_age_days": {
+        "p10": 251.99985961914064,
+        "p50": 1432.0602416992188,
+        "p90": 2746.9984375000004
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -1118.1635375976562,
+        "p50": 86.95469665527344,
+        "p90": 1284.270361328125
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -3131090.3,
+        "p50": 1152819.3125,
+        "p90": 6463654.7
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.014594085328280954,
+        "p50": 0.23610926419496536,
+        "p90": 0.4585100740194321
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -8.593759441375731,
+        "p50": 10.941729068756104,
+        "p90": 32.667676544189455
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2547623574733734,
+        "p50": 0.014762357342988253,
+        "p90": 0.33208059668540957
+      },
+      "payer_payee_relationship_months": {
+        "p10": 1.0664539337158205,
+        "p50": 12.629575729370117,
+        "p90": 28.388775444030763
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": 1.6442086458206178,
+        "p50": 12.563190460205078,
+        "p90": 28.061379814147955
+      },
+      "payee_report_count": {
+        "p10": -0.24539194852113724,
+        "p50": 0.0014960485859774053,
+        "p90": 0.25104272961616525
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": -0.050443612411618224,
+        "p50": 0.18780354410409927,
+        "p90": 0.4518793195486069
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.04842879287898542,
+        "p50": 0.48309874534606934,
+        "p90": 0.9514189541339875
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.5441173195838929,
+        "p50": 0.8219848871231079,
+        "p90": 1.082531213760376
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.3687198907136917,
+        "p50": 0.6479173600673676,
+        "p90": 0.918277907371521
+      }
+    },
+    "other": {
+      "payee_account_age_days": {
+        "p10": 114.02577133178724,
+        "p50": 1496.0704956054688,
+        "p90": 3253.214965820312
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -894.0041198730469,
+        "p50": 600.6211853027344,
+        "p90": 4047.714135742187
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -2981605.275,
+        "p50": 1442032.75,
+        "p90": 7802333.599999999
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": -0.00018753405747702094,
+        "p50": 0.27497783303260803,
+        "p90": 0.7277607560157773
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -7.27661075592041,
+        "p50": 18.783309936523438,
+        "p90": 77.75018768310547
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2327575981616974,
+        "p50": 0.07073285430669785,
+        "p90": 1.0171998500823975
+      },
+      "payer_payee_relationship_months": {
+        "p10": -2.4974261999130247,
+        "p50": 8.689199447631836,
+        "p90": 26.15784339904785
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -2.446276068687439,
+        "p50": 5.474407434463501,
+        "p90": 17.75682144165039
+      },
+      "payee_report_count": {
+        "p10": -0.24413321614265443,
+        "p50": 0.009320465382188559,
+        "p90": 0.2872098624706268
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.06578139811754227,
+        "p50": 0.4738125056028366,
+        "p90": 0.9047151684761047
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.058578442409634605,
+        "p50": 0.5479676723480225,
+        "p90": 1.0571539878845215
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": -0.008617894258350125,
+        "p50": 0.3627669960260391,
+        "p90": 0.8957610368728638
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.18559520095586776,
+        "p50": 0.5785405337810516,
+        "p90": 0.9114308655261993
+      }
+    },
+    "loan_repayment": {
+      "payee_account_age_days": {
+        "p10": 243.16722412109385,
+        "p50": 1544.7239990234375,
+        "p90": 3135.918066406251
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -845.7172729492187,
+        "p50": 750.00634765625,
+        "p90": 4684.116601562504
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -2878604.9499999997,
+        "p50": 1606289.25,
+        "p90": 8128514.1000000015
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.010153886675834667,
+        "p50": 0.26900482177734375,
+        "p90": 0.5735097408294678
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -7.482541084289551,
+        "p50": 24.180770874023438,
+        "p90": 91.01767730712895
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.22482109069824213,
+        "p50": 0.0885651633143425,
+        "p90": 1.0546307802200319
+      },
+      "payer_payee_relationship_months": {
+        "p10": 1.1196685552597054,
+        "p50": 12.742212295532227,
+        "p90": 28.45562705993653
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": 1.4336067438125613,
+        "p50": 12.341292381286621,
+        "p90": 27.99997138977051
+      },
+      "payee_report_count": {
+        "p10": -0.24645543694496153,
+        "p50": 0.006107991095632315,
+        "p90": 0.27953705787658695
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.031933213770389574,
+        "p50": 0.4834398925304413,
+        "p90": 0.9415505290031434
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.07563923746347428,
+        "p50": 0.5951454043388367,
+        "p90": 1.1040825843811035
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": -0.05388322994112968,
+        "p50": 0.24958385527133942,
+        "p90": 0.6231760144233705
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.25692085027694705,
+        "p50": 0.5896509289741516,
+        "p90": 0.9007342219352723
+      }
+    },
+    "merchant_purchase": {
+      "payee_account_age_days": {
+        "p10": -131.26126403808578,
+        "p50": 1105.6549072265625,
+        "p90": 2943.4995605468753
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -788.253271484375,
+        "p50": 706.3565063476562,
+        "p90": 4133.93828125
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -2745906.65,
+        "p50": 1691883.25,
+        "p90": 7865082.5
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.19736117124557498,
+        "p50": 0.4872465133666992,
+        "p90": 0.928200948238373
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -2.239844036102294,
+        "p50": 27.716400146484375,
+        "p90": 85.4446517944336
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2565695524215698,
+        "p50": 0.011838081292808056,
+        "p90": 0.3202535867691042
+      },
+      "payer_payee_relationship_months": {
+        "p10": -2.2357528209686275,
+        "p50": 8.994277954101562,
+        "p90": 26.16860847473146
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -2.3822318077087403,
+        "p50": 5.086297512054443,
+        "p90": 14.066662406921386
+      },
+      "payee_report_count": {
+        "p10": -0.24045119583606717,
+        "p50": 0.014441769570112228,
+        "p90": 0.31825634241104134
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.30811766982078553,
+        "p50": 0.6298819184303284,
+        "p90": 0.9338659405708318
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.05945403948426247,
+        "p50": 0.5262486934661865,
+        "p90": 0.9713685274124145
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": -0.008334688656032083,
+        "p50": 0.28889772295951843,
+        "p90": 0.6106460809707643
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.041717039048671724,
+        "p50": 0.39543649554252625,
+        "p90": 0.7092045664787296
+      }
+    },
+    "family_support": {
+      "payee_account_age_days": {
+        "p10": 148.58832702636724,
+        "p50": 1375.1578369140625,
+        "p90": 2774.275830078125
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -1154.664794921875,
+        "p50": 39.1599235534668,
+        "p90": 1325.739599609375
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -3725991.6999999997,
+        "p50": 131579.4375,
+        "p90": 4153569.650000001
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": -0.07185934334993363,
+        "p50": 0.137480691075325,
+        "p90": 0.4052229821681977
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -13.315408706665039,
+        "p50": 4.324841499328613,
+        "p90": 24.3596576690674
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.19001252353191375,
+        "p50": 0.2470066249370575,
+        "p90": 1.1515691757202149
+      },
+      "payer_payee_relationship_months": {
+        "p10": -0.1892723858356474,
+        "p50": 11.428314208984375,
+        "p90": 27.27046737670899
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -0.5998023986816405,
+        "p50": 8.16157341003418,
+        "p90": 20.445113754272462
+      },
+      "payee_report_count": {
+        "p10": -0.2467669665813446,
+        "p50": 0.0021319568622857332,
+        "p90": 0.2524527132511139
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": -0.009952466562390324,
+        "p50": 0.2321554720401764,
+        "p90": 0.5179608106613159
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.08529127091169361,
+        "p50": 0.646926760673523,
+        "p90": 1.1511507272720338
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.05679931342601777,
+        "p50": 0.5029395818710327,
+        "p90": 0.8418125391006471
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.43787498474121095,
+        "p50": 0.7592344880104065,
+        "p90": 1.0168374061584473
+      }
+    },
+    "friend_transfer": {
+      "payee_account_age_days": {
+        "p10": -25.781647872924786,
+        "p50": 1140.138427734375,
+        "p90": 2568.0983398437497
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -1122.9343017578124,
+        "p50": 111.99468231201172,
+        "p90": 1596.1292968749995
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -3609107.449999999,
+        "p50": 328736.8125,
+        "p90": 4648275.299999999
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": -0.03567014560103415,
+        "p50": 0.20350411534309387,
+        "p90": 0.7272445440292358
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -11.920808410644531,
+        "p50": 6.373057842254639,
+        "p90": 36.84374618530273
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.1924571424722671,
+        "p50": 0.22293131053447723,
+        "p90": 1.1469347238540648
+      },
+      "payer_payee_relationship_months": {
+        "p10": -1.2392874002456664,
+        "p50": 10.284652709960938,
+        "p90": 26.672195816040034
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -1.880238628387451,
+        "p50": 5.558722972869873,
+        "p90": 14.600855827331543
+      },
+      "payee_report_count": {
+        "p10": -0.24508574604988095,
+        "p50": 0.00334555865265429,
+        "p90": 0.2631130337715149
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": -0.010346431098878367,
+        "p50": 0.25207361578941345,
+        "p90": 0.686086344718933
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.0908428654074669,
+        "p50": 0.6749431490898132,
+        "p90": 1.194965100288391
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": -0.08823539465665817,
+        "p50": 0.1938065141439438,
+        "p90": 0.6075712084770198
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.23256210386753093,
+        "p50": 0.6655190587043762,
+        "p90": 0.9625309348106383
+      }
+    },
+    "medical": {
+      "payee_account_age_days": {
+        "p10": 25.786304473876953,
+        "p50": 1449.5411376953125,
+        "p90": 3294.11181640625
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -657.9098510742188,
+        "p50": 1050.218017578125,
+        "p90": 4995.80126953125
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -2456367.5,
+        "p50": 2146893.25,
+        "p90": 9172118.0
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.16936857998371124,
+        "p50": 0.4219207763671875,
+        "p90": 0.7890127301216125
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": 0.3162249028682709,
+        "p50": 40.839599609375,
+        "p90": 94.07532501220703
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.26142632961273193,
+        "p50": 0.00950601976364851,
+        "p90": 0.32145771384239197
+      },
+      "payer_payee_relationship_months": {
+        "p10": -3.5159974098205566,
+        "p50": 6.320436000823975,
+        "p90": 24.20270538330078
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -3.725597620010376,
+        "p50": 2.2160227298736572,
+        "p90": 8.458667755126953
+      },
+      "payee_report_count": {
+        "p10": -0.23534730076789856,
+        "p50": 0.019106213003396988,
+        "p90": 0.3192562162876129
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.3372701108455658,
+        "p50": 0.6848310232162476,
+        "p90": 0.9711278676986694
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.06906041502952576,
+        "p50": 0.5215754508972168,
+        "p90": 0.9597688913345337
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.007446247152984142,
+        "p50": 0.3080024719238281,
+        "p90": 0.6083453893661499
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.11906929314136505,
+        "p50": 0.4523537755012512,
+        "p90": 0.739565908908844
+      }
+    },
+    "investment": {
+      "payee_account_age_days": {
+        "p10": -133.54927062988278,
+        "p50": 937.1077880859375,
+        "p90": 2556.8339355468743
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -979.6133422851562,
+        "p50": 376.2918701171875,
+        "p90": 3168.919824218749
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -3127218.3999999994,
+        "p50": 945912.1875,
+        "p90": 6278357.8
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.12215991616249086,
+        "p50": 0.5538491010665894,
+        "p90": 0.9718544363975524
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": -9.610709381103513,
+        "p50": 11.20877456665039,
+        "p90": 76.49537658691406
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2267930656671524,
+        "p50": 0.08137517422437668,
+        "p90": 1.0423360347747803
+      },
+      "payer_payee_relationship_months": {
+        "p10": 0.04195385575294517,
+        "p50": 11.433638572692871,
+        "p90": 27.113470840454102
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -1.065284752845764,
+        "p50": 6.183848857879639,
+        "p90": 14.372160530090332
+      },
+      "payee_report_count": {
+        "p10": -0.24635044336318968,
+        "p50": 0.0020560184493660927,
+        "p90": 0.2714548230171204
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.10047912299633026,
+        "p50": 0.4306349754333496,
+        "p90": 0.8612751483917235
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.05823989212512971,
+        "p50": 0.5206019878387451,
+        "p90": 0.9853732943534851
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.009113781712949295,
+        "p50": 0.32717785239219666,
+        "p90": 0.6376354336738586
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.019818603619933133,
+        "p50": 0.37640315294265747,
+        "p90": 0.7816749691963195
+      }
+    },
+    "education_fees": {
+      "payee_account_age_days": {
+        "p10": 946.0438049316406,
+        "p50": 2134.5133056640625,
+        "p90": 3724.7783691406257
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -287.37522277832034,
+        "p50": 1107.367919921875,
+        "p90": 2554.1307373046875
+      },
+      "payee_inflow_amount_30d": {
+        "p10": 9036228.4,
+        "p50": 26000178.0,
+        "p90": 57283210.00000001
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": 0.020568090118467806,
+        "p50": 0.24716682732105255,
+        "p90": 0.47540746331214917
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": 18.65996265411377,
+        "p50": 38.54609298706055,
+        "p90": 60.33767051696778
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2580628365278244,
+        "p50": 0.004271524026989937,
+        "p90": 0.2904055863618851
+      },
+      "payer_payee_relationship_months": {
+        "p10": -1.512539219856263,
+        "p50": 8.766611099243164,
+        "p90": 24.420522880554206
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -2.4435089826583862,
+        "p50": 4.100214004516602,
+        "p90": 10.866903591156007
+      },
+      "payee_report_count": {
+        "p10": -0.24419263303279876,
+        "p50": 0.01568471360951662,
+        "p90": 0.3194867461919785
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": 0.32361207008361814,
+        "p50": 0.5524268448352814,
+        "p90": 0.7952064812183381
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.16564540714025497,
+        "p50": 0.45195087790489197,
+        "p90": 0.7815659642219546
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.3014174163341522,
+        "p50": 0.5759245157241821,
+        "p90": 0.8413591504096986
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.31792091727256777,
+        "p50": 0.6051860153675079,
+        "p90": 0.8730095803737642
+      }
+    },
+    "salary_reimburse": {
+      "payee_account_age_days": {
+        "p10": 1037.5951049804687,
+        "p50": 2253.128173828125,
+        "p90": 3724.734057617188
+      },
+      "payee_unique_inflow_payers_30d": {
+        "p10": -1166.8122680664062,
+        "p50": -5.3519933223724365,
+        "p90": 1160.7848510742192
+      },
+      "payee_inflow_amount_30d": {
+        "p10": -3742717.3,
+        "p50": 42254.640625,
+        "p90": 3800271.9
+      },
+      "payee_fanout_ratio_24h": {
+        "p10": -0.11028688475489616,
+        "p50": 0.0747590959072113,
+        "p90": 0.27872828245162967
+      },
+      "payee_unique_outflow_payees_30d": {
+        "p10": 40.28295249938965,
+        "p50": 60.015052795410156,
+        "p90": 79.9459716796875
+      },
+      "payee_reciprocity_flag": {
+        "p10": -0.2055452153086662,
+        "p50": 0.14959364384412766,
+        "p90": 1.1161547422409057
+      },
+      "payer_payee_relationship_months": {
+        "p10": -0.17839422225952126,
+        "p50": 11.184174060821533,
+        "p90": 26.895367050170915
+      },
+      "payer_payee_prior_txn_count": {
+        "p10": -1.818091630935669,
+        "p50": 4.864067077636719,
+        "p90": 11.84010810852051
+      },
+      "payee_report_count": {
+        "p10": -0.24692993015050888,
+        "p50": 0.0010842827032320201,
+        "p90": 0.24689057320356386
+      },
+      "payee_payer_geo_dispersion": {
+        "p10": -0.03537473976612091,
+        "p50": 0.1926656737923622,
+        "p90": 0.4313931405544281
+      },
+      "payee_inflow_amount_cv": {
+        "p10": 0.093136964738369,
+        "p50": 0.7283143997192383,
+        "p90": 1.329367518424989
+      },
+      "payee_inflow_periodicity_score": {
+        "p10": 0.6575904011726379,
+        "p50": 0.9053163826465607,
+        "p90": 1.1401919722557068
+      },
+      "payee_balance_retention_ratio": {
+        "p10": 0.5929853856563568,
+        "p50": 0.8450672030448914,
+        "p90": 1.0645071983337402
+      }
+    }
+  },
+  "cases": [
+    {
+      "bucket": "helps",
+      "txn_id": 1806522,
+      "is_fraud": 1,
+      "scam_type": "refund_scam",
+      "declared_purpose": "investment",
+      "payee_role": "scam_collection",
+      "payee_is_legit": false,
+      "amount": 5051.22021484375,
+      "channel": "upi_p2m",
+      "score_base": 4.3803686637590624e-05,
+      "score_b4b": 0.3564661594067136,
+      "rank_base": 0.9792643939167588,
+      "rank_b4b": 0.9920882010218411,
+      "rank_shift": 0.012823807105082352,
+      "consistency_mahalanobis": 5.357717037200928,
+      "b3": {
+        "payee_account_age_days": 884.4456787109375,
+        "payee_unique_inflow_payers_30d": -1151.5699462890625,
+        "payee_inflow_amount_30d": 1118687.0,
+        "payee_fanout_ratio_24h": 0.8997962474822998,
+        "payee_unique_outflow_payees_30d": -38.22003173828125,
+        "payee_reciprocity_flag": 0.07224562019109726,
+        "payer_payee_relationship_months": 1.8111133575439453,
+        "payer_payee_prior_txn_count": 4.514181613922119,
+        "payee_report_count": 1.1285470724105835,
+        "payee_payer_geo_dispersion": 0.6135345697402954,
+        "payee_inflow_amount_cv": 1.7299435138702393,
+        "payee_inflow_periodicity_score": 0.09154582023620605,
+        "payee_balance_retention_ratio": 0.1927613914012909
+      },
+      "residuals": {
+        "payee_account_age_days": -0.1039176732301712,
+        "payee_unique_inflow_payers_30d": -1.4117261171340942,
+        "payee_inflow_amount_30d": 0.0456988587975502,
+        "payee_fanout_ratio_24h": 0.8909873366355896,
+        "payee_unique_outflow_payees_30d": -2.7349021434783936,
+        "payee_reciprocity_flag": -0.031101465225219727,
+        "payer_payee_relationship_months": -1.0286922454833984,
+        "payer_payee_prior_txn_count": -0.21325555443763733,
+        "payee_report_count": 2.188016176223755,
+        "payee_payer_geo_dispersion": 0.4268050193786621,
+        "payee_inflow_amount_cv": 2.750147819519043,
+        "payee_inflow_periodicity_score": -0.9034306406974792,
+        "payee_balance_retention_ratio": -0.6435251235961914
+      },
+      "reference_n": 14407,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "helps",
+      "txn_id": 1486687,
+      "is_fraud": 1,
+      "scam_type": "investment_scam",
+      "declared_purpose": "investment",
+      "payee_role": "mule_aged",
+      "payee_is_legit": false,
+      "amount": 101.62999725341797,
+      "channel": "upi_p2m",
+      "score_base": 7.863752124811122e-05,
+      "score_b4b": 0.9781911239975282,
+      "rank_base": 0.9815112492156921,
+      "rank_b4b": 0.9932534584242134,
+      "rank_shift": 0.011742209208521315,
+      "consistency_mahalanobis": 4.495291233062744,
+      "b3": {
+        "payee_account_age_days": 174.6074981689453,
+        "payee_unique_inflow_payers_30d": 588.2306518554688,
+        "payee_inflow_amount_30d": -462736.21875,
+        "payee_fanout_ratio_24h": 0.859170138835907,
+        "payee_unique_outflow_payees_30d": -2.2540717124938965,
+        "payee_reciprocity_flag": 0.35914599895477295,
+        "payer_payee_relationship_months": 1.848801612854004,
+        "payer_payee_prior_txn_count": -4.170833587646484,
+        "payee_report_count": -0.22573107481002808,
+        "payee_payer_geo_dispersion": 0.6853989958763123,
+        "payee_inflow_amount_cv": 1.1566792726516724,
+        "payee_inflow_periodicity_score": -0.10877098143100739,
+        "payee_balance_retention_ratio": -0.04092757776379585
+      },
+      "residuals": {
+        "payee_account_age_days": -0.847578763961792,
+        "payee_unique_inflow_payers_30d": 0.14299367368221283,
+        "payee_inflow_amount_30d": -0.42652153968811035,
+        "payee_fanout_ratio_24h": 0.7823469638824463,
+        "payee_unique_outflow_payees_30d": -0.7741233706474304,
+        "payee_reciprocity_flag": 0.644717812538147,
+        "payer_payee_relationship_months": -1.0234882831573486,
+        "payer_payee_prior_txn_count": -2.0752742290496826,
+        "payee_report_count": -1.1864341497421265,
+        "payee_payer_geo_dispersion": 0.6398274898529053,
+        "payee_inflow_amount_cv": 1.6510839462280273,
+        "payee_inflow_periodicity_score": -2.068645477294922,
+        "payee_balance_retention_ratio": -1.4368971586227417
+      },
+      "reference_n": 14407,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "helps",
+      "txn_id": 1649870,
+      "is_fraud": 1,
+      "scam_type": "investment_scam",
+      "declared_purpose": "investment",
+      "payee_role": "mule_aged",
+      "payee_is_legit": false,
+      "amount": 2585.199951171875,
+      "channel": "upi_p2p",
+      "score_base": 4.448782658086937e-05,
+      "score_b4b": 0.011171615490399208,
+      "rank_base": 0.9793062236696645,
+      "rank_b4b": 0.990755624607846,
+      "rank_shift": 0.011449400938181586,
+      "consistency_mahalanobis": 3.021326780319214,
+      "b3": {
+        "payee_account_age_days": 609.9803466796875,
+        "payee_unique_inflow_payers_30d": 115.1781997680664,
+        "payee_inflow_amount_30d": -1232557.0,
+        "payee_fanout_ratio_24h": 0.76053786277771,
+        "payee_unique_outflow_payees_30d": 15.831818580627441,
+        "payee_reciprocity_flag": -0.2212948203086853,
+        "payer_payee_relationship_months": -1.486122965812683,
+        "payer_payee_prior_txn_count": 4.756470203399658,
+        "payee_report_count": 0.298006534576416,
+        "payee_payer_geo_dispersion": 0.46152007579803467,
+        "payee_inflow_amount_cv": 0.8374203443527222,
+        "payee_inflow_periodicity_score": 0.37271976470947266,
+        "payee_balance_retention_ratio": 0.5029264688491821
+      },
+      "residuals": {
+        "payee_account_age_days": -0.37967371940612793,
+        "payee_unique_inflow_payers_30d": -0.22701454162597656,
+        "payee_inflow_amount_30d": -0.6601667404174805,
+        "payee_fanout_ratio_24h": 0.565972626209259,
+        "payee_unique_outflow_payees_30d": 0.05141967907547951,
+        "payee_reciprocity_flag": -1.2495232820510864,
+        "payer_payee_relationship_months": -1.4834636449813843,
+        "payer_payee_prior_txn_count": -0.16997036337852478,
+        "payee_report_count": 1.3724719285964966,
+        "payee_payer_geo_dispersion": 0.03427537530660629,
+        "payee_inflow_amount_cv": 0.8796842694282532,
+        "payee_inflow_periodicity_score": 0.29506585001945496,
+        "payee_balance_retention_ratio": 0.32416412234306335
+      },
+      "reference_n": 14407,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "helps",
+      "txn_id": 1599160,
+      "is_fraud": 1,
+      "scam_type": "investment_scam",
+      "declared_purpose": "investment",
+      "payee_role": "mule_fresh",
+      "payee_is_legit": false,
+      "amount": 90.63999938964844,
+      "channel": "upi_p2p",
+      "score_base": 9.136573419738036e-05,
+      "score_b4b": 0.12197021277250437,
+      "rank_base": 0.9819355224237354,
+      "rank_b4b": 0.9917057575667035,
+      "rank_shift": 0.009770235142968153,
+      "consistency_mahalanobis": 3.204052686691284,
+      "b3": {
+        "payee_account_age_days": 176.12069702148438,
+        "payee_unique_inflow_payers_30d": -679.4202270507812,
+        "payee_inflow_amount_30d": -371352.3125,
+        "payee_fanout_ratio_24h": 0.7348189353942871,
+        "payee_unique_outflow_payees_30d": 43.059139251708984,
+        "payee_reciprocity_flag": -0.11772468686103821,
+        "payer_payee_relationship_months": 3.941831111907959,
+        "payer_payee_prior_txn_count": 9.032118797302246,
+        "payee_report_count": 0.11390340328216553,
+        "payee_payer_geo_dispersion": 0.6345471143722534,
+        "payee_inflow_amount_cv": 0.9935917258262634,
+        "payee_inflow_periodicity_score": 0.32340940833091736,
+        "payee_balance_retention_ratio": 0.11472467333078384
+      },
+      "residuals": {
+        "payee_account_age_days": -0.8459073901176453,
+        "payee_unique_inflow_payers_30d": -0.9485878348350525,
+        "payee_inflow_amount_30d": -0.3973337709903717,
+        "payee_fanout_ratio_24h": 0.5173289179801941,
+        "payee_unique_outflow_payees_30d": 0.8309687376022339,
+        "payee_reciprocity_flag": -0.7899528741836548,
+        "payer_payee_relationship_months": -0.7638936638832092,
+        "payer_payee_prior_txn_count": 0.5230541229248047,
+        "payee_report_count": 0.5677268505096436,
+        "payee_payer_geo_dispersion": 0.4838908016681671,
+        "payee_inflow_amount_cv": 1.2691789865493774,
+        "payee_inflow_periodicity_score": 0.11062237620353699,
+        "payee_balance_retention_ratio": -0.8783326148986816
+      },
+      "reference_n": 14407,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_missed_fraud",
+      "txn_id": 1748464,
+      "is_fraud": 1,
+      "scam_type": "task_scam",
+      "declared_purpose": "friend_transfer",
+      "payee_role": "mule_fresh",
+      "payee_is_legit": false,
+      "amount": 5742.39013671875,
+      "channel": "upi_p2p",
+      "score_base": 0.0006450921075676684,
+      "score_b4b": 3.9155429655006735e-06,
+      "rank_base": 0.9864113059846426,
+      "rank_b4b": 0.9795213481131794,
+      "rank_shift": -0.0068899578714631815,
+      "consistency_mahalanobis": 3.6230790615081787,
+      "b3": {
+        "payee_account_age_days": 839.13623046875,
+        "payee_unique_inflow_payers_30d": 846.5553588867188,
+        "payee_inflow_amount_30d": -2649185.5,
+        "payee_fanout_ratio_24h": 0.8379477262496948,
+        "payee_unique_outflow_payees_30d": 10.092366218566895,
+        "payee_reciprocity_flag": -0.17872567474842072,
+        "payer_payee_relationship_months": -2.967637062072754,
+        "payer_payee_prior_txn_count": 0.04983772709965706,
+        "payee_report_count": -0.26233214139938354,
+        "payee_payer_geo_dispersion": 0.859487771987915,
+        "payee_inflow_amount_cv": 0.39414459466934204,
+        "payee_inflow_periodicity_score": 0.5696209073066711,
+        "payee_balance_retention_ratio": 0.351553738117218
+      },
+      "residuals": {
+        "payee_account_age_days": -0.2934984564781189,
+        "payee_unique_inflow_payers_30d": 0.6711568236351013,
+        "payee_inflow_amount_30d": -0.9569671154022217,
+        "payee_fanout_ratio_24h": 1.6260502338409424,
+        "payee_unique_outflow_payees_30d": 0.1652703434228897,
+        "payee_reciprocity_flag": -1.2984378337860107,
+        "payer_payee_relationship_months": -1.529038906097412,
+        "payer_payee_prior_txn_count": -0.9250375032424927,
+        "payee_report_count": -1.395811676979065,
+        "payee_payer_geo_dispersion": 1.9179543256759644,
+        "payee_inflow_amount_cv": -0.6276615858078003,
+        "payee_inflow_periodicity_score": 1.1393702030181885,
+        "payee_balance_retention_ratio": -1.008208990097046
+      },
+      "reference_n": 196697,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_missed_fraud",
+      "txn_id": 1761052,
+      "is_fraud": 1,
+      "scam_type": "digital_arrest",
+      "declared_purpose": "friend_transfer",
+      "payee_role": "mule_aged",
+      "payee_is_legit": false,
+      "amount": 2942.77001953125,
+      "channel": "neft",
+      "score_base": 0.999957027886323,
+      "score_b4b": 0.9995468960762612,
+      "rank_base": 0.998918402103439,
+      "rank_b4b": 0.9949565269353731,
+      "rank_shift": -0.003961875168065898,
+      "consistency_mahalanobis": 3.823843479156494,
+      "b3": {
+        "payee_account_age_days": 549.1560668945312,
+        "payee_unique_inflow_payers_30d": 1452.7095947265625,
+        "payee_inflow_amount_30d": -479144.625,
+        "payee_fanout_ratio_24h": 0.9253115057945251,
+        "payee_unique_outflow_payees_30d": 34.05375671386719,
+        "payee_reciprocity_flag": 0.1997864544391632,
+        "payer_payee_relationship_months": -9.915162086486816,
+        "payer_payee_prior_txn_count": -0.47827544808387756,
+        "payee_report_count": -0.035572778433561325,
+        "payee_payer_geo_dispersion": 0.35423386096954346,
+        "payee_inflow_amount_cv": 0.8598635792732239,
+        "payee_inflow_periodicity_score": 0.05280959978699684,
+        "payee_balance_retention_ratio": 0.19593627750873566
+      },
+      "residuals": {
+        "payee_account_age_days": -0.6033787131309509,
+        "payee_unique_inflow_payers_30d": 1.0529820919036865,
+        "payee_inflow_amount_30d": -0.23254337906837463,
+        "payee_fanout_ratio_24h": 1.8515254259109497,
+        "payee_unique_outflow_payees_30d": 1.1207971572875977,
+        "payee_reciprocity_flag": 0.04332929477095604,
+        "payer_payee_relationship_months": -2.634993314743042,
+        "payer_payee_prior_txn_count": -1.0289504528045654,
+        "payee_report_count": -0.1826801598072052,
+        "payee_payer_geo_dispersion": 0.318738728761673,
+        "payee_inflow_amount_cv": 0.515034019947052,
+        "payee_inflow_periodicity_score": -0.5742575526237488,
+        "payee_balance_retention_ratio": -1.4615461826324463
+      },
+      "reference_n": 196697,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_missed_fraud",
+      "txn_id": 1551714,
+      "is_fraud": 1,
+      "scam_type": "impersonation",
+      "declared_purpose": "friend_transfer",
+      "payee_role": "mule_aged",
+      "payee_is_legit": false,
+      "amount": 28152.26953125,
+      "channel": "upi_p2p",
+      "score_base": 0.9999561634274482,
+      "score_b4b": 0.9996624778040303,
+      "rank_base": 0.9989064507454659,
+      "rank_b4b": 0.9951477486629419,
+      "rank_shift": -0.003758702082524046,
+      "consistency_mahalanobis": 3.7422056198120117,
+      "b3": {
+        "payee_account_age_days": 132.4359893798828,
+        "payee_unique_inflow_payers_30d": -669.6480712890625,
+        "payee_inflow_amount_30d": 43439.9453125,
+        "payee_fanout_ratio_24h": 0.9360114932060242,
+        "payee_unique_outflow_payees_30d": 39.331947326660156,
+        "payee_reciprocity_flag": -0.2281125783920288,
+        "payer_payee_relationship_months": 5.579680442810059,
+        "payer_payee_prior_txn_count": 2.6190268993377686,
+        "payee_report_count": 1.0074472427368164,
+        "payee_payer_geo_dispersion": 0.5664675235748291,
+        "payee_inflow_amount_cv": 0.2735510468482971,
+        "payee_inflow_periodicity_score": 0.05473089963197708,
+        "payee_balance_retention_ratio": 0.10490691661834717
+      },
+      "residuals": {
+        "payee_account_age_days": -1.0855273008346558,
+        "payee_unique_inflow_payers_30d": -0.7737841010093689,
+        "payee_inflow_amount_30d": -0.0631384402513504,
+        "payee_fanout_ratio_24h": 1.8820281028747559,
+        "payee_unique_outflow_payees_30d": 1.277466058731079,
+        "payee_reciprocity_flag": -1.507619857788086,
+        "payer_payee_relationship_months": -0.4494476318359375,
+        "payer_payee_prior_txn_count": -0.43982747197151184,
+        "payee_report_count": 2.1264142990112305,
+        "payee_payer_geo_dispersion": 0.8965458273887634,
+        "payee_inflow_amount_cv": -0.9271141290664673,
+        "payee_inflow_periodicity_score": -0.5651707649230957,
+        "payee_balance_retention_ratio": -1.7300336360931396
+      },
+      "reference_n": 196697,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_missed_fraud",
+      "txn_id": 1978702,
+      "is_fraud": 1,
+      "scam_type": "impersonation",
+      "declared_purpose": "friend_transfer",
+      "payee_role": "scam_collection",
+      "payee_is_legit": false,
+      "amount": 8511.8896484375,
+      "channel": "upi_p2p",
+      "score_base": 0.9999645433031885,
+      "score_b4b": 0.9997575737434963,
+      "rank_base": 0.999055842720129,
+      "rank_b4b": 0.9954584839702412,
+      "rank_shift": -0.003597358749887869,
+      "consistency_mahalanobis": 4.70583963394165,
+      "b3": {
+        "payee_account_age_days": 927.4337158203125,
+        "payee_unique_inflow_payers_30d": 667.3829956054688,
+        "payee_inflow_amount_30d": 1416212.0,
+        "payee_fanout_ratio_24h": 0.9946519136428833,
+        "payee_unique_outflow_payees_30d": -10.929024696350098,
+        "payee_reciprocity_flag": 0.27862560749053955,
+        "payer_payee_relationship_months": 0.4321320652961731,
+        "payer_payee_prior_txn_count": 3.663917303085327,
+        "payee_report_count": 1.1629167795181274,
+        "payee_payer_geo_dispersion": 1.028944730758667,
+        "payee_inflow_amount_cv": 0.9565815925598145,
+        "payee_inflow_periodicity_score": 0.3104356527328491,
+        "payee_balance_retention_ratio": 0.10250953584909439
+      },
+      "residuals": {
+        "payee_account_age_days": -0.20226456224918365,
+        "payee_unique_inflow_payers_30d": 0.5337390303611755,
+        "payee_inflow_amount_30d": 0.365041583776474,
+        "payee_fanout_ratio_24h": 2.080798625946045,
+        "payee_unique_outflow_payees_30d": -1.1245523691177368,
+        "payee_reciprocity_flag": 0.2047622948884964,
+        "payer_payee_relationship_months": -1.0588513612747192,
+        "payer_payee_prior_txn_count": -0.2566833198070526,
+        "payee_report_count": 2.284322500228882,
+        "payee_payer_geo_dispersion": 2.7528860569000244,
+        "payee_inflow_amount_cv": 0.7301532030105591,
+        "payee_inflow_periodicity_score": 0.4123309254646301,
+        "payee_balance_retention_ratio": -1.7373462915420532
+      },
+      "reference_n": 196697,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_false_alarm",
+      "txn_id": 1743784,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "investment",
+      "payee_role": "merchant_large",
+      "payee_is_legit": true,
+      "amount": 1366.5799560546875,
+      "channel": "upi_p2m",
+      "score_base": 1.5512875698185733e-09,
+      "score_b4b": 2.6597586749338997e-08,
+      "rank_base": 0.026281036182736264,
+      "rank_b4b": 0.9060085452209508,
+      "rank_shift": 0.8797275090382145,
+      "consistency_mahalanobis": 4.218061447143555,
+      "b3": {
+        "payee_account_age_days": 5004.14111328125,
+        "payee_unique_inflow_payers_30d": 5113.734375,
+        "payee_inflow_amount_30d": -2209913.0,
+        "payee_fanout_ratio_24h": 0.36893314123153687,
+        "payee_unique_outflow_payees_30d": 72.14313507080078,
+        "payee_reciprocity_flag": 0.1392204463481903,
+        "payer_payee_relationship_months": 8.113380432128906,
+        "payer_payee_prior_txn_count": 0.9461206197738647,
+        "payee_report_count": 0.18640278279781342,
+        "payee_payer_geo_dispersion": 0.8667382597923279,
+        "payee_inflow_amount_cv": 0.4092346727848053,
+        "payee_inflow_periodicity_score": 0.48125937581062317,
+        "payee_balance_retention_ratio": 0.41341206431388855
+      },
+      "residuals": {
+        "payee_account_age_days": 2.9993948936462402,
+        "payee_unique_inflow_payers_30d": 1.8542505502700806,
+        "payee_inflow_amount_30d": -0.9716087579727173,
+        "payee_fanout_ratio_24h": -0.3526073694229126,
+        "payee_unique_outflow_payees_30d": 1.3837065696716309,
+        "payee_reciprocity_flag": 0.1921459436416626,
+        "payer_payee_relationship_months": -0.31298568844795227,
+        "payer_payee_prior_txn_count": -0.9085164666175842,
+        "payee_report_count": 0.9093136191368103,
+        "payee_payer_geo_dispersion": 1.3392057418823242,
+        "payee_inflow_amount_cv": -0.2999902367591858,
+        "payee_inflow_periodicity_score": 0.6566116213798523,
+        "payee_balance_retention_ratio": 0.024673933163285255
+      },
+      "reference_n": 14407,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_false_alarm",
+      "txn_id": 1593192,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "utility_bill",
+      "payee_role": "utility_biller",
+      "payee_is_legit": true,
+      "amount": 302.2799987792969,
+      "channel": "upi_p2m",
+      "score_base": 1.5781483950458893e-09,
+      "score_b4b": 9.997598409218818e-09,
+      "rank_base": 0.029340583823836985,
+      "rank_b4b": 0.8370133556425349,
+      "rank_shift": 0.8076727718186979,
+      "consistency_mahalanobis": 3.8833250999450684,
+      "b3": {
+        "payee_account_age_days": 2594.287841796875,
+        "payee_unique_inflow_payers_30d": 1525.7525634765625,
+        "payee_inflow_amount_30d": -290870.15625,
+        "payee_fanout_ratio_24h": 0.32559525966644287,
+        "payee_unique_outflow_payees_30d": 0.9884526133537292,
+        "payee_reciprocity_flag": -0.018762294203042984,
+        "payer_payee_relationship_months": 15.29307746887207,
+        "payer_payee_prior_txn_count": 11.94795036315918,
+        "payee_report_count": 0.07255289703607559,
+        "payee_payer_geo_dispersion": 0.7087122201919556,
+        "payee_inflow_amount_cv": 0.6850387454032898,
+        "payee_inflow_periodicity_score": 0.4826131761074066,
+        "payee_balance_retention_ratio": 0.8433089852333069
+      },
+      "residuals": {
+        "payee_account_age_days": -0.173420250415802,
+        "payee_unique_inflow_payers_30d": -0.5484762787818909,
+        "payee_inflow_amount_30d": -1.2955267429351807,
+        "payee_fanout_ratio_24h": 0.8133460283279419,
+        "payee_unique_outflow_payees_30d": -2.4875314235687256,
+        "payee_reciprocity_flag": 0.01319271419197321,
+        "payer_payee_relationship_months": 0.17961923778057098,
+        "payer_payee_prior_txn_count": -0.03883190453052521,
+        "payee_report_count": 0.17299756407737732,
+        "payee_payer_geo_dispersion": -0.3692544400691986,
+        "payee_inflow_amount_cv": 1.333762764930725,
+        "payee_inflow_periodicity_score": -1.7027859687805176,
+        "payee_balance_retention_ratio": 1.316200613975525
+      },
+      "reference_n": 188693,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_false_alarm",
+      "txn_id": 2008777,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "utility_bill",
+      "payee_role": "utility_biller",
+      "payee_is_legit": true,
+      "amount": 4050.110107421875,
+      "channel": "upi_p2p",
+      "score_base": 1.6174138574010772e-09,
+      "score_b4b": 9.28240541423626e-09,
+      "rank_base": 0.03391795392751502,
+      "rank_b4b": 0.8288685051839015,
+      "rank_shift": 0.7949505512563865,
+      "consistency_mahalanobis": 5.568728446960449,
+      "b3": {
+        "payee_account_age_days": 1768.1697998046875,
+        "payee_unique_inflow_payers_30d": 491.40625,
+        "payee_inflow_amount_30d": -3366905.5,
+        "payee_fanout_ratio_24h": -0.012460079975426197,
+        "payee_unique_outflow_payees_30d": 50.0118522644043,
+        "payee_reciprocity_flag": 0.4475680887699127,
+        "payer_payee_relationship_months": 43.96046447753906,
+        "payer_payee_prior_txn_count": 35.34978103637695,
+        "payee_report_count": 0.011210230179131031,
+        "payee_payer_geo_dispersion": 0.4750644862651825,
+        "payee_inflow_amount_cv": 0.4717023968696594,
+        "payee_inflow_periodicity_score": 0.7915984988212585,
+        "payee_balance_retention_ratio": 0.035199087113142014
+      },
+      "residuals": {
+        "payee_account_age_days": -0.9367483854293823,
+        "payee_unique_inflow_payers_30d": -1.4722135066986084,
+        "payee_inflow_amount_30d": -2.372307538986206,
+        "payee_fanout_ratio_24h": -1.2796168327331543,
+        "payee_unique_outflow_payees_30d": 1.2052863836288452,
+        "payee_reciprocity_flag": 1.436440110206604,
+        "payer_payee_relationship_months": 3.1814470291137695,
+        "payer_payee_prior_txn_count": 1.8653175830841064,
+        "payee_report_count": -0.10535780340433121,
+        "payee_payer_geo_dispersion": -1.2904083728790283,
+        "payee_inflow_amount_cv": 0.5275592803955078,
+        "payee_inflow_periodicity_score": -0.5967616438865662,
+        "payee_balance_retention_ratio": -2.3614587783813477
+      },
+      "reference_n": 188693,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "misleads_false_alarm",
+      "txn_id": 1738086,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "utility_bill",
+      "payee_role": "utility_biller",
+      "payee_is_legit": true,
+      "amount": 495.8299865722656,
+      "channel": "upi_p2m",
+      "score_base": 1.8593535837080923e-09,
+      "score_b4b": 1.3109298061009657e-08,
+      "rank_base": 0.06941348710747258,
+      "rank_b4b": 0.8618243747945861,
+      "rank_shift": 0.7924108876871134,
+      "consistency_mahalanobis": 4.696220874786377,
+      "b3": {
+        "payee_account_age_days": 6201.8828125,
+        "payee_unique_inflow_payers_30d": 672.3998413085938,
+        "payee_inflow_amount_30d": -5188290.0,
+        "payee_fanout_ratio_24h": -0.07474015653133392,
+        "payee_unique_outflow_payees_30d": 37.8129768371582,
+        "payee_reciprocity_flag": 0.026014171540737152,
+        "payer_payee_relationship_months": 17.254833221435547,
+        "payer_payee_prior_txn_count": 20.859439849853516,
+        "payee_report_count": 0.14542452991008759,
+        "payee_payer_geo_dispersion": 0.8312629461288452,
+        "payee_inflow_amount_cv": 0.41366860270500183,
+        "payee_inflow_periodicity_score": 0.8767639994621277,
+        "payee_balance_retention_ratio": 0.4381003677845001
+      },
+      "residuals": {
+        "payee_account_age_days": 2.8178861141204834,
+        "payee_unique_inflow_payers_30d": -1.274278998374939,
+        "payee_inflow_amount_30d": -3.040087938308716,
+        "payee_fanout_ratio_24h": -1.7567867040634155,
+        "payee_unique_outflow_payees_30d": 0.5879539251327515,
+        "payee_reciprocity_flag": 0.2409130483865738,
+        "payer_payee_relationship_months": 0.32745158672332764,
+        "payer_payee_prior_txn_count": 0.6728160977363586,
+        "payee_report_count": 0.4979774057865143,
+        "payee_payer_geo_dispersion": 0.2909065783023834,
+        "payee_inflow_amount_cv": 0.30844646692276,
+        "payee_inflow_periodicity_score": -0.21591980755329132,
+        "payee_balance_retention_ratio": -0.6855118870735168
+      },
+      "reference_n": 188693,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "confirms",
+      "txn_id": 1820476,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "family_support",
+      "payee_role": "family_member",
+      "payee_is_legit": true,
+      "amount": 10639.8896484375,
+      "channel": "upi_p2p",
+      "score_base": 1.1051379194754978e-09,
+      "score_b4b": 3.646955433840087e-10,
+      "rank_base": 0.0008545220950730526,
+      "rank_b4b": 5.975678986524844e-06,
+      "rank_shift": -0.0008485464160865278,
+      "consistency_mahalanobis": 4.109854221343994,
+      "b3": {
+        "payee_account_age_days": 1482.9932861328125,
+        "payee_unique_inflow_payers_30d": -370.1558837890625,
+        "payee_inflow_amount_30d": 1399191.5,
+        "payee_fanout_ratio_24h": -0.10438185930252075,
+        "payee_unique_outflow_payees_30d": 3.469407081604004,
+        "payee_reciprocity_flag": 1.1319866180419922,
+        "payer_payee_relationship_months": 39.6311149597168,
+        "payer_payee_prior_txn_count": 28.00048828125,
+        "payee_report_count": -0.08092091232538223,
+        "payee_payer_geo_dispersion": 0.022004885599017143,
+        "payee_inflow_amount_cv": 0.46156975626945496,
+        "payee_inflow_periodicity_score": 0.842519223690033,
+        "payee_balance_retention_ratio": 0.4940277934074402
+      },
+      "residuals": {
+        "payee_account_age_days": 0.13537293672561646,
+        "payee_unique_inflow_payers_30d": -0.3761138319969177,
+        "payee_inflow_amount_30d": 0.45631876587867737,
+        "payee_fanout_ratio_24h": -1.4738813638687134,
+        "payee_unique_outflow_payees_30d": -0.022733449935913086,
+        "payee_reciprocity_flag": 1.1260833740234375,
+        "payer_payee_relationship_months": 2.8884217739105225,
+        "payer_payee_prior_txn_count": 1.8725794553756714,
+        "payee_report_count": -0.4133668541908264,
+        "payee_payer_geo_dispersion": -1.0697599649429321,
+        "payee_inflow_amount_cv": -0.40840834379196167,
+        "payee_inflow_periodicity_score": 1.0971146821975708,
+        "payee_balance_retention_ratio": -1.0404160022735596
+      },
+      "reference_n": 177673,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "confirms",
+      "txn_id": 1808449,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "family_support",
+      "payee_role": "family_member",
+      "payee_is_legit": true,
+      "amount": 4662.080078125,
+      "channel": "upi_p2p",
+      "score_base": 1.1013523201756902e-09,
+      "score_b4b": 4.06567221157632e-10,
+      "rank_base": 0.000806716663180854,
+      "rank_b4b": 4.780543189219875e-05,
+      "rank_shift": -0.0007589112312886552,
+      "consistency_mahalanobis": 3.394118070602417,
+      "b3": {
+        "payee_account_age_days": 3373.905029296875,
+        "payee_unique_inflow_payers_30d": -544.8452758789062,
+        "payee_inflow_amount_30d": -403364.5625,
+        "payee_fanout_ratio_24h": 0.19126003980636597,
+        "payee_unique_outflow_payees_30d": 3.0793378353118896,
+        "payee_reciprocity_flag": 0.7890845537185669,
+        "payer_payee_relationship_months": 21.049354553222656,
+        "payer_payee_prior_txn_count": 21.11273765563965,
+        "payee_report_count": 0.1753784418106079,
+        "payee_payer_geo_dispersion": -0.12208029627799988,
+        "payee_inflow_amount_cv": 0.5459092855453491,
+        "payee_inflow_periodicity_score": 0.6727383732795715,
+        "payee_balance_retention_ratio": 0.6539658904075623
+      },
+      "residuals": {
+        "payee_account_age_days": 1.7087043523788452,
+        "payee_unique_inflow_payers_30d": -0.5795835852622986,
+        "payee_inflow_amount_30d": -0.13714851438999176,
+        "payee_fanout_ratio_24h": 0.2758757174015045,
+        "payee_unique_outflow_payees_30d": -0.04846542701125145,
+        "payee_reciprocity_flag": 0.4884079396724701,
+        "payer_payee_relationship_months": 0.7339237332344055,
+        "payer_payee_prior_txn_count": 1.317537546157837,
+        "payee_report_count": 0.9345961809158325,
+        "payee_payer_geo_dispersion": -2.0002503395080566,
+        "payee_inflow_amount_cv": -0.18764643371105194,
+        "payee_inflow_periodicity_score": 0.5930835604667664,
+        "payee_balance_retention_ratio": -0.41041630506515503
+      },
+      "reference_n": 177673,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "confirms",
+      "txn_id": 1634262,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "family_support",
+      "payee_role": "family_member",
+      "payee_is_legit": true,
+      "amount": 26063.779296875,
+      "channel": "upi_p2p",
+      "score_base": 1.1334232370818006e-09,
+      "score_b4b": 4.3872326042186465e-10,
+      "rank_base": 0.0011891601183184439,
+      "rank_b4b": 0.00038841913412411485,
+      "rank_shift": -0.000800740984194329,
+      "consistency_mahalanobis": 3.0011391639709473,
+      "b3": {
+        "payee_account_age_days": 3260.1787109375,
+        "payee_unique_inflow_payers_30d": 164.68765258789062,
+        "payee_inflow_amount_30d": -1049078.25,
+        "payee_fanout_ratio_24h": -0.09463416039943695,
+        "payee_unique_outflow_payees_30d": -1.0922050476074219,
+        "payee_reciprocity_flag": 0.004237717017531395,
+        "payer_payee_relationship_months": 15.256040573120117,
+        "payer_payee_prior_txn_count": 11.078714370727539,
+        "payee_report_count": 0.08201707899570465,
+        "payee_payer_geo_dispersion": -0.08517859876155853,
+        "payee_inflow_amount_cv": 0.8286316394805908,
+        "payee_inflow_periodicity_score": 0.8908121585845947,
+        "payee_balance_retention_ratio": 0.8341849446296692
+      },
+      "residuals": {
+        "payee_account_age_days": 1.6331316232681274,
+        "payee_unique_inflow_payers_30d": 0.20510338246822357,
+        "payee_inflow_amount_30d": -0.3576592206954956,
+        "payee_fanout_ratio_24h": -1.4123141765594482,
+        "payee_unique_outflow_payees_30d": -0.33393287658691406,
+        "payee_reciprocity_flag": -0.5912887454032898,
+        "payer_payee_relationship_months": 0.3048284649848938,
+        "payer_payee_prior_txn_count": 0.40417778491973877,
+        "payee_report_count": 0.46165791153907776,
+        "payee_payer_geo_dispersion": -1.7514053583145142,
+        "payee_inflow_amount_cv": 0.5131127238273621,
+        "payee_inflow_periodicity_score": 1.2651652097702026,
+        "payee_balance_retention_ratio": 0.35260164737701416
+      },
+      "reference_n": 177673,
+      "reference_is_fallback": false
+    },
+    {
+      "bucket": "confirms",
+      "txn_id": 2008034,
+      "is_fraud": 0,
+      "scam_type": null,
+      "declared_purpose": "family_support",
+      "payee_role": "family_member",
+      "payee_is_legit": true,
+      "amount": 1361.6800537109375,
+      "channel": "upi_p2p",
+      "score_base": 1.1257638420995484e-09,
+      "score_b4b": 4.411750580263405e-10,
+      "rank_base": 0.0011055006125070962,
+      "rank_b4b": 0.0004481759239893633,
+      "rank_shift": -0.0006573246885177329,
+      "consistency_mahalanobis": 2.4637081623077393,
+      "b3": {
+        "payee_account_age_days": 941.6287841796875,
+        "payee_unique_inflow_payers_30d": -652.1762084960938,
+        "payee_inflow_amount_30d": 2927027.0,
+        "payee_fanout_ratio_24h": 0.10719230026006699,
+        "payee_unique_outflow_payees_30d": 10.213691711425781,
+        "payee_reciprocity_flag": 0.9678472280502319,
+        "payer_payee_relationship_months": 22.355350494384766,
+        "payer_payee_prior_txn_count": 12.175565719604492,
+        "payee_report_count": 0.1551782637834549,
+        "payee_payer_geo_dispersion": 0.0636504590511322,
+        "payee_inflow_amount_cv": 0.47275739908218384,
+        "payee_inflow_periodicity_score": 0.6659950017929077,
+        "payee_balance_retention_ratio": 0.5807702541351318
+      },
+      "residuals": {
+        "payee_account_age_days": -0.4025968611240387,
+        "payee_unique_inflow_payers_30d": -0.7070522904396057,
+        "payee_inflow_amount_30d": 0.9100457429885864,
+        "payee_fanout_ratio_24h": -0.1704241931438446,
+        "payee_unique_outflow_payees_30d": 0.3948587477207184,
+        "payee_reciprocity_flag": 0.7339118123054504,
+        "payer_payee_relationship_months": 0.8365558981895447,
+        "payer_payee_prior_txn_count": 0.5264787077903748,
+        "payee_report_count": 0.8371754884719849,
+        "payee_payer_geo_dispersion": -0.8225042819976807,
+        "payee_inflow_amount_cv": -0.3784400224685669,
+        "payee_inflow_periodicity_score": 0.5744343996047974,
+        "payee_balance_retention_ratio": -0.7056280374526978
+      },
+      "reference_n": 177673,
+      "reference_is_fallback": false
+    }
+  ],
+  "note": "Buckets are selected by change in ranking percentile between the baseline and the B4b arm. 'misleads' buckets are included deliberately: they are the cases where declared context made the decision worse."
+}

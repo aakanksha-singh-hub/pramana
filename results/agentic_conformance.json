@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-30T03:40:50.692180+00:00",
+  "generated": "2026-08-30T20:25:08.067885+00:00",
   "coverage": {
     "caught": 8,
     "total": 10,
@@ -139,7 +139,7 @@
           "merch:sportsdepot",
           "merch:paceworks"
         ],
-        "valid_until": "2026-09-06T03:40:50.692205+00:00",
+        "valid_until": "2026-09-06T20:25:08.067907+00:00",
         "max_cumulative": 12000
       },
       "attempt": {
@@ -167,12 +167,12 @@
         {
           "id": "C4_temporal_validity",
           "passed": true,
-          "detail": "now 2026-08-30T03:40:50.692205+00:00"
+          "detail": "now 2026-08-30T20:25:08.067907+00:00"
         },
         {
           "id": "C5_nonce_freshness",
           "passed": true,
-          "detail": "nonce d9a48d76..."
+          "detail": "nonce 4584c14c..."
         },
         {
           "id": "C6_cumulative_cap",
@@ -215,7 +215,7 @@
           "merch:sportsdepot",
           "merch:paceworks"
         ],
-        "valid_until": "2026-09-06T03:40:50.692205+00:00",
+        "valid_until": "2026-09-06T20:25:08.067907+00:00",
         "max_cumulative": 12000
       },
       "attempt": {
@@ -243,12 +243,12 @@
         {
           "id": "C4_temporal_validity",
           "passed": true,
-          "detail": "now 2026-08-30T03:40:50.692205+00:00"
+          "detail": "now 2026-08-30T20:25:08.067907+00:00"
         },
         {
           "id": "C5_nonce_freshness",
           "passed": true,
-          "detail": "nonce ccf3ffa3..."
+          "detail": "nonce 78da6cd7..."
         },
         {
           "id": "C6_cumulative_cap",

@@ -115,7 +115,7 @@
   "not_run": {
     "discriminator_auc_vs_real_data": "No labelled public APP-fraud transaction dataset exists. Comparing against another synthetic generator would demonstrate nothing, so this check is omitted rather than substituted. See docs/LIMITATIONS.md."
   },
-  "generated": "2026-08-30T03:42:02.752423+00:00",
+  "generated": "2026-08-30T20:24:59.259182+00:00",
   "config": {
     "lam": 0.1,
     "seed": 0,

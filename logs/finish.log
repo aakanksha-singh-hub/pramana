@@ -1,0 +1,127 @@
+=== sweep 1 finished 01:49,      192 cells ===
+=== ablation ===
+rho=0.4  lambda=0.1  K=11  beta=0.5  seed=0
+train 1,040,110 rows / 17,500 payers   test 167,345 rows / 7,500 payers / 1,390 fraud (0.831%)
+hyperparameters selected on B1+B2+B3 only: {"n_estimators": 600, "learning_rate": 0.03, "num_leaves": 255, "min_child_samples": 150, "colsample_bytree": 0.6, "subsample": 0.85, "subsample_freq": 1, "reg_lambda": 0.0, "max_depth": -1}
+
+arm            feat   PR-AUC             R@FPR .1%          FPR@recall 70%
+--------------------------------------------------------------------------
+B1               13   0.3198    0.1978 [0.1697,0.2280]   0.05066 [0.04357,0.05648]
+B1+B2            24   0.6977    0.5094 [0.4671,0.5514]   0.00322 [0.00261,0.00417]
+B1+B2+B3         37   0.9624    0.8942 [0.8704,0.9227]   0.00009 [0.00004,0.00015]
+B1+B2+B3+B4a     38   0.9853    0.9640 [0.9507,0.9767]   0.00003 [0.00001,0.00007]
+B1+B2+B3+B4b     53   0.9858    0.9698 [0.9573,0.9805]   0.00004 [0.00001,0.00008]
+
+paired delta vs B1+B2+B3  (positive = declared context helps)
+  B1+B2+B3+B4a
+    recall@fpr=0.001      +0.06978  95% CI [+0.04686, +0.08811]  significant
+    recall@fpr=0.005      +0.01079  95% CI [+0.00538, +0.01768]  significant
+    recall@fpr=0.01       +0.00216  95% CI [-0.00071, +0.00624]  
+    fpr@recall=0.5        +0.00002  95% CI [+0.00001, +0.00005]  significant
+    fpr@recall=0.7        +0.00006  95% CI [+0.00002, +0.00010]  significant
+    fpr@recall=0.9        +0.00078  95% CI [+0.00054, +0.00103]  significant
+  B1+B2+B3+B4b
+    recall@fpr=0.001      +0.07554  95% CI [+0.05179, +0.09429]  significant
+    recall@fpr=0.005      +0.01151  95% CI [+0.00562, +0.01833]  significant
+    recall@fpr=0.01       +0.00216  95% CI [-0.00073, +0.00613]  
+    fpr@recall=0.5        +0.00003  95% CI [+0.00001, +0.00006]  significant
+    fpr@recall=0.7        +0.00005  95% CI [+0.00001, +0.00010]  significant
+    fpr@recall=0.9        +0.00074  95% CI [+0.00052, +0.00099]  significant
+
+written -> results/ablation.json
+=== figures ===
+cells collected: 192
+
+=== prevalence adversary — rho* by lambda (recall @ FPR 0.1%) ===
+ lam  rho_star_lo  rho_star_hi                 status  non_monotonic significant_grid
+0.00          1.0          inf significant throughout          False           111111
+0.05          1.0          inf significant throughout          False           111111
+0.10          1.0          inf significant throughout          False           111111
+0.20          1.0          inf significant throughout          False           111111
+0.35          1.0          inf significant throughout          False           111111
+rho      0.0     0.2     0.4     0.6     0.8     1.0
+lam                                                 
+0.00  0.0382  0.0344  0.0326  0.0289  0.0315  0.0332
+0.05  0.0782  0.0657  0.0572  0.0519  0.0495  0.0536
+0.10  0.0776  0.0611  0.0530  0.0448  0.0439  0.0454
+0.20  0.0552  0.0406  0.0339  0.0307  0.0274  0.0293
+0.35  0.0573  0.0446  0.0364  0.0340  0.0291  0.0307
+
+significant (CI lower bound > 0 on every seed):
+rho    0.0   0.2   0.4   0.6   0.8   1.0
+lam                                     
+0.00  True  True  True  True  True  True
+0.05  True  True  True  True  True  True
+0.10  True  True  True  True  True  True
+0.20  True  True  True  True  True  True
+0.35  True  True  True  True  True  True
+
+=== uniform adversary — rho* by lambda (recall @ FPR 0.1%) ===
+ lam  rho_star_lo  rho_star_hi                 status  non_monotonic significant_grid
+0.00          1.0          inf significant throughout          False           111111
+0.05          1.0          inf significant throughout          False           111111
+0.10          1.0          inf significant throughout          False           111111
+0.20          1.0          inf significant throughout          False           111111
+0.35          1.0          inf significant throughout          False           111111
+rho      0.0     0.2     0.4     0.6     0.8     1.0
+lam                                                 
+0.00  0.0382  0.0350  0.0309  0.0321  0.0326  0.0359
+0.05  0.0782  0.0710  0.0656  0.0631  0.0603  0.0636
+0.10  0.0776  0.0652  0.0628  0.0611  0.0537  0.0560
+0.20  0.0552  0.0484  0.0394  0.0379  0.0345  0.0404
+0.35  0.0573  0.0485  0.0405  0.0365  0.0391  0.0385
+
+significant (CI lower bound > 0 on every seed):
+rho    0.0   0.2   0.4   0.6   0.8   1.0
+lam                                     
+0.00  True  True  True  True  True  True
+0.05  True  True  True  True  True  True
+0.10  True  True  True  True  True  True
+0.20  True  True  True  True  True  True
+0.35  True  True  True  True  True  True
+
+figures -> results/figures
+=== inspector ===
+16 cases across 4 buckets -> results/inspector.json
+  helps                    n=4  mean rank shift +0.0114
+  misleads_missed_fraud    n=4  mean rank shift -0.0046
+  misleads_false_alarm     n=4  mean rank shift +0.8187
+  confirms                 n=4  mean rank shift -0.0008
+=== fidelity ===
+
+case-level asymmetry vs RBI-cited figures:
+  share_of_cases_above_10k           0.4495   anchor       0.4500   |err| 0.0005
+  share_of_value_above_10k           0.9791   anchor       0.9850   |err| 0.0059
+  mean_case_loss_inr            80,872.0703   anchor  81,896.4286   |err| 1,024.3583
+  n_cases                             7,788
+
+payee in-degree: median 10, p99 281, max 1,497, CCDF log-log slope -1.56
+latent recovery: spearman 0.658 between observed in-sample in-degree and generated payee aggregates
+
+B3 max |correlation| between distinct features: 0.834
+  payer_payee_relationship_months    payer_payee_prior_txn_count        0.834
+  payer_payee_prior_txn_count        payer_payee_relationship_months    0.834
+  payee_fanout_ratio_24h             payee_balance_retention_ratio      0.678
+
+inter-transaction gap: median 2.93d, mean 4.34d, CV 1.04, 21.4% under a day
+
+written -> results/fidelity.json
+=== agentic ===
+coverage: 8/10 attack families caught deterministically at FPR 0.0000 (0/20000 in-scope carts rejected)
+uncaught: ['A9', 'A10'] - by construction, not by omission
+
+bounded loss on the uncaught families:
+  unenforced mean loss      INR       86,787
+  single cart, enforced     INR        3,602   (95.8% reduction)
+  persistent, enforced      INR        7,001   (91.9% reduction)
+  p95 unenforced            INR      269,864
+  p95 persistent enforced   INR       12,000
+
+written -> results/agentic_conformance.json
+=== docx ===
+written -> Pramana_walkthrough.docx
+=== artifact ===
+written -> web/pramana_artifact.html  (176 KB)
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.06s
+=== PRE-REGISTERED ANALYSIS COMPLETE 01:55 ===
