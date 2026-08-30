@@ -62,7 +62,7 @@ GROUPS: dict[str, list[str]] = {
 FORBIDDEN_AS_INPUT: frozenset[str] = frozenset({
     "txn_id", "payer_id", "payee_id", "day", "month", "is_fraud",
     "scam_type", "coerced", "true_purpose", "payee_role", "payee_legit",
-    "declared_purpose",
+    "declared_purpose", "_coached",
 })
 
 CATEGORICAL: frozenset[str] = frozenset({"channel", "purpose_code"})

@@ -63,9 +63,15 @@ three-purpose safe set. Because legitimate "investment" is rare, that leaves a
 base-rate trace, and declared context retains measurable value even at
 rho = 1. A stronger adversary — one who samples the safe set in proportion to
 legitimate frequencies, making the declared code marginally uninformative by
-construction — is run as a clearly separated secondary surface. Neither is the
-worst case. An adversary who also controls *which* mule receives the payment,
-choosing one whose profile matches the declared purpose, is not modelled.
+construction — is run as a clearly separated secondary surface.
+
+A third and stronger adversary again, which additionally controls *which* mule
+receives the payment and chooses one whose profile fits the declared purpose,
+is now modelled as well (see `CHANGELOG.md`). It is assumed to know the
+defence and scores candidates against the defender's own reference. It is
+still not the worst conceivable case: it cannot change what a mule account
+fundamentally is, cannot manufacture pair history with the victim, and does
+not adapt over time against a retrained model.
 
 ## 7. The agentic module bounds loss; it does not detect intent
 

@@ -54,3 +54,65 @@ changes were made once, before the sweep, on stated realism grounds, and were
 not iterated on. No feature was reassigned between groups, no feature was
 added to B4, no metric or operating point was altered, and the falsification
 condition stands as written.
+
+---
+
+## 2026-08-30 — Beneficiary-matched adversary added as a third surface
+
+**Observed.** With 109 of 192 cells complete, the pre-registered surface had no
+zero-crossing anywhere: declared context remained significant at every value of
+rho, on every seed, at every lambda, under both the pre-registered adversary
+and the prevalence-matched one. rho* — the pre-registered primary reported
+quantity — was therefore undefined (`> 1.0`) across the whole grid.
+
+**Diagnosed.** Both modelled adversaries control only what the victim
+*declares*. Neither controls *which mule receives the money*. A real scammer
+controls both, and would route a payment to an account whose beneficiary
+profile is plausible for the purpose the victim has been coached to declare.
+That attacks the purpose–beneficiary consistency mechanism directly rather than
+merely the base rate of the declared code. It was already recorded in
+`docs/LIMITATIONS.md` as an unmodelled adversary before the results were seen.
+
+**Added.** A third adversary, `matched`, forming a ladder in which each rung
+adds exactly one capability:
+
+| adversary | declaration | beneficiary routing |
+| --- | --- | --- |
+| `uniform` (pre-registered) | uniform over the coached safe set | random mule |
+| `prevalence` | in proportion to legitimate frequencies, so the code carries no marginal information at rho = 1 | random mule |
+| `matched` | as `prevalence` | mule chosen to fit the declared purpose |
+
+The matched adversary is assumed to **know the defence**: it scores candidate
+mules against the same purpose-conditional reference the defender uses. That is
+a deliberate worst case — the security of a declared-context control should not
+depend on the attacker's ignorance of how it works.
+
+Two constraints keep the attack honest. It can only choose among accounts that
+are actually mules, so the best available match to an institutional purpose is
+still a poor one. And it cannot manufacture pair history: a victim has no prior
+relationship with any mule, whichever is chosen, so only the eleven
+*payee-level* beneficiary features are swapped and the two *pair-level* ones
+are left untouched.
+
+Selection is uniform over the best 5% of available mules for that
+purpose-month, with a floor of ten. Taking only the single best match drove
+fraud to look *more* typical of its declared purpose than legitimate payments
+did (median Mahalanobis 2.89 against a legitimate 3.50), which a defender could
+then exploit in reverse. That is an artefact of an omniscient attack model
+rather than a property of the control, so it was designed out.
+
+**Effect on the consistency signal**, at rho = 1.0, lambda = 0.10:
+
+| adversary | fraud median Mahalanobis | legit median | fraud above legit p95 |
+| --- | ---: | ---: | ---: |
+| `uniform` | 4.07 | 3.50 | 14.6% |
+| `prevalence` | 4.00 | 3.50 | 12.4% |
+| `matched` | 3.01 | 3.50 | 0.3% |
+
+**Why this is not tuning toward a result.** The change makes the adversary
+*stronger*, not weaker, and is therefore biased against the hypothesis under
+test. It was named as a limitation before any result was seen. The
+pre-registered surface is reported unchanged and remains the primary analysis;
+this is a third, clearly labelled surface. No feature was reassigned, no metric
+or operating point was altered, and the falsification condition stands as
+written.

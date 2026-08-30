@@ -22,6 +22,12 @@ GRIDS = {
     "prevalence": dict(rho=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
                        lam=[0.0, 0.05, 0.10, 0.20, 0.35],
                        K=[11], beta=[0.5], seed=[0, 1, 2], adversary=["prevalence"]),
+    # Strongest modelled adversary: an information-free declared code AND a
+    # beneficiary chosen to fit it. Added after the pre-registered surface was
+    # observed to have no zero-crossing; disclosed in CHANGELOG.md.
+    "matched": dict(rho=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],
+                    lam=[0.0, 0.05, 0.10, 0.20, 0.35],
+                    K=[11], beta=[0.5], seed=[0, 1, 2], adversary=["matched"]),
     "cardinality": dict(rho=[0.4], lam=[0.10], K=[3, 6], beta=[0.5],
                         seed=[0, 1, 2], adversary=["uniform"]),
     "beneficiary_noise": dict(rho=[0.4], lam=[0.10], K=[11], beta=[0.0, 1.0],

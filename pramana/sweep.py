@@ -13,6 +13,7 @@ resumes rather than restarting.
 
 from __future__ import annotations
 
+import gc
 import itertools
 import json
 import time
@@ -67,6 +68,8 @@ def _run_group(key: tuple[float, int], cells: list[dict], cfg: dict,
             path.write_text(json.dumps(res))
             done.append(path.name)
             print(f"  done {path.name} ({time.time()-t0:.0f}s)", flush=True)
+            del res
+            gc.collect()
         except Exception:
             print(f"  FAILED {path.name}\n{traceback.format_exc()}", flush=True)
     return done

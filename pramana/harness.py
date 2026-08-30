@@ -20,6 +20,7 @@ import pandas as pd
 
 from .features import CATEGORICAL, columns_for
 from .features.b3_beneficiary import apply_noise
+from .adversary import BeneficiaryMatcher
 from .features.b4_context import ConsistencyModel, build_a
 from .metrics import METRIC_NAMES, PayerBootstrap, ci, point_metrics
 from .purpose import (COACHED_SAFE_SET, collapse, declare_fraud_vec,
@@ -80,8 +81,11 @@ def temporal_group_split(df: pd.DataFrame, cfg: dict, seed: int = 0,
 # ---------------------------------------------------------------------------
 
 
+ADVERSARIES = ("uniform", "prevalence", "matched")
+
+
 def declare_purposes(df: pd.DataFrame, rho: float, K: int, lam: float,
-                     seed: int, adversary: str = "uniform") -> np.ndarray:
+                     seed: int, adversary: str = "uniform"):
     """Attach a declared purpose to every payment.
 
     The legitimate declarations are drawn from a stream seeded only by
@@ -100,7 +104,7 @@ def declare_purposes(df: pd.DataFrame, rho: float, K: int, lam: float,
         df["true_purpose"].to_numpy()[~is_fraud], legit_rng)
 
     safe_weights = None
-    if adversary == "prevalence":
+    if adversary in ("prevalence", "matched"):
         # frequencies of the safe purposes among legitimate declarations, so
         # that a coached declaration is indistinguishable from a legitimate one
         # on its marginal distribution alone
@@ -110,9 +114,16 @@ def declare_purposes(df: pd.DataFrame, rho: float, K: int, lam: float,
     elif adversary != "uniform":
         raise ValueError(f"unknown adversary {adversary!r}")
 
+    # the coached mask is needed by the beneficiary-matched adversary, which
+    # re-routes exactly the payments the attacker was able to steer
+    coach_rng = np.random.default_rng(
+        (hash((round(lam, 6), seed, round(rho, 6))) & 0xFFFFFFFF) ^ 0xC0AC)
+    coached = np.zeros(len(df), dtype=bool)
+    coached[is_fraud] = coach_rng.random(int(is_fraud.sum())) < rho
+
     declared[is_fraud] = declare_fraud_vec(
         df["scam_type"].to_numpy()[is_fraud], rho, fraud_rng, safe_weights)
-    return collapse(declared, K)
+    return collapse(declared, K), coached
 
 
 def prepare_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
@@ -128,7 +139,7 @@ def prepare_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
 
     noise_rng = np.random.default_rng(
         (hash((round(lam, 6), seed, round(beta, 6))) & 0xFFFFFFFF) ^ 0xB3B3)
-    purpose = declare_purposes(base, rho, K, lam, seed, adversary)
+    purpose, coached = declare_purposes(base, rho, K, lam, seed, adversary)
 
     # Assemble once from column references rather than copying the whole base
     # frame and mutating it. On a two-million-row ledger the difference is
@@ -143,6 +154,7 @@ def prepare_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
     for c in B3_COLS:
         parts[c] = noisy[c]
     parts["purpose_code"] = pd.Categorical(purpose, categories=taxonomy(K))
+    parts["_coached"] = coached
     df = pd.DataFrame(parts, copy=False)
     del noisy, parts
     gc.collect()
@@ -182,6 +194,17 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
             "purpose_code": taxonomy(K)}
 
     cm = ConsistencyModel(seed=seed).fit(tr)
+
+    # The beneficiary-matched adversary re-routes coached payments to a mule
+    # whose profile fits the declared purpose. It must run *after* the
+    # reference is fitted (it scores against that reference, by assumption
+    # knowing the defence) and *before* anything reads B3, because the swap
+    # changes the beneficiary the baseline sees too - which is the point.
+    n_rerouted = 0
+    if adversary == "matched":
+        matcher = BeneficiaryMatcher(seed=seed).fit(df, cm)
+        n_rerouted = matcher.apply(tr) + matcher.apply(te)
+
     # concat once per split: assigning 15 residual columns one at a time
     # fragments the block manager and silently copies the frame each time
     tr = pd.concat([tr, cm.transform(tr).drop(columns=["purpose_code"])], axis=1)
@@ -238,6 +261,7 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
         "test_fraud_rate": float(y_te.mean()),
         "n_train_payers": int(tr["payer_id"].nunique()),
         "n_test_payers": int(te["payer_id"].nunique()),
+        "n_rerouted": int(n_rerouted),
         "params": params,
     }
     return results

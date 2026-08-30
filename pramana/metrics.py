@@ -62,7 +62,7 @@ class PayerBootstrap:
     """Pre-drawn payer-clustered resample weights, shared across arms."""
 
     def __init__(self, payer_ids: np.ndarray, n_boot: int = 1000, seed: int = 0,
-                 chunk: int = 25):
+                 chunk: int = 10):
         self.codes, self.inverse = np.unique(payer_ids, return_inverse=True)
         self.n_groups = len(self.codes)
         self.n_boot = n_boot
