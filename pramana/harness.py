@@ -9,6 +9,7 @@ under those conditions, it is not because the comparison was rigged.
 
 from __future__ import annotations
 
+import gc
 import json
 import warnings
 from pathlib import Path
@@ -123,21 +124,41 @@ def prepare_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
     the B3 arm sees. B4b is never handed a cleaner beneficiary signal than the
     baseline it is being compared against.
     """
-    df = base.copy()
+    from .features import B1_COLS, B2_COLS, B3_COLS
+
     noise_rng = np.random.default_rng(
         (hash((round(lam, 6), seed, round(beta, 6))) & 0xFFFFFFFF) ^ 0xB3B3)
-    from .features import B3_COLS
-    df[B3_COLS] = apply_noise(df[B3_COLS], beta, noise_rng)
-    df["purpose_code"] = declare_purposes(df, rho, K, lam, seed, adversary)
+    purpose = declare_purposes(base, rho, K, lam, seed, adversary)
+
+    # Assemble once from column references rather than copying the whole base
+    # frame and mutating it. On a two-million-row ledger the difference is
+    # roughly 300 MB per worker, which is what decides whether a parallel sweep
+    # runs or thrashes.
+    keep = ["txn_id", "payer_id", "payee_id", "day", "month", "amount",
+            "is_fraud", "payee_role", "payee_legit", "scam_type", "true_purpose"]
+    parts = {c: base[c] for c in keep}
+    for c in B1_COLS + B2_COLS:
+        parts[c] = base[c]
+    noisy = apply_noise(base[B3_COLS], beta, noise_rng)
+    for c in B3_COLS:
+        parts[c] = noisy[c]
+    parts["purpose_code"] = pd.Categorical(purpose, categories=taxonomy(K))
+    df = pd.DataFrame(parts, copy=False)
+    del noisy, parts
+    gc.collect()
     return df
 
 
 def _as_model_frame(df: pd.DataFrame, cols: list[str], cats: dict) -> pd.DataFrame:
-    X = df[cols].copy()
+    """Model matrix in float32. LightGBM converts to float32 internally anyway,
+    so carrying float64 through only doubles peak memory."""
+    out = {}
     for c in cols:
         if c in CATEGORICAL:
-            X[c] = pd.Categorical(X[c], categories=cats[c])
-    return X
+            out[c] = pd.Categorical(df[c], categories=cats[c])
+        else:
+            out[c] = df[c].to_numpy(dtype=np.float32, copy=False)
+    return pd.DataFrame(out, index=df.index, copy=False)
 
 
 # ---------------------------------------------------------------------------
@@ -156,15 +177,17 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
     df = prepare_cell(base, cfg, rho, lam, K, beta, seed, adversary)
     tr, te = temporal_group_split(df, cfg, seed=seed)
 
-    cats = {"channel": sorted(pd.unique(df["channel"])),
+    cats = {"channel": list(base["channel"].cat.categories)
+            if hasattr(base["channel"], "cat") else sorted(pd.unique(base["channel"])),
             "purpose_code": taxonomy(K)}
 
     cm = ConsistencyModel(seed=seed).fit(tr)
-    for frame in (tr, te):
-        res = cm.transform(frame)
-        for c in res.columns:
-            if c != "purpose_code":
-                frame[c] = res[c]
+    # concat once per split: assigning 15 residual columns one at a time
+    # fragments the block manager and silently copies the frame each time
+    tr = pd.concat([tr, cm.transform(tr).drop(columns=["purpose_code"])], axis=1)
+    te = pd.concat([te, cm.transform(te).drop(columns=["purpose_code"])], axis=1)
+    del df
+    gc.collect()
 
     y_tr = tr["is_fraud"].to_numpy()
     y_te = te["is_fraud"].to_numpy()
@@ -182,8 +205,12 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
             model = lgb.LGBMClassifier(random_state=seed, n_jobs=1, verbose=-1, **params)
             model.fit(X_tr, y_tr, categorical_feature=[c for c in cols if c in CATEGORICAL])
             score = model.predict_proba(X_te)[:, 1]
+        del X_tr, model
+        gc.collect()
         results[name] = point_metrics(y_te, score, amt_te)
         M = boot.metrics(y_te, score)
+        del X_te
+        gc.collect()
         boot_matrices[name] = M
         results[name]["ci"] = {
             nm: list(ci(M[:, j])) for j, nm in enumerate(METRIC_NAMES)}

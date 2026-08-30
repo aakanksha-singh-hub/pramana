@@ -62,7 +62,7 @@ class PayerBootstrap:
     """Pre-drawn payer-clustered resample weights, shared across arms."""
 
     def __init__(self, payer_ids: np.ndarray, n_boot: int = 1000, seed: int = 0,
-                 chunk: int = 100):
+                 chunk: int = 25):
         self.codes, self.inverse = np.unique(payer_ids, return_inverse=True)
         self.n_groups = len(self.codes)
         self.n_boot = n_boot
@@ -75,12 +75,16 @@ class PayerBootstrap:
     def curves(self, y: np.ndarray, score: np.ndarray):
         """Yield (recall, fpr) arrays for each resample, in sorted-score order."""
         order = np.argsort(-score, kind="mergesort")
-        ys = y[order].astype(np.float64)
+        ys = y[order].astype(np.float32)
         inv = self.inverse[order]
         for a in range(0, self.n_boot, self.chunk):
-            W = self.counts[a:a + self.chunk][:, inv].astype(np.float64)
-            tp = np.cumsum(W * ys, axis=1)
-            fp = np.cumsum(W * (1.0 - ys), axis=1)
+            W = self.counts[a:a + self.chunk][:, inv]
+            # weights carried as float32 to halve peak memory, but accumulated
+            # in float64: an FPR denominator runs to millions and a float32
+            # accumulator would lose precision exactly where the operating
+            # points are tightest
+            tp = np.cumsum(W * ys, axis=1, dtype=np.float64)
+            fp = np.cumsum(W * (1.0 - ys), axis=1, dtype=np.float64)
             P, N = tp[:, -1:], fp[:, -1:]
             ok = (P[:, 0] > 0) & (N[:, 0] > 0)
             yield tp / np.maximum(P, 1e-12), fp / np.maximum(N, 1e-12), ok

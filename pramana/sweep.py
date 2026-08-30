@@ -91,7 +91,11 @@ def run_sweep(cfg: dict, cells: list[dict], n_jobs: int = 6,
             build_base(cfg, lam, seed)
             print(f"base ledger lam={lam} seed={seed} ready ({time.time()-t0:.0f}s)", flush=True)
 
-    Parallel(n_jobs=n_jobs, backend="loky", verbose=0)(
+    # inner_max_num_threads=1 stops every worker's BLAS and OpenMP pools from
+    # each trying to use the whole machine. Without it, n_jobs processes spawn
+    # n_jobs x n_cores threads and the run collapses into contention and swap.
+    Parallel(n_jobs=n_jobs, backend="loky", verbose=0,
+             inner_max_num_threads=1)(
         delayed(_run_group)(k, v, cfg, n_boot, out_dir) for k, v in sorted(groups.items()))
 
 
