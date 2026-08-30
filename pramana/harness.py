@@ -202,7 +202,9 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
     # changes the beneficiary the baseline sees too - which is the point.
     n_rerouted = 0
     if adversary == "matched":
-        matcher = BeneficiaryMatcher(seed=seed).fit(df, cm)
+        matcher = BeneficiaryMatcher(
+            temperature=cfg["fraud"].get("matcher_temperature", 1.0),
+            seed=seed).fit(df, cm)
         n_rerouted = matcher.apply(tr) + matcher.apply(te)
 
     # concat once per split: assigning 15 residual columns one at a time
@@ -262,6 +264,8 @@ def run_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
         "n_train_payers": int(tr["payer_id"].nunique()),
         "n_test_payers": int(te["payer_id"].nunique()),
         "n_rerouted": int(n_rerouted),
+        "matcher_temperature": (cfg["fraud"].get("matcher_temperature", 1.0)
+                                if adversary == "matched" else None),
         "params": params,
     }
     return results

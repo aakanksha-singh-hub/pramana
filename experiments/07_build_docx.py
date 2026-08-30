@@ -446,6 +446,43 @@ def s4_identify(doc, d):
               "question of how much resolution the signal actually needs is an "
               "operational one, not a modelling detail.")
 
+    h2(doc, "A third and stronger adversary again")
+    para(doc, "Both adversaries above control only what the victim declares. Neither "
+              "controls which mule receives the money. A real scammer controls both, and "
+              "would route the payment to an account whose beneficiary profile is plausible "
+              "for the purpose the victim has been coached to declare. That attacks the "
+              "purpose-beneficiary consistency mechanism directly rather than the base rate "
+              "of the declared code.")
+    table(doc, ["Adversary", "Declaration", "Beneficiary routing"], [
+        ["uniform (pre-registered)", "uniform over the coached safe set", "random mule"],
+        ["prevalence", "proportional to legitimate frequencies; the code carries no "
+                       "marginal information at rho = 1", "random mule"],
+        ["matched", "as prevalence", "mule chosen to fit the declared purpose"],
+    ], widths=[1.5, 3.2, 1.6])
+    para(doc, "The matched adversary is assumed to know the defence: it scores candidate "
+              "mules against the same purpose-conditional reference the defender uses. That "
+              "is a deliberate worst case — the security of a declared-context control "
+              "should not rest on the attacker's ignorance of how it works.")
+    para(doc, "Two constraints keep it honest. It can only choose among accounts that are "
+              "actually mules, so the best available match to an institutional purpose is "
+              "still a poor one. And it cannot manufacture pair history: a victim has no "
+              "prior relationship with any mule, whichever is chosen, so only the eleven "
+              "payee-level beneficiary features are swapped and the two pair-level ones are "
+              "left untouched.")
+    para(doc, "Candidates are sampled from the whole mule population, weighted by a softmax "
+              "of fit and by the account's own inbound volume. Selecting only the "
+              "best-fitting handful would change two things at once — which mule is chosen, "
+              "and how concentrated the routing is — and concentration alone makes "
+              "fraudulent rows resemble each other, which a supervised model simply learns. "
+              "In an early run that artefact made the 'attack' improve the baseline it was "
+              "meant to defeat. Softmax weighting over the full population changes only the "
+              "choice, so the surface isolates the mechanism under test.")
+    para(doc, "This adversary was added after the pre-registered surface was observed to "
+              "have no zero-crossing. It makes the adversary stronger, and is therefore "
+              "biased against the hypothesis under test; it was named as an unmodelled "
+              "limitation before any result was seen. CHANGELOG.md records it in full, and "
+              "the pre-registered surface is reported unchanged as the primary analysis.")
+
     h2(doc, "The agentic threat model")
     para(doc, "Ten attack families against a signed mandate. Eight are scope, freshness, "
               "binding or revocation violations, and are caught structurally. Two are not, "

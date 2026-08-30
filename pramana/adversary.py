@@ -59,17 +59,22 @@ class BeneficiaryMatcher:
     """Chooses, per (declared purpose, month), the mule accounts whose profile
     best fits that purpose's legitimate reference."""
 
-    def __init__(self, top_frac: float = 0.05, min_k: int = 10, seed: int = 0):
-        # A real attacker picks a reasonable account from the stable it
-        # controls; it does not solve a global optimisation over every mule in
-        # the country. Selecting uniformly from the best 5% (at least ten) is
-        # strong without being degenerate: taking only the single best match
-        # drives fraud to look *more* typical of the declared purpose than
-        # legitimate payments do, which a defender could then exploit in
-        # reverse. That artefact is an artefact of the attack model, not a
-        # property of the control, so it is designed out rather than reported.
-        self.top_frac = top_frac
-        self.min_k = min_k
+    def __init__(self, temperature: float = 1.0, seed: int = 0):
+        # Candidates are sampled from the WHOLE mule population, weighted by
+        # a softmax of fit and by the account's own inbound volume:
+        #
+        #     w_i  proportional to  fan_in_i * exp(-d_i / temperature)
+        #
+        # This is deliberate. Selecting only the best-fitting handful changes
+        # two things at once: which mule is chosen, and how concentrated the
+        # routing is. Concentration alone makes fraudulent rows resemble each
+        # other, and a supervised model simply learns that cluster - the
+        # "attack" then improves the baseline it was meant to defeat, which
+        # measures the pool design rather than the control. Softmax weighting
+        # over the full population changes only the choice, holding the
+        # natural spread of routing fixed, so the surface isolates the
+        # mechanism under test.
+        self.temperature = temperature
         self.rng = np.random.default_rng(7_000_003 + seed)
         self.pool: dict[tuple[str, int], np.ndarray] = {}
         self.n_candidates: int = 0
@@ -93,18 +98,27 @@ class BeneficiaryMatcher:
 
         values = cand[PAYEE_LEVEL_B3].to_numpy(dtype=np.float32)
         months = cand["month"].to_numpy()
+        # an account's share of inbound traffic, so routing keeps the same
+        # natural skew it has when mules are picked without regard to purpose
+        base_w = cand["payee_unique_inflow_payers_30d"].to_numpy(dtype=np.float64)
+        base_w = np.maximum(base_w, 1.0)
 
         for purpose in cm.models:
             mm = cm.models[purpose]
             dev = Z - mm["mu"]
-            d = np.einsum("ij,jk,ik->i", dev, mm["prec"], dev)
+            d = np.sqrt(np.maximum(
+                np.einsum("ij,jk,ik->i", dev, mm["prec"], dev), 0.0))
             for m in np.unique(months):
                 sel = np.flatnonzero(months == m)
                 if sel.size == 0:
                     continue
-                k = min(sel.size, max(self.min_k, int(round(self.top_frac * sel.size))))
-                best = sel[np.argsort(d[sel])[:k]]
-                self.pool[(purpose, int(m))] = values[best]
+                ds = d[sel]
+                z = (ds - ds.min()) / max(self.temperature, 1e-6)
+                w = base_w[sel] * np.exp(-z)
+                tot = w.sum()
+                if not np.isfinite(tot) or tot <= 0:
+                    continue
+                self.pool[(purpose, int(m))] = (values[sel], w / tot)
         return self
 
     def apply(self, frame: pd.DataFrame) -> int:
@@ -128,11 +142,14 @@ class BeneficiaryMatcher:
 
         n = 0
         for key in set(zip(purposes[idx], months[idx].astype(int))):
-            cands = self.pool.get(key)
-            if cands is None or len(cands) == 0:
+            entry = self.pool.get(key)
+            if entry is None:
+                continue
+            cands, w = entry
+            if len(cands) == 0:
                 continue
             rows = idx[(purposes[idx] == key[0]) & (months[idx].astype(int) == key[1])]
-            pick = self.rng.integers(0, len(cands), size=rows.size)
+            pick = self.rng.choice(len(cands), size=rows.size, p=w)
             block[rows] = cands[pick]
             n += rows.size
 

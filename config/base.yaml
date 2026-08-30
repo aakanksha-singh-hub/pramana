@@ -91,6 +91,10 @@ fraud:
   txns_per_episode_lambda: 2.1
   # rho: coaching effectiveness. Primary sweep axis.
   rho: 0.4
+  # Beneficiary-matched adversary only: softmax temperature on mule fit.
+  # Lower = the attacker matches the declared purpose more aggressively, at
+  # the cost of concentrating its routing onto fewer accounts.
+  matcher_temperature: 1.0
 
 features:
   # beta: additive gaussian noise sigma applied to standardised B3 features

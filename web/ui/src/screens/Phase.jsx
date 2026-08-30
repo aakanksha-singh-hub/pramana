@@ -16,7 +16,8 @@ const METRICS = [
 
 const ADVERSARIES = [
   { id: 'uniform', label: 'Pre-registered adversary', sub: 'uniform over the coached safe set' },
-  { id: 'prevalence', label: 'Prevalence-matched (secondary)', sub: 'declared code carries no marginal information at ρ=1' },
+  { id: 'prevalence', label: 'Prevalence-matched', sub: 'declared code carries no marginal information at ρ=1' },
+  { id: 'matched', label: 'Beneficiary-matched', sub: 'the attacker also routes to a mule whose profile fits the declared purpose' },
 ]
 
 export default function Phase() {

@@ -470,7 +470,8 @@ const METRICS = [
 ];
 const ADV = [
   { id: 'uniform', label: 'Pre-registered adversary', title: 'uniform over the coached safe set' },
-  { id: 'prevalence', label: 'Prevalence-matched (secondary)', title: 'declared code carries no marginal information at rho = 1' },
+  { id: 'prevalence', label: 'Prevalence-matched', title: 'declared code carries no marginal information at rho = 1' },
+  { id: 'matched', label: 'Beneficiary-matched', title: 'the attacker also routes to a mule whose profile fits the declared purpose' },
 ];
 let phaseState = { metric: 'recall@fpr=0.001', adversary: 'uniform' };
 

@@ -91,9 +91,24 @@ which is the hypothesis under test.
 | `lambda` structural overlap | 0.0 … 0.35 | secondary |
 | `K` purpose cardinality | 3, 6, 11 | secondary |
 | `beta` beneficiary noise | 0.0, 0.5, 1.0 | secondary |
-| adversary | uniform (pre-registered), prevalence-matched | secondary |
+| adversary | uniform (pre-registered), prevalence, beneficiary-matched | secondary |
 
-3 seeds per cell, 192 cells. The reported quantity is **rho\***: the coaching
+The adversary axis is a ladder in which each rung adds exactly one capability,
+so the surfaces decompose:
+
+| adversary | declaration | beneficiary routing |
+| --- | --- | --- |
+| `uniform` (pre-registered) | uniform over the coached safe set | random mule |
+| `prevalence` | proportional to legitimate frequencies, so the code carries no marginal information at rho = 1 | random mule |
+| `matched` | as `prevalence` | mule chosen to fit the declared purpose |
+
+`matched` is assumed to **know the defence** — it scores candidate mules
+against the defender's own purpose-conditional reference. It cannot change what
+a mule account fundamentally is, and it cannot manufacture pair history with
+the victim. See `CHANGELOG.md` for why it was added and why making the
+adversary stronger biases the study *against* its own hypothesis.
+
+3 seeds per cell, 282 cells. The reported quantity is **rho\***: the coaching
 threshold above which the incremental value of declared context ceases to be
 significant. It is a threshold, not a percentage improvement — and it is a
 property of *this* threat model and parameterisation, never a universal fact.
