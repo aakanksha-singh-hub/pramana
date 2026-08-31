@@ -319,7 +319,8 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
     <b>Check the work.</b> The research question, the features and the condition under which we
     would call the idea a failure were committed <em>before</em> the simulator existed, in commit
     <span class="mono" id="pcommit"></span>, which has never been edited.
-    Verify with <span class="mono">git log --reverse --stat</span> in
+    Verify with <span class="mono">git log --oneline -- PREREGISTRATION.md</span> — it returns
+    exactly one commit — in
     <span class="mono">github.com/aakanksha-singh-hub/pramana</span> —
     the repository also holds the 20-page write-up, the data and model cards, and the full
     generative process.
