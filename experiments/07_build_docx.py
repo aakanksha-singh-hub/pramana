@@ -928,7 +928,7 @@ def s7_results(doc, d):
               "rho* > 1.0 throughout: within the range modelled, no level of coaching "
               "removes the signal entirely, even against an adversary assumed to know the "
               "defence.")
-h2(doc, "Adversarial coupling: coaching the purpose creates beneficiary exposure")
+    h2(doc, "Adversarial coupling: coaching the purpose creates beneficiary exposure")
     para(doc, "This is the result the study did not set out to find, and the one most worth "
               "carrying away.")
     para(doc, "Under the beneficiary-matched adversary the baseline B1+B2+B3 arm - the part "
