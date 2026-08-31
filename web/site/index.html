@@ -177,6 +177,34 @@ h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-
 .jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
 .jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
+.land{padding:70px 0 60px;background:var(--surface)}
+.btn.big{font-size:15px;padding:14px 26px}
+.trust{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px;padding-top:22px;
+  border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.trust b{color:var(--ink);font-family:"IBM Plex Mono",monospace}
+.prog{display:flex;gap:6px;padding:26px 0 0}
+.seg-dot{height:4px;flex:1;background:var(--line);border-radius:2px}
+.seg-dot.done{background:var(--accent);opacity:.45}
+.seg-dot.now{background:var(--accent)}
+.qwrap{max-width:760px;padding-top:34px}
+.qnum{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:12px}
+.qtitle{font-family:Spectral,Georgia,serif;font-size:clamp(24px,3.4vw,32px);font-weight:600;
+  line-height:1.2;letter-spacing:-.014em;max-width:20ch}
+.qhint{font-size:14.5px;color:var(--muted);max-width:56ch;margin-top:12px}
+.qopts{display:flex;flex-direction:column;gap:9px;margin-top:26px;max-width:560px}
+.qopt{appearance:none;font:inherit;font-size:15.5px;text-align:left;padding:15px 20px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:6px;transition:border-color .1s}
+.qopt:hover{border-color:var(--accent)}
+.qopt.sel{border-color:var(--accent);background:var(--accent-soft);font-weight:500}
+.qopt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.expl{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.exrow{display:grid;grid-template-columns:132px 1fr;gap:18px;align-items:center}
+.exbar{height:26px;background:var(--sunk);border-radius:4px;overflow:hidden}
+.exbar div{height:100%;background:var(--accent);border-radius:4px}
+.exq{font-size:15px;font-weight:500}
+.exs{font-size:13px;color:var(--muted);margin-top:2px}
+@media(max-width:640px){.exrow{grid-template-columns:80px 1fr;gap:12px}}
 table.cmp{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface);
   border:1px solid var(--line);border-radius:5px;overflow:hidden}
 table.cmp th{font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:600;
@@ -934,25 +962,148 @@ function renderScorer(root){
     ['These are real outputs from the two trained models, not a re-implementation. The line on each bar is where a bank reviewing its riskiest 0.5% of payments would draw the cut.']));
 }
 
+/* ================= THE CALCULATOR ================= */
+const QS=[
+ {k:'purpose',q:'What does the payer say the money is for?',
+  hint:'This is the field that does not exist today. Everything else here, a bank already has.',
+  opts:()=>D.scorer.grid.purpose.map(v=>[v,PZ[v]])},
+ {k:'amount',q:'How much are they sending?',hint:'',opts:()=>AMTZ},
+ {k:'known',q:'Have they paid this account before?',hint:'',opts:()=>KNWZ},
+ {k:'behave',q:'How did the payer act while sending it?',
+  hint:'Banks already watch this — hesitation, edits, app-switching, whether a call is live.',opts:()=>BEHZ},
+ {k:'age',q:'How old is the account receiving the money?',hint:'',opts:()=>AGEZ},
+ {k:'payers',q:'How many different people paid into that account last month?',hint:'',opts:()=>PAYZ},
+ {k:'fanout',q:'What does that account do with money it receives?',hint:'',opts:()=>FANZ},
+];
+let STEP=0;
+
+function scAt(o){
+  const g=D.scorer.grid,s=D.scorer.shape;
+  const i=[g.purpose.indexOf(o.purpose),g.age.indexOf(o.age),g.payers.indexOf(o.payers),
+           g.fanout.indexOf(o.fanout),g.amount.indexOf(o.amount),g.known.indexOf(o.known),
+           g.behave.indexOf(o.behave)];
+  return (((((i[0]*s[1]+i[1])*s[2]+i[2])*s[3]+i[3])*s[4]+i[4])*s[5]+i[5])*s[6]+i[6];}
+
+/* leave-one-out on real model outputs: how much did each answer move the score? */
+function contributions(){
+  const cur=D.scorer.with_purpose.pct[scAt(SC)];
+  return QS.map(q=>{
+    const vals=q.opts().map(o=>Array.isArray(o)?o[0]:o);
+    let best=cur,bestv=SC[q.k];
+    for(const v of vals){const t=Object.assign({},SC);t[q.k]=v;
+      const p=D.scorer.with_purpose.pct[scAt(t)];
+      if(p<best){best=p;bestv=v;}}
+    const lab=(q.opts().find(o=>(Array.isArray(o)?o[0]:o)===SC[q.k])||[null,''])[1];
+    const safeLab=(q.opts().find(o=>(Array.isArray(o)?o[0]:o)===bestv)||[null,''])[1];
+    return {k:q.k,q:q.q,chose:lab,effect:cur-best,safest:safeLab,isSafest:bestv===SC[q.k]};
+  }).sort((a,b)=>b.effect-a.effect);}
+
+function renderCalc(root){
+  root.replaceChildren();
+  const total=QS.length;
+  const back=el('button',{class:'btn',type:'button',onclick:()=>{
+    if(STEP===0){VIEW='home';drawApp();}else{STEP--;renderCalc(root);}}},
+    [STEP===0?'← Back':'← Previous']);
+
+  /* progress */
+  root.append(el('div',{class:'wrap'},[el('div',{class:'prog'},
+    Array.from({length:total+1},(_,i)=>el('div',{class:'seg-dot'+(i<STEP?' done':i===STEP?' now':'')})))]));
+
+  if(STEP<total){
+    const q=QS[STEP];
+    root.append(el('div',{class:'wrap qwrap'},[
+      el('div',{class:'qnum'},['Question '+(STEP+1)+' of '+total]),
+      el('h2',{class:'qtitle'},[q.q]),
+      q.hint?el('p',{class:'qhint'},[q.hint]):null,
+      el('div',{class:'qopts'},q.opts().map(o=>{
+        const v=Array.isArray(o)?o[0]:o, lab=Array.isArray(o)?o[1]:o;
+        return el('button',{class:'qopt'+(SC[q.k]===v?' sel':''),type:'button',
+          onclick:()=>{SC[q.k]=v;STEP++;renderCalc(root);}},[lab]);})),
+      el('div',{style:'margin-top:24px'},[back])]));
+    return;
+  }
+
+  /* ---- result ---- */
+  const idx=scAt(SC);
+  const a=D.scorer.baseline.pct[idx], b=D.scorer.with_purpose.pct[idx];
+  const fa=a>=REVIEW, fb=b>=REVIEW;
+  const meter=(title,pct,flag)=>el('div',{class:'card',style:'border-width:1.5px;border-color:'+(flag?'var(--neg)':'var(--line)')},[
+    el('div',{class:'lbl'},[title]),
+    el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:32px;font-weight:500;line-height:1;margin:10px 0 5px;color:'+(flag?'var(--neg)':'var(--ink)')},[(pct*100).toFixed(1)+'%']),
+    el('div',{style:'font-size:13px;color:var(--muted)'},['riskier than this share of all payments']),
+    el('div',{style:'height:9px;background:var(--sunk);border-radius:5px;margin:16px 0 11px;position:relative;overflow:hidden'},[
+      el('div',{style:'position:absolute;left:0;top:0;bottom:0;width:'+(pct*100).toFixed(1)+'%;background:'+(flag?'var(--neg)':'var(--accent)')}),
+      el('div',{style:'position:absolute;left:99.5%;top:-3px;bottom:-3px;width:2px;background:var(--ink)'})]),
+    el('div',{style:'font-size:14px;font-weight:600;color:'+(flag?'var(--neg)':'var(--muted)')},[flag?'⚑ Held for review':'Goes through'])]);
+
+  let verdict,kind;
+  if(fb&&!fa){verdict='<b>The purpose field caught this one.</b> Without it, this payment goes straight through to the scammer.';kind='good';}
+  else if(!fb&&fa){verdict='<b>The purpose field cleared this one.</b> It looked suspicious until you knew what it was for — that is a customer who does not get wrongly blocked.';kind='good';}
+  else if(fa&&fb){verdict='<b>Both catch it.</b> This payment was already obvious; the extra field changes nothing here.';kind='';}
+  else{verdict='<b>Both let it through.</b> The field is not magic — on payments like this one it does not decide anything.';kind='warn';}
+
+  root.append(el('div',{class:'wrap qwrap'},[
+    el('div',{class:'qnum'},['Result']),
+    el('h2',{class:'qtitle'},['Two models, same payment']),
+    el('div',{class:'grid g2',style:'margin-top:22px'},[
+      meter('A bank’s system today',a,fa),
+      meter('The same system, told what the payment is for',b,fb)]),
+    el('div',{style:'margin-top:16px'},[take('what happened',verdict,kind)])]));
+
+  /* explainability */
+  const cons=contributions().filter(c=>c.effect>0.001);
+  root.append(el('div',{class:'wrap qwrap'},[
+    el('h3',{class:'s',style:'margin-top:34px'},['Why it landed there']),
+    el('p',{style:'max-width:62ch'},['Each row asks the same question: if you changed only that one answer to the least alarming option, how far would the score fall? Every number is a real model output, not an estimate.']),
+    cons.length?el('div',{class:'expl'},cons.map(c=>el('div',{class:'exrow'},[
+      el('div',{class:'exbar'},[el('div',{style:'width:'+Math.min(100,c.effect/Math.max(...cons.map(x=>x.effect))*100).toFixed(0)+'%'})]),
+      el('div',{},[el('div',{class:'exq'},[c.chose]),
+        el('div',{class:'exs'},['would drop '+(c.effect*100).toFixed(1)+' points if this were “'+c.safest+'” instead'])])]))):
+      el('p',{style:'color:var(--muted)'},['Every answer you gave was already the least alarming option available.']),
+    el('div',{style:'margin-top:22px'},[take('how we know','We trained <b>1,535 fraud models</b> to work this out. Each learned from 1.04 million payments and was tested on 167,345 more, from people it had never seen. Your seven answers are one of 8,448 combinations we scored in advance — so this is a real model looking up its own output, not a guess.')]),
+    el('div',{style:'display:flex;gap:12px;flex-wrap:wrap;margin-top:26px'},[
+      el('button',{class:'btn p',type:'button',onclick:()=>{STEP=0;renderCalc(root);}},['Try another payment']),
+      el('button',{class:'btn',type:'button',onclick:()=>{VIEW='home';drawApp();}},['See how this was built →'])])]));
+}
+
+/* ================= LANDING + APP SHELL ================= */
+let VIEW='home';
+function drawApp(){
+  const main=document.getElementById('main');
+  main.replaceChildren();
+  document.querySelector('.jump').style.display = VIEW==='tool' ? 'none' : '';
+  if(VIEW==='tool'){STEP=STEP||0;renderCalc(main);window.scrollTo({top:0,behavior:'instant'});return;}
+  buildHome(main);
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function buildHome(root){
+  /* landing */
+  root.append(el('section',{class:'blk land'},[el('div',{class:'wrap'},[
+    el('div',{class:'kicker'},['Pramana · a valid means of proof']),
+    el('h1',{class:'hero'},['A payment can tell you what it is for. Almost none of them do.']),
+    el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud check correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded anywhere.']),
+    el('p',{class:'lede',style:'margin-top:14px'},['Pramana scores a payment twice: once the way a bank does today, and once with that missing field added. You can see the difference on any payment you like.']),
+    el('div',{class:'heroactions'},[
+      el('button',{class:'btn p big',type:'button',onclick:()=>{VIEW='tool';STEP=0;drawApp();}},['Try it now →']),
+      el('button',{class:'btn big',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['How it works'])]),
+    el('div',{class:'trust'},[
+      el('span',{},['Built on ',el('b',{},['1,535']),' trained fraud models']),
+      el('span',{},[el('b',{},['282']),' tested conditions']),
+      el('span',{},[el('b',{},['3']),' attackers, the last one knowing the defence'])])])]));
+
+  /* 01 why it is hard */
+  root.append(S('s-feel',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['01']),
+    el('h2',{class:'t'},['Why a bank cannot already do this']),
+    el('p',{class:'sub'},['Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
+    el('div',{class:'wrap'},[hookAccounts()])]));
+
 /* ================= ONE PAGE ================= */
 function anchor(id,label){return el('a',{href:'#'+id,onclick:e=>{e.preventDefault();
   document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}},[label]);}
 
 function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
-
-function buildPage(root){
-  /* 1 — HERO IS THE PRODUCT */
-  root.append(S('s-top',[el('div',{class:'wrap'},[
-    el('h1',{class:'hero'},['See what one missing field does to a fraud decision.']),
-    el('p',{class:'lede'},['Below is a real fraud model, running twice on the same payment. The only difference is that the second one is told what the payer says the money is for. Change anything and watch the decision move.'])]),
-    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderScorer(h);return h;})()])]));
-
-  /* 2 — why it is hard */
-  root.append(S('s-feel',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['01']),
-    el('h2',{class:'t'},['Why a bank cannot already do this']),
-    el('p',{class:'sub'},['Scam victims authorise their own transfers, so every existing control correctly says yes. Here are two real accounts from our simulation — both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
-    el('div',{class:'wrap'},[hookAccounts()])]));
 
   /* 4 — should you collect it */
   root.append(S('s-answer',[el('div',{class:'wrap'},[
@@ -1008,17 +1159,10 @@ function buildPage(root){
     el('p',{class:'sub'},['When an AI assistant pays on your behalf, the instruction can be signed in advance — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
 
-  /* 6 — the short honest note */
-  root.append(S('s-limits',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['05']),
-    el('h2',{class:'t'},['Two things to know before you use this']),
-    el('div',{class:'grid g2',style:'margin-top:22px'},[
-      card('The world is simulated','No public dataset of scam payments carries a purpose field, so we built one. The scores compare the two models like for like — they are not a forecast of what a real system would catch.'),
-      card('Keep the field, skip the machinery','We also built an engine that learns what recipients normally look like for each purpose. Against a plain tick-box it added next to nothing. Collect the field; you do not need the model on top.')])])]));
 }
 
 /* build + wire */
-buildPage(document.getElementById('main'));
+drawApp();
 document.querySelectorAll('.jump nav a[data-j], .jump nav a.cta').forEach(a=>{
   a.addEventListener('click',e=>{e.preventDefault();
     document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});});});
