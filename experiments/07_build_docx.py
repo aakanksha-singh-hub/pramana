@@ -869,6 +869,33 @@ def s7_results(doc, d):
                   "case-size distribution used everywhere else, so the comparison is against "
                   "a realistic loss profile rather than a convenient one.")
 
+    h2(doc, "What the adversary ladder shows")
+    para(doc, "Reading the three surfaces together is the point of running them. All three "
+              "start at the same value at rho = 0, because with no coaching there is nothing "
+              "for any adversary to do. They separate as rho rises, and the rate of "
+              "separation is the measurement.")
+    table(doc, ["Adversary", "Delta at rho = 0", "Delta at rho = 1", "Decay"], [
+        ["uniform (pre-registered), lambda = 0.05", "+0.0782", "+0.0636", "-19%"],
+        ["prevalence, lambda = 0.05", "+0.0782", "+0.0536", "-31%"],
+        ["beneficiary-matched, lambda = 0.05", "+0.0782", "+0.0333", "-57%"],
+    ], widths=[3.0, 1.2, 1.2, 0.9], align_right=(1, 2, 3))
+    para(doc, "The pre-registered adversary barely dents the signal. Making the declared "
+              "code information-free roughly doubles the decay. Letting the attacker also "
+              "choose the beneficiary roughly triples it. On M1 the incremental value "
+              "nevertheless remains significant in 30 of 30 cells on every surface, so "
+              "rho* > 1.0 throughout: within the range modelled, no level of coaching "
+              "removes the signal entirely, even against an adversary assumed to know the "
+              "defence.")
+    callout(doc, "The attacker faces a trade-off it cannot avoid: matching the declared "
+                 "purpose requires concentrating its routing onto accounts that fit, and "
+                 "that concentration is itself visible to beneficiary intelligence.")
+    para(doc, "Under the matched adversary the baseline B1+B2+B3 arm *improves* — at "
+              "rho = 1, lambda = 0.10 it rises from 0.9065 to 0.9446 — because the "
+              "purpose-matched routing makes fraudulent beneficiaries resemble one another. "
+              "Evading the consistency check is not free. That interaction is the most "
+              "operationally interesting result in the study, and it is not something the "
+              "pre-registered adversary could have revealed.")
+
     h2(doc, "The two evidential regimes, side by side")
     table(doc, ["", "Human declaration", "Signed mandate"], [
         ["Nature of evidence", "probabilistic, possibly deceptive", "cryptographic, constraint-bounded"],
