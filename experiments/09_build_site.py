@@ -296,11 +296,11 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 <div class="jump"><div class="wrap">
   <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
   <nav>
-    <a href="#s-feel" data-j>Why it is hard</a>
-    <a href="#s-answer" data-j>Should you collect it?</a>
-    <a href="#s-catch" data-j>The surprise</a>
-    <a href="#s-break" data-j>Agent payments</a>
-    <a href="#s-top" data-j class="cta">Score a payment</a>
+    <a href="#s-feel" data-j>The problem</a>
+    <a href="#s-answer" data-j>How it works</a>
+    <a href="#s-catch" data-j>What we found</a>
+    <a href="#s-break" data-j>AI payments</a>
+    <a href="#try" data-j class="cta">Try it now</a>
   </nav>
 </div></div>
 <main id="main"></main>
@@ -1151,7 +1151,7 @@ function buildHome(root){
     el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud check correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded anywhere.']),
     el('p',{class:'lede',style:'margin-top:14px'},['Pramana scores a payment twice: once the way a bank does today, and once with that missing field added. You can see the difference on any payment you like.']),
     el('div',{class:'heroactions'},[
-      el('button',{class:'btn p big',type:'button',onclick:()=>{VIEW='tool';STEP=0;drawApp();}},['Try it now →']),
+      el('button',{id:'try',class:'btn p big',type:'button',onclick:()=>{VIEW='tool';STEP=0;drawApp();}},['Try it now →']),
       el('button',{class:'btn big',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['How it works'])]),
     el('div',{class:'trust'},[
       el('span',{},['Built on ',el('b',{},['1,535']),' trained fraud models']),
@@ -1161,8 +1161,8 @@ function buildHome(root){
   /* 01 why it is hard */
   root.append(S('s-feel',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['01']),
-    el('h2',{class:'t'},['Why a bank cannot already do this']),
-    el('p',{class:'sub'},['Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
+    el('h2',{class:'t'},['The problem']),
+    el('p',{class:'sub'},['A bank cannot already do this, and here is why. Two real accounts from our simulation — both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
     el('div',{class:'wrap'},[hookAccounts()])]));
 
 /* ================= ONE PAGE ================= */
@@ -1174,8 +1174,8 @@ function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
   /* 4 — should you collect it */
   root.append(S('s-answer',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['02']),
-    el('h2',{class:'t'},['So — should you collect it?']),
-    el('p',{class:'sub'},['That was one payment. Across 282 sets of conditions we measured whether the field is worth having at all. Set the conditions you expect and get the verdict.'])]),
+    el('h2',{class:'t'},['How it works']),
+    el('p',{class:'sub'},['We trained the same fraud model twice — once with the field, once without — and measured the gap. Then we did it again for every combination of conditions. Set the conditions you expect and see the verdict.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()]),
     el('div',{class:'wrap'},[el('div',{class:'grid g4 stats'},[
       el('div',{class:'stat'},[el('div',{class:'v'},['1,535']),el('div',{class:'l'},['models trained']),
@@ -1197,8 +1197,8 @@ function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
     el('span',{},[txt])]);
   root.append(S('s-catch',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['03']),
-    el('h2',{class:'t'},['The part we did not expect']),
-    el('p',{class:'sub'},['We assumed the cleverest scammer would simply beat the new field. Instead, it turned out they have to choose.'])]),
+    el('h2',{class:'t'},['What we found']),
+    el('p',{class:'sub'},['We expected the cleverest scammer to simply beat the new field. Instead, it turned out they have to choose.'])]),
     el('div',{class:'wrap'},[el('div',{class:'scroll'},[
       (()=>{const t=el('table',{class:'cmp'});
         t.append(el('thead',{},[el('tr',{},[
@@ -1221,17 +1221,20 @@ function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
   /* 6 — break it */
   root.append(S('s-break',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['04']),
-    el('h2',{class:'t'},['Where this is heading: try to break it']),
-    el('p',{class:'sub'},['When an AI assistant pays on your behalf, the instruction can be signed in advance — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
+    el('h2',{class:'t'},['When an AI assistant pays for you']),
+    el('p',{class:'sub'},['The instruction can be signed before anything is bought — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
 
 }
 
 /* build + wire */
 drawApp();
-document.querySelectorAll('.jump nav a[data-j], .jump nav a.cta').forEach(a=>{
+document.querySelectorAll('.jump nav a[data-j]').forEach(a=>{
   a.addEventListener('click',e=>{e.preventDefault();
-    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});});});
+    if(a.classList.contains('cta')){VIEW='tool';STEP=0;drawApp();return;}
+    if(VIEW!=='home'){VIEW='home';drawApp();}
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
 document.getElementById('brand').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 function show(){}   /* legacy no-op: nothing hides any more */
 </script>
