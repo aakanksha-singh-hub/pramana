@@ -845,8 +845,8 @@ function renderSandbox(root){
 
 /* ================= SCREEN 2 — DECISION TOOL ================= */
 const RHOS=[0,0.2,0.4,0.6,0.8,1.0], LAMS=[0,0.05,0.10,0.20,0.35];
-const RHO_WORD=['none','light','moderate','determined','heavy','total'];
-const LAM_WORD=['none','few','some','many','very many'];
+const RHO_WORD=['Uncoached','Lightly coached','Moderately coached','Well coached','Heavily coached','Fully coached'];
+const LAM_WORD=['None look alike','A few look alike','Some look alike','Many look alike','Very many look alike'];
 /* Both metric families and all three operating points from the
    pre-registration, so nothing is hidden behind a default. */
 const GOALS=[
@@ -869,14 +869,15 @@ function renderDecide(root){
   root.replaceChildren();
 
   const redraw=()=>renderDecide(root);
-  const slider=(label,key,arr,words,fmt)=>el('div',{style:'margin-bottom:20px'},[
+  const slider=(label,key,arr,words,fmt)=>el('div',{style:'margin-bottom:24px'},[
     el('div',{class:'lbl'},[label]),
     el('input',{type:'range',min:'0',max:String(arr.length-1),step:'1',value:String(DT[key]),
       style:'width:100%',oninput:e=>{DT[key]=+e.target.value;redraw();}}),
-    el('div',{style:'display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px'},[
-      el('span',{},[words[0]]),
-      el('span',{style:'color:var(--ink);font-weight:600'},[words[DT[key]]+'  ('+fmt(arr[DT[key]])+')']),
-      el('span',{},[words[words.length-1]])])]);
+    el('div',{style:'text-align:center;margin-top:6px'},[
+      el('div',{style:'font-size:15px;font-weight:600'},[words[DT[key]]]),
+      el('div',{class:'mono',style:'font-size:11.5px;color:var(--muted);margin-top:2px'},[fmt(arr[DT[key]])])]),
+    el('div',{style:'display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:2px'},[
+      el('span',{},[words[0]]),el('span',{},[words[words.length-1]])])]);
 
   const goal=GOALS.find(g=>g.id===DT.goal);
   const pt=goal.pts[Math.min(DT.pt,goal.pts.length-1)];
@@ -887,8 +888,8 @@ function renderDecide(root){
   root.append(sec([W([el('div',{class:'grid g2'},[
     el('div',{class:'card'},[
       el('h4',{},['Your operating conditions']),
-      slider('How hard do you expect scammers to coach victims?','r',RHOS,RHO_WORD,v=>'ρ='+v),
-      slider('How many legitimate accounts in your network look like mules?','l',LAMS,LAM_WORD,v=>'λ='+v),
+      slider('How hard do you expect scammers to coach victims?','r',RHOS,RHO_WORD,v=>'coaching effectiveness ρ = '+v),
+      slider('How many legitimate accounts in your network look like scam accounts?','l',LAMS,LAM_WORD,v=>'structural overlap λ = '+v),
       el('div',{class:'lbl'},['Which attacker are you planning against?']),
       el('div',{class:'seg',style:'margin-bottom:6px'},ADVW.map(a=>el('button',{type:'button',
         'aria-pressed':String(a.id===DT.adv),onclick:()=>{DT.adv=a.id;redraw();}},[a.label]))),
@@ -926,9 +927,11 @@ function renderDecide(root){
         el('div',{style:'font-size:13.5px;color:var(--ink-soft);margin-top:7px'},[
           c?(yes?'Under these conditions the purpose field earns its place.'
                 :'Under these conditions the field does not measurably help. Spend the effort elsewhere.'):'']),
-        el('div',{class:'mono',style:'font-size:12px;color:var(--muted);margin-top:9px'},[
-          'coaching ρ='+RHOS[DT.r]+' · look-alikes λ='+LAMS[DT.l]+' · '+
-          ADVW.find(a=>a.id===DT.adv).label.toLowerCase()+' · '+pt.op])]),
+        el('div',{style:'font-size:12.5px;color:var(--muted);margin-top:10px'},[
+          RHO_WORD[DT.r].toLowerCase()+' · '+LAM_WORD[DT.l].toLowerCase()+' · attacker '+
+          ADVW.find(a=>a.id===DT.adv).label.toLowerCase()+' · measured as '+pt.op]),
+        el('div',{class:'mono',style:'font-size:11px;color:var(--muted);margin-top:4px;opacity:.8'},[
+          'ρ='+RHOS[DT.r]+'  λ='+LAMS[DT.l]+'  '+pt.m])]),
       c?el('div',{style:'background:var(--surface);padding:6px 24px 18px'},
         [tbl(['',''],rows,[1])]):null])])]));
 
