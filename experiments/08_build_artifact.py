@@ -390,7 +390,31 @@ document.getElementById('stamps').append(
 
 /* ---------------- screen 1 ---------------- */
 function screenQuestion(root) {
-  root.append(el('div', { class: 'eyebrow' }, ['The problem, today, in India']));
+  const finding = (n, title, line, fig, cap) => el('div', { class: 'panel' }, [
+    el('div', { class: 'mono', style: 'font-size:10.5px;letter-spacing:.14em;color:var(--accent-ink);margin-bottom:8px' }, ['FINDING ' + n]),
+    el('div', { style: 'font-family:Spectral,Georgia,serif;font-size:16px;line-height:1.3;font-weight:600;margin-bottom:8px' }, [title]),
+    el('p', { html: line, style: 'font-size:13px;margin:0' }),
+    el('div', { style: 'margin-top:12px;padding-top:11px;border-top:1px solid var(--hairline)' }, [
+      el('div', { class: 'mono', style: 'font-size:18px' }, [fig]),
+      el('div', { style: 'font-size:11.5px;color:var(--muted);margin-top:3px' }, [cap])])]);
+
+  root.append(el('div', { class: 'eyebrow' }, ['What this study found']));
+  root.append(el('h2', {}, ['Three answers a payment team could act on']));
+  root.append(el('div', { class: 'grid g3', style: 'margin:16px 0' }, [
+    finding('01', 'Evasion is not free',
+      'To make a payment look consistent with its declared purpose, the attacker must route it to accounts that fit — concentrating traffic onto a narrower set. That concentration is what recipient monitoring already detects. <b>Match the purpose or stay dispersed, not both.</b>',
+      '0.924 → 0.957', 'baseline detection, rising as the attacker coaches harder'),
+    finding('02', 'Six purpose categories, minimum',
+      'A three-option menu (personal / commercial / other) carries <b>no measurable value</b>. At six it works. A dropdown specification, not a research direction.',
+      'K=3 nothing · K=6 works', 'improvement at three vs six categories'),
+    finding('03', 'Retain the field; don’t model it',
+      'Our purpose-conditional consistency engine beat plain one-hot encoding of the code by almost nothing. The value is in <b>capturing and keeping the field</b>. Integration cost collapses to a form field and a retained column.',
+      '+0.0008', 'all the extra modelling was worth'),
+  ]));
+  root.append(el('div', { class: 'callout good' }, [
+    el('p', { html: '<b>Finding 01 was not designed for.</b> Coaching the declared purpose and evading beneficiary intelligence are <b>coupled</b>: buying protection against one costs the attacker exposure on the other. We found no published statement of that trade-off.' })]));
+
+  root.append(el('div', { class: 'eyebrow', style: 'margin-top:34px' }, ['The problem, today, in India']));
   root.append(el('h2', {}, ['A rail can prove you authorised a transfer. It cannot prove you understood what you were paying for.']));
 
   root.append(el('div', { class: 'grid g4', style: 'margin:20px 0' }, [

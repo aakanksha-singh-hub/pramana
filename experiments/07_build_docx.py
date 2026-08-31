@@ -205,6 +205,43 @@ def cover(doc, meta):
 
 def s1_executive(doc, d):
     h1(doc, "1. Executive summary")
+
+    rich(doc, [("Three answers a payment team could act on.", True, False)], size=12)
+    para(doc, "")
+
+    rich(doc, [("1. Evasion is not free. ", True, False),
+               ("To make a payment look consistent with its declared purpose, an attacker "
+                "must route it to accounts that fit that purpose - which concentrates its "
+                "traffic onto a narrower set of accounts, and concentration is exactly what "
+                "ordinary beneficiary monitoring already detects. Under our strongest "
+                "adversary the baseline system, which never sees the declared purpose at "
+                "all, improved from 0.924 to 0.957 recall as coaching rose; the two weaker "
+                "adversaries left it unmoved at 0.924. The effect is monotone in coaching "
+                "and holds in all five structural conditions tested. The attacker can match "
+                "the declared purpose or stay dispersed, not both. We found no published "
+                "statement of this trade-off.", False, False)])
+
+    rich(doc, [("2. Six purpose categories, minimum. ", True, False),
+               ("Collapsing the menu to three options - personal, commercial, other - "
+                "carries no measurable value (+0.014, confidence interval spans zero). At "
+                "six options it works (+0.052, significant). This is a dropdown "
+                "specification, answerable to a product team, not a research direction.",
+                False, False)])
+
+    rich(doc, [("3. Retain the field; do not model it. ", True, False),
+               ("Our purpose-conditional consistency engine - the most technically involved "
+                "component here - beat plain one-hot encoding of the purpose code by "
+                "+0.0008, consistently, across all three adversaries. Almost all the value "
+                "is in capturing and retaining the field. Deployment cost collapses to a "
+                "form field and a retained column rather than a new model to own, monitor "
+                "and retrain. It is the finding we would most have preferred to come out "
+                "differently, which is why it is here rather than in a footnote.",
+                False, False)])
+
+    callout(doc, "Taken together these are a deployment decision framework with numbers "
+                 "attached, not a fraud classifier.")
+
+    h2(doc, "The question behind them")
     rich(doc, [("The question. ", True, False),
                ("Under what levels of adversarially degraded payment-context reliability "
                 "does declared payment context provide incremental fraud-detection value "
@@ -891,15 +928,39 @@ def s7_results(doc, d):
               "rho* > 1.0 throughout: within the range modelled, no level of coaching "
               "removes the signal entirely, even against an adversary assumed to know the "
               "defence.")
-    callout(doc, "The attacker faces a trade-off it cannot avoid: matching the declared "
-                 "purpose requires concentrating its routing onto accounts that fit, and "
-                 "that concentration is itself visible to beneficiary intelligence.")
-    para(doc, "Under the matched adversary the baseline B1+B2+B3 arm *improves* — at "
-              "rho = 1, lambda = 0.10 it rises from 0.9065 to 0.9446 — because the "
-              "purpose-matched routing makes fraudulent beneficiaries resemble one another. "
-              "Evading the consistency check is not free. That interaction is the most "
-              "operationally interesting result in the study, and it is not something the "
-              "pre-registered adversary could have revealed.")
+h2(doc, "Adversarial coupling: coaching the purpose creates beneficiary exposure")
+    para(doc, "This is the result the study did not set out to find, and the one most worth "
+              "carrying away.")
+    para(doc, "Under the beneficiary-matched adversary the baseline B1+B2+B3 arm - the part "
+              "of the model that never sees the declared purpose at all - gets *better* as "
+              "coaching rises. The mechanism is simple once stated: to make a payment look "
+              "consistent with the purpose the victim was coached to declare, the attacker "
+              "must route it to accounts that fit that purpose. There are not many such "
+              "accounts among mules, so traffic concentrates, and concentration is precisely "
+              "what beneficiary intelligence is built to detect.")
+    table(doc, ["Coaching level (rho)", "uniform", "prevalence", "beneficiary-matched"], [
+        ["0.0", "0.9242", "0.9242", "0.9242"],
+        ["0.4", "0.9242", "0.9242", "0.9234"],
+        ["0.6", "0.9242", "0.9242", "0.9300"],
+        ["0.8", "0.9242", "0.9242", "0.9413"],
+        ["1.0", "0.9242", "0.9242", "0.9574"],
+    ], widths=[1.9, 1.4, 1.4, 1.6], align_right=(1, 2, 3))
+    para(doc, "Baseline recall at 0.1% FPR, averaged over every lambda and seed. The two "
+              "declaration-only adversaries leave it exactly unmoved, as they must, since "
+              "neither touches the beneficiary. Only the adversary that selects matching "
+              "accounts moves it, and it moves monotonically. The effect holds in all five "
+              "lambda rows, gaining between +0.028 and +0.043 at rho = 1. That the two "
+              "control adversaries are identical at every coaching level is what licenses "
+              "attributing the movement to beneficiary routing rather than to anything else.")
+    callout(doc, "The attacker faces a trade-off it cannot escape: match the declared "
+                 "purpose, or stay dispersed. Not both. Defeating the consistency check "
+                 "buys visibility on the check it was already failing.")
+    para(doc, "We found no published statement of this trade-off. For a deploying "
+              "institution it changes the arithmetic: the declared-purpose field is not only "
+              "worth something on its own, it also constrains what an attacker can do to "
+              "evade everything else, so its value need not be counted in isolation. It is "
+              "also not something the pre-registered adversary could have revealed, which is "
+              "the argument for having added the third rung at all.")
 
     h2(doc, "The two evidential regimes, side by side")
     table(doc, ["", "Human declaration", "Signed mandate"], [

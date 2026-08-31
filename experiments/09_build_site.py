@@ -282,35 +282,56 @@ function nav(prev,next){const b=el('div',{class:'pagenav'});
 
 /* ---------- 1. home ---------- */
 function pHome(root){
+  const finding=(n,title,line,fig,figcap)=>el('div',{class:'card'},[
+    el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:11px;letter-spacing:.14em;color:var(--accent-ink);margin-bottom:9px'},['FINDING '+n]),
+    el('h4',{style:'font-size:17px;font-family:Spectral,Georgia,serif;line-height:1.3;margin-bottom:9px'},[title]),
+    el('p',{html:line}),
+    el('div',{style:'margin-top:14px;padding-top:13px;border-top:1px solid var(--hairline)'},[
+      el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:19px;font-variant-numeric:tabular-nums;color:var(--ink)'},[fig]),
+      el('div',{style:'font-size:12px;color:var(--muted);margin-top:4px'},[figcap])])]);
+
   root.append(el('div',{class:'pagehead'},[el('div',{class:'wrap narrow'},[
-    el('div',{class:'step-label'},['A study of payment fraud detection']),
-    el('h2',{class:'page',style:'max-width:20ch'},['Your bank can prove you sent the money. It cannot prove you knew who you were sending it to.']),
+    el('div',{class:'step-label'},['Scam fraud · payment context · adversarial measurement']),
+    el('h2',{class:'page',style:'max-width:19ch'},['Should a payment network ask what a payment is for?']),
     el('p',{class:'standfirst'},[
-      'That gap is where scam fraud lives. Pramana asks whether closing it — by simply asking the payer what a payment is for — actually helps, and how long it keeps helping once criminals know the question is being asked.'])])]));
+      'Banks can prove you authorised a transfer. They cannot prove you knew who you were sending it to — which is exactly the gap scam fraud lives in. We tested whether asking the payer closes it, how long it keeps working once criminals adapt, and what it would cost to deploy.'])])]));
+
+  root.append(wide([
+    el('h3',{class:'sec',style:'margin-top:8px'},['Three answers a payment team could act on']),
+    el('div',{class:'grid g3',style:'margin:18px 0 6px'},[
+      finding('01','Evasion is not free',
+        'To make a payment look consistent with its declared purpose, a scammer must route it to accounts that fit that purpose — which concentrates their traffic onto a narrower set of accounts. That concentration is exactly what ordinary recipient monitoring is built to spot. <b>The attacker can match the purpose or stay dispersed, not both.</b>',
+        '0.924 → 0.957','fraud caught by the existing system, as the attacker coaches harder'),
+      finding('02','Six categories, minimum',
+        'A purpose menu with three options — personal, commercial, other — carries <b>no measurable value at all</b>. At six options it works. This is a concrete specification for a dropdown, not a research direction.',
+        'K=3 nothing · K=6 works','improvement at three vs six purpose categories'),
+      finding('03','Retain the field; don’t model it',
+        'We built a purpose-conditional consistency engine, and it beat plain one-hot encoding of the code by almost nothing. The value is in <b>capturing and keeping the field</b>, not in what you build on top of it. Deployment cost collapses.',
+        '+0.0008','all our extra modelling was worth, over a plain label')]),
+    el('div',{class:'wrap narrow',style:'padding:0'},[
+      pull('Finding 01 is the one we did not design for. Coaching the declared purpose and evading beneficiary intelligence turn out to be <b>coupled</b>: buying protection against one costs the attacker exposure on the other. We found no published statement of that trade-off.','good')])
+  ]));
 
   root.append(body([
-    h3('What you will get from this'),
-    el('div',{class:'grid g3',style:'margin:18px 0 8px'},[
-      card('A problem you already half-know','Why scam fraud defeats every control a bank currently runs, explained without jargon — and why the fixes being proposed in India right now do not detect anything.'),
-      card('A question with a real answer','Not “can AI catch fraud”, but the narrower, more useful question a payment network actually has to answer before it spends money: <b>is this signal worth collecting?</b>'),
-      card('An honest measurement','A study written down before it was run, tested against three increasingly capable attackers, reporting where the idea works <em>and</em> where it stops working.')]),
-    p('It takes about ten minutes to read end to end. Each page assumes only what the previous one told you. No numbers appear until you have been given a reason to care about them.'),
+    h3('What this project is'),
+    p('Not another fraud classifier. A <b>deployment decision framework</b>: before a payment network spends money collecting a new signal from hundreds of millions of people, can we say when that signal stays useful under adversarial pressure — and when it stops?'),
+    p('The four questions a bank actually has to answer, and what we found:'),
+    el('div',{class:'scroll'},[table(['The decision','What the study says'],[
+      ['Is it worth collecting at all?','Yes — it improved detection in every one of 30 tested conditions, against three attackers including one that knows how the defence works.'],
+      ['How many categories does the menu need?','At least six. Three is worthless.'],
+      ['What do we have to build?','Almost nothing. Keep the code, pass it to the model you already run.'],
+      ['Where does it fail?','At structural extremes, and against a purpose-matched attacker its value roughly halves — though that same attack makes the attacker easier to catch by other means.'],
+    ])]),
 
-    h3('The short version'),
-    p('When someone is tricked into paying a scammer, they authorise the payment themselves. The password is right. The device is recognised. Nothing is stolen. So every fraud control the bank owns says yes, correctly, and the money is gone.'),
-    p('One thing the bank never learns is what the payer <em>thought</em> they were buying. If it did, it could check: does this recipient look like the sort of account people normally send rent to? Tuition? A refund? A mismatch would be a signal that nothing else in the system can see.'),
-    pull('The catch is obvious once you say it aloud: a scammer who knows about the question simply tells the victim what to answer. <b>So the useful question is not whether this works. It is how much coaching it survives.</b>'),
-    p('That is what this project measures — and, deliberately, what it reports even where the answer is unflattering.'),
-
-    h3('How the argument is built'),
+    h3('Why you can believe the numbers'),
     el('div',{class:'grid g2'},[
-      card('It was written down first','The research question, the features, the success measures and the condition under which we would declare the idea a failure were all committed before a single line of the simulator existed. That commit has never been edited.'),
-      card('The idea competes against a strong opponent','The comparison is not against a weak strawman. Transaction, behavioural and beneficiary intelligence together form the baseline, and that baseline received the entire model-tuning effort. The new idea got none.'),
-      card('It is attacked three ways','A basic scammer, one whose coaching leaves no statistical trace at all, and one that knows exactly how the defence works and picks its accounts to defeat it.'),
-      card('The failures are shown too','Including individual payments where the idea made the decision worse, and an attack class the system provably cannot catch.')]),
-    el('p',{class:'aside'},['Everything on this site is read from results committed to the project repository. Nothing is computed when you load the page.'])
+      card('The answer was written down first','The question, the features, both success measures, and <b>the condition under which we would call the idea a failure</b> were committed before the simulator existed. That commit has never been edited.'),
+      card('The incumbent got every advantage','Transaction, behavioural and beneficiary intelligence form the baseline, and the baseline received the entire model-tuning budget. The new idea got none of it — so every effect reported is a floor, not a best case.'),
+      card('It was attacked until it bent','Three attackers of increasing capability, ending with one that knows the defence and picks its accounts to defeat it. The signal survived at roughly half strength.'),
+      card('The failures are shown','Two pre-registered measures disagreed and both are reported. Individual payments the idea got wrong are on by default. An attack class the system provably cannot catch is named.')]),
+    el('p',{class:'aside'},['Ten minutes end to end. Every figure is read from results committed to the repository; nothing is computed when you load this page.'])
   ]));
-  root.append(nav(null,{id:'p-problem',label:'Start: the problem'}));
+  root.append(nav(null,{id:'p-problem',label:'Start with the problem'}));
 }
 
 /* ---------- 2. problem ---------- */
@@ -496,6 +517,20 @@ function pFindings(root){
        ['Knows the defence, picks matching accounts','+0.078','+0.033','−57%']],[1,2,3])]),
     p('Those figures are the improvement in fraud caught, at a fixed false-alarm budget. A competent attacker roughly halves the value of the signal. It does not eliminate it.'),
     pull('The honest reading: <b>declared payment context degrades under pressure but does not collapse.</b> Anyone deploying it should expect roughly half its measured value once attackers adapt — and should plan for that, rather than being surprised by it.'),
+
+    h3('Adversarial coupling: coaching the purpose creates beneficiary exposure'),
+    p('This is the result we did not design for, and the one most worth taking away.'),
+    p('When the strongest attacker went to work, the <b>baseline system got better</b> — the part of the model that never sees the declared purpose at all. That looks backwards until you see the mechanism.'),
+    p('To make a payment look consistent with the purpose the victim was coached to declare, the scammer has to send it to accounts that fit that purpose. There are not many such accounts. So traffic concentrates — and concentration is precisely what ordinary recipient monitoring is built to detect.'),
+    el('div',{class:'scroll'},[table(
+      ['How hard the victim was coached','Basic scammer','Careful scammer','Knows the defence'],
+      [['none','0.9242','0.9242','0.9242'],
+       ['moderate','0.9242','0.9242','0.9300'],
+       ['heavy','0.9242','0.9242','0.9413'],
+       ['total','0.9242','0.9242','0.9574']],[1,2,3])]),
+    p('Fraud caught by the <em>baseline</em> system, which never sees the declared purpose. The first two attackers leave it completely unmoved — as they must, since neither touches the recipient. Only the attacker that picks matching accounts moves it, and it moves monotonically. The effect holds in <b>all five</b> structural conditions tested, gaining between +0.028 and +0.043.'),
+    pull('The attacker faces a trade-off it cannot escape: <b>match the declared purpose, or stay dispersed. Not both.</b> Defeating the consistency check buys visibility on the check it was already failing. We found no published statement of this trade-off.','good'),
+    p('For a deploying institution this changes the calculation. The declared-purpose field is not only worth something on its own — it also constrains what the attacker can do to evade everything else. Its value does not have to be counted in isolation.'),
   ]));
 
   /* interactive surface */
@@ -526,14 +561,22 @@ function pFindings(root){
   ]));
 
   root.append(body([
-    h3('Two things nobody designed for'),
-    h4('Being harder to detect has a price for the attacker'),
-    p('Under the strongest attacker, the <em>baseline</em> system got better — from 0.894 to 0.945. That looks backwards until you see why.'),
-    p('To make a payment look consistent with its declared purpose, the scammer has to route it to accounts that fit that purpose. That means concentrating traffic onto a narrower set of accounts. And concentration is exactly what ordinary recipient monitoring is good at spotting.'),
-    pull('The attacker faces a trade-off it cannot escape: <b>match the declared purpose, or stay spread out. Not both.</b> Evading the consistency check makes you more visible to the check you were already failing.','good'),
-    h4('A simple menu beats no menu, but a tiny menu is worthless'),
-    p('Collapsing the purpose list from eleven options to three — personal, commercial, other — <b>destroyed the signal entirely</b>. At six options it worked. This is a direct, practical answer to a design question a bank would otherwise guess at.'),
-    p('And the signal was worth most where recipient intelligence was <em>weakest</em>, varying roughly fifteenfold across the range tested. It is a tool for institutions that cannot see the receiving side well — not for those that already can.'),
+    h3('Six categories, minimum — a specification, not a direction'),
+    p('Collapsing the purpose menu from eleven options to three — personal, commercial, other — <b>destroyed the signal entirely</b>. At six options it worked.'),
+    el('div',{class:'scroll'},[table(['Menu size','Improvement','Reliable?'],[
+      ['3 options','+0.014',el('span',{class:'tag no'},['no'])],
+      ['6 options','+0.052',el('span',{class:'tag ok'},['yes'])],
+      ['11 options','+0.063',el('span',{class:'tag ok'},['yes'])]],[1])]),
+    p('This is a design decision a product team would otherwise guess at, answered with a number. A coarse menu is cheaper to build and easier for a payer to answer correctly — and below roughly six categories it is also worthless.'),
+
+    h3('Retain the field; don’t model it'),
+    p('We built a purpose-conditional consistency engine: it learns what recipients normally look like for each purpose and scores how far this one deviates. It is the most technically involved part of the project.'),
+    p('It beat plain one-hot encoding of the purpose code by <b>+0.0008</b>, consistently, across all three attackers.'),
+    pull('Almost all the value is in <b>capturing and retaining the field</b>, not in what is built on top of it. For a deployment that is good news: the integration work is a form field and a retained column, not a new model to own, monitor and retrain.','good'),
+    p('It is also the finding we would most have preferred to come out differently, which is why it is reported here rather than in a footnote.'),
+
+    h3('And it matters most where you can see least'),
+    p('The signal was worth most where recipient intelligence was <em>weakest</em>, varying roughly fifteenfold across the range tested. It is a tool for institutions that cannot see the receiving side of a payment well — smaller banks, cross-border corridors, new rails — rather than for those that already can.'),
     el('p',{class:'aside'},['282 tested conditions, three repeats each, with confidence intervals computed by resampling payers rather than payments — because one person’s transactions are not independent of each other.'])
   ]));
   root.append(nav({id:'p-method',label:'How we tested'},{id:'p-demo',label:'Next: see it work'}));
