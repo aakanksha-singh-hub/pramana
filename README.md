@@ -7,6 +7,17 @@ it matched what the payer believed they were paying for. Pramana measures when
 adding that context is worth it, and how much adversarial pressure it
 survives.
 
+## See it
+
+| | |
+| --- | --- |
+| **Demo video** | https://youtu.be/6-nngDKM83c |
+| **Live tool** | https://pramana-project.netlify.app |
+
+Answer seven questions about a payment and two genuinely trained models score
+it: the baseline a bank runs today, and the same model given the declared
+context. The tool then explains which of your answers moved the decision.
+
 ## Research question (frozen before any code was written)
 
 > Under what levels of adversarially degraded payment-context reliability does
@@ -17,7 +28,7 @@ survives.
 commit**, written before the simulator existed and never edited since. Verify:
 
 ```
-git log --reverse --stat | head -20
+git log --oneline -- PREREGISTRATION.md    # returns exactly one commit
 ```
 
 ## What this is not claiming
