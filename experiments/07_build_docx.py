@@ -829,10 +829,15 @@ def s7_results(doc, d):
            "Figure 3. The same surface under the prevalence-matched adversary, whose "
            "declared code carries no marginal information at ρ = 1. Secondary analysis; the "
            "pre-registered axis is Figure 2.")
+    figure(doc, "phase_matched.png",
+           "Figure 4. The same surface under the beneficiary-matched adversary, which "
+           "knows the defence, sends an information-free declared code, and routes to "
+           "a mule chosen to fit it. Secondary analysis; the pre-registered axis is "
+           "Figure 2.")
     figure(doc, "rho_star.png",
-           "Figure 4. ρ* by λ, bracketed by the sweep grid rather than interpolated.")
+           "Figure 5. ρ* by λ, bracketed by the sweep grid rather than interpolated.")
     figure(doc, "secondary_sweeps.png",
-           "Figure 5. Purpose cardinality K and beneficiary-feature noise β at ρ = 0.4, "
+           "Figure 6. Purpose cardinality K and beneficiary-feature noise β at ρ = 0.4, "
            "λ = 0.10.")
 
     if d["agentic"]:
