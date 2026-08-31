@@ -1137,4 +1137,8 @@ if __name__ == "__main__":
     OUT.parent.mkdir(parents=True, exist_ok=True)
     html = build()
     OUT.write_text(html)
-    print(f"written -> {OUT}  ({len(html)/1024:.0f} KB)")
+    # GitHub Pages serves from /docs on main, so keep it in step automatically
+    pages = Path("docs/index.html")
+    pages.parent.mkdir(parents=True, exist_ok=True)
+    pages.write_text(html)
+    print(f"written -> {OUT} and {pages}  ({len(html)/1024:.0f} KB)")
