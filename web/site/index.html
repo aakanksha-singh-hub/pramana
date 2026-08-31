@@ -727,8 +727,8 @@ function renderDecide(root){
     rows.push(['Effect on '+pt.op,(c.delta>=0?'+':'')+c.delta.toFixed(4)]);
     rows.push(['95% confidence interval',
       (c.ci_lo_min>=0?'+':'')+c.ci_lo_min.toFixed(4)+'  to  '+(c.ci_hi_max>=0?'+':'')+c.ci_hi_max.toFixed(4)]);
-    rows.push(['Holds across repeat runs',c.significant?'yes, all '+c.n_seeds:'no — interval includes zero']);
-    rows.push(['Minimum menu size','6 purpose categories · 3 is not enough']);
+    rows.push(['Holds across repeat runs',c.significant?'positive in all '+c.n_seeds+' independent repeats':'no — interval includes zero']);
+    rows.push(['Smallest menu we tested that worked','6 categories · 3 carried no measurable value']);
     rows.push(['What you have to build','retain the field, pass it to the model you already run']);
     rows.push(['What you do not have to build','a hand-built consistency model — ours added +0.0007 over the plain field']);
   }
@@ -932,8 +932,8 @@ function renderLanding(root){
   root.append(el('section',{class:'blk land'},[el('div',{class:'wrap'},[
     el('div',{class:'kicker'},['Pramana · a valid means of proof']),
     el('h1',{class:'hero'},['What if every payment said what it was for?']),
-    el('p',{class:'lede'},['When someone is tricked into paying a scammer, they approve the payment themselves. So every check the bank runs says yes — correctly. Nobody records the one thing that would give it away: what the payer thought they were paying for.']),
-    el('p',{class:'lede',style:'margin-top:14px'},['Pramana adds that one field to a real fraud model, and shows you what changes.']),
+    el('p',{class:'lede'},['When someone is tricked into paying a scammer, they approve the payment themselves. So every check the bank runs says yes — correctly. The missing context is simple: what the payer thought they were paying for.']),
+    el('p',{class:'lede',style:'margin-top:14px'},['Pramana adds that context to the same fraud model — the one a bank already runs — and shows you what changes.']),
     el('div',{class:'heroactions'},[
       el('button',{class:'btn p big',type:'button',onclick:()=>{STEP=0;go('tool');}},['Try it now →']),
       el('button',{class:'btn big',type:'button',onclick:()=>go('how')},['How it works'])]),
@@ -984,7 +984,7 @@ function renderFound(root){
   root.append(S('s-catch',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['03']),
     el('h2',{class:'t'},['What we found']),
-    el('p',{class:'sub'},['We expected the cleverest scammer to simply beat the new field. Instead, it turned out they have to choose.'])]),
+    el('p',{class:'sub'},['We expected the cleverest scammer to simply beat the new context. In our simulation it turned out they have to choose.'])]),
     el('div',{class:'wrap'},[el('div',{class:'scroll'},[
       (()=>{const t=el('table',{class:'cmp'});
         t.append(el('thead',{},[el('tr',{},[
@@ -999,10 +999,10 @@ function renderFound(root){
             el('td',{},[yn(true,'Yes — the money is spread thin')]),
             el('td',{},[yn(false,'No — it all piles into a handful')])]),
           el('tr',{class:'verdict'},[el('td',{},['So what happens?']),
-            el('td',{},[el('b',{style:'color:var(--neg)'},['The purpose check catches them'])]),
+            el('td',{},[el('b',{style:'color:var(--neg)'},['The purpose–account check catches them'])]),
             el('td',{},[el('b',{style:'color:var(--neg)'},['The account check catches them'])])])]));
         return t;})()])]),
-    el('div',{class:'wrap'},[take('why this matters','They can look consistent <b>or</b> stay spread out — not both. So this field is worth more than the fraud it catches by itself: it also forces the scammer into a shape your existing checks can already see.','good')])]));
+    el('div',{class:'wrap'},[take('why this matters','In our simulated attack they can look consistent <b>or</b> stay spread out — not both. The declared context either catches the mismatch, or pushes the attack into a pattern the account checks already see. We found no published statement of this trade-off.','good')])]));
 
   /* the cases it gets wrong */
   if(D.inspector){

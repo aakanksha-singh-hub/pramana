@@ -101,6 +101,26 @@ for literal, label in [("8 of 10 attack types", "attack coverage"),
                        ("91.9%", "loss reduction")]:
     check(f"{label} is NOT hardcoded in the copy", False, on_site(literal))
 
+# ---- 9. qualifications that must never quietly disappear ---------------
+# Each of these replaced an over-claim. A silent regression would put an
+# absolute or an unscoped result back in front of a judge.
+for phrase, why in [
+    ("The missing context is simple", "hero does not claim nobody records purpose"),
+    ("the same fraud model", "does not claim a real production model"),
+    ("Smallest menu we tested that worked", "menu size is not a universal threshold"),
+    ("positive in all", "repeats stated as independent"),
+    ("In our simulated attack", "coupling scoped to the simulation"),
+    ("purpose–account check", "signal named as purpose x account, not purpose alone"),
+    ("simulated legitimate in-scope purchases", "false-alarm figure marked simulated"),
+]:
+    check(f"qualification kept: {why}", True, on_site(phrase))
+for phrase, why in [
+    ("Nobody records", "hero absolute"),
+    ("Minimum menu size", "universal menu threshold"),
+    ("a real fraud model", "production-model claim"),
+]:
+    check(f"over-claim stays removed: {why}", False, on_site(phrase))
+
 # ---- report --------------------------------------------------------------
 print(f"{len(ok)} checks passed, {len(bad)} failed\n")
 for c, shown, actual in bad:
