@@ -205,6 +205,15 @@ td.r,th.r{text-align:right}
 .btn.p:hover{opacity:.9;color:var(--ground)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .note{font-size:13px;color:var(--muted);max-width:62ch;margin-top:18px}
+
+.find.click{cursor:pointer;transition:border-color .12s,transform .12s}
+.find.click:hover{border-color:var(--accent)}
+.find.click:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.find .more{font-size:12.5px;color:var(--accent-ink);margin-top:12px;font-weight:500}
+.foot{border-top:1px solid var(--line);background:var(--surface);margin-top:20px}
+.foot .wrap{padding:20px 32px;font-size:12.5px;color:var(--muted);max-width:1140px;line-height:1.55}
+input[type=range]{accent-color:var(--accent);height:22px}
+input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 </style>
@@ -216,6 +225,8 @@ td.r,th.r{text-align:right}
 </div></div>
 <main>
   <section id="p-home"></section>
+  <section id="p-decide" hidden></section>
+  <section id="p-sandbox" hidden></section>
   <section id="p-problem" hidden></section>
   <section id="p-idea" hidden></section>
   <section id="p-method" hidden></section>
@@ -223,6 +234,12 @@ td.r,th.r{text-align:right}
   <section id="p-demo" hidden></section>
   <section id="p-limits" hidden></section>
 </main>
+<footer class="foot"><div class="wrap">
+  <b>Synthetic data only.</b> No production, cardholder or personal data was used, and no live
+  system was tested. Absolute detection rates are not comparable to deployed systems; every
+  figure is a comparison between arms measured under the same conditions, and each carries the
+  operating point it was measured at.
+</div></footer>
 <script>
 const D = __PRAMANA_DATA__;
 
@@ -259,9 +276,12 @@ function nav(prev,next){const b=el('div',{class:'nav'});
 
 /* ---------- 1 home ---------- */
 function pHome(root){
-  const find=(n,t,x,num,cap)=>el('div',{class:'find'},[
+  const find=(n,t,x,num,cap,go)=>el('div',{class:'find click',role:'button',tabindex:'0',
+      onclick:()=>show(go||'p-findings'),
+      onkeydown:e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(go||'p-findings');}}},[
     el('div',{class:'n'},['FINDING '+n]),el('h4',{},[t]),el('p',{html:x}),
-    el('div',{class:'num'},[num]),el('div',{class:'cap'},[cap])]);
+    el('div',{class:'num'},[num]),el('div',{class:'cap'},[cap]),
+    el('div',{class:'more'},['see the evidence →'])]);
   root.append(el('div',{class:'pg'},[el('div',{class:'wrap'},[
     el('div',{class:'kicker'},['Scam fraud · payment context · adversarial measurement']),
     el('h2',{class:'t',style:'max-width:20ch'},['Should a payment network ask what a payment is for?']),
@@ -288,7 +308,7 @@ function pHome(root){
       ['How many menu options?','At least six. Three is worthless.'],
       ['What must we build?','Almost nothing. Keep the code; pass it to the model you already run.'],
       ['Where does it fail?','At structural extremes, and its value roughly halves against a purpose-matched attacker.']])])]));
-  root.append(nav(null,{id:'p-problem',label:'Start with the problem'}));
+  root.append(nav(null,{id:'p-decide',label:'Try the decision tool'}));
 }
 
 /* ---------- 2 problem ---------- */
@@ -308,7 +328,7 @@ function pProblem(root){
       card('Trusted person','Adds a second human.'),
       card('Credit cap','Limits the damage.')])]),
     W([take('takeaway','Every proposed control is <b>friction</b>. Not one improves the ability to tell, at the moment of payment, that this transfer is not what the payer believes it is. That gap is what this project measures.','warn')])]));
-  root.append(nav({id:'p-home',label:'Home'},{id:'p-idea',label:'The idea'}));
+  root.append(nav({id:'p-sandbox',label:'Mandate check'},{id:'p-idea',label:'The idea'}));
 }
 
 /* ---------- 3 idea ---------- */
@@ -692,17 +712,221 @@ function pLimits(root){
   root.append(nav({id:'p-demo',label:'See it work'},{id:'p-home',label:'Back to the start'}));
 }
 
+
+/* ================= SCREEN 1 — MANDATE SANDBOX ================= */
+const MCCS=[['5941','sporting goods'],['5940','bicycle shops'],['5691','luxury apparel'],
+            ['5944','jewellery'],['5812','restaurants']];
+const SHOPS=['merch:runfast','merch:sportsdepot','merch:paceworks','merch:luxebags','merch:goldsmith'];
+let SB={cap:5000,cum:12000,mccs:['5941','5940'],shops:['merch:runfast','merch:sportsdepot','merch:paceworks'],
+        days:7,amount:40000,mcc:'5691',shop:'merch:luxebags',elapsed:0,spent:0,
+        forge:false,tamper:false,revoked:false,replay:false};
+
+function sbVerify(){
+  const s=SB,out=[];
+  out.push(['C1','amount within the cap',s.amount<=s.cap,
+    s.amount<=s.cap?'':'₹'+s.amount.toLocaleString('en-IN')+' exceeds the ₹'+s.cap.toLocaleString('en-IN')+' cap']);
+  out.push(['C2','category allowed',s.mccs.includes(s.mcc),
+    s.mccs.includes(s.mcc)?'':'MCC '+s.mcc+' is outside {'+s.mccs.join(', ')+'}']);
+  out.push(['C3','merchant allowed',s.shops.includes(s.shop),
+    s.shops.includes(s.shop)?'':s.shop+' is not in the allowed list']);
+  out.push(['C4','inside the validity window',s.elapsed<=s.days,
+    s.elapsed<=s.days?'':'day '+s.elapsed+' is past the '+s.days+'-day window']);
+  out.push(['C5','mandate not replayed',!s.replay,s.replay?'this mandate presentation was already used':'']);
+  out.push(['C6','cumulative cap',(s.spent+s.amount)<=s.cum,
+    (s.spent+s.amount)<=s.cum?'':'₹'+(s.spent+s.amount).toLocaleString('en-IN')+' total exceeds the ₹'+s.cum.toLocaleString('en-IN')+' cap']);
+  out.push(['C7','agent attestation valid',!s.forge,s.forge?'signature does not match the delegated agent key':'']);
+  out.push(['C8','matches what the user approved',!s.tamper,s.tamper?'line items changed after the user confirmed':'']);
+  out.push(['C9','permission not withdrawn',!s.revoked,s.revoked?'mandate was revoked before this attempt':'']);
+  out.push(['C10','mandate signature valid',true,'']);
+  return out;}
+
+function pSandbox(root){
+  root.replaceChildren();
+  root.append(head('Try it','Set the rules. Then try to break them.',
+    'Every check below is arithmetic on the signed instruction — no model, no threshold, no training data. Change anything and the answer changes instantly.'));
+
+  const redraw=()=>pSandbox(root);
+  const numIn=(label,key,min,max,step,fmt)=>el('div',{style:'margin-bottom:14px'},[
+    el('div',{class:'lbl'},[label]),
+    el('div',{style:'display:flex;align-items:center;gap:12px'},[
+      el('input',{type:'range',min,max,step,value:String(SB[key]),style:'flex:1',
+        oninput:e=>{SB[key]=+e.target.value;redraw();}}),
+      el('span',{class:'mono',style:'font-size:13px;min-width:82px;text-align:right'},[fmt(SB[key])])])]);
+  const chips=(label,key,opts,fmtOpt)=>el('div',{style:'margin-bottom:14px'},[
+    el('div',{class:'lbl'},[label]),
+    el('div',{class:'seg'},opts.map(o=>{
+      const val=Array.isArray(o)?o[0]:o, txt=fmtOpt?fmtOpt(o):val;
+      const on=Array.isArray(SB[key])?SB[key].includes(val):SB[key]===val;
+      return el('button',{type:'button','aria-pressed':String(on),onclick:()=>{
+        if(Array.isArray(SB[key])){const i=SB[key].indexOf(val);
+          if(i>=0){if(SB[key].length>1)SB[key].splice(i,1);}else SB[key].push(val);}
+        else SB[key]=val; redraw();}},[txt]);}))]);
+  const toggle=(label,key,desc)=>el('label',{style:'display:flex;gap:10px;align-items:flex-start;font-size:13.5px;cursor:pointer;margin-bottom:9px'},[
+    el('input',{type:'checkbox',checked:SB[key],onchange:e=>{SB[key]=e.target.checked;redraw();},style:'margin-top:3px'}),
+    el('span',{},[el('b',{},[label]),el('span',{style:'color:var(--muted)'},[' — '+desc])])]);
+
+  const preset=(label,fn,kind='')=>el('button',{class:'btn'+(kind?' '+kind:''),type:'button',
+    onclick:()=>{fn();redraw();}},[label]);
+
+  const res=sbVerify(), blocked=res.some(r=>!r[2]);
+
+  root.append(sec([W([el('div',{class:'grid g2'},[
+    /* left: the mandate */
+    el('div',{class:'card'},[
+      el('h4',{},['1 · What the user authorises']),
+      numIn('Spend limit per purchase','cap',500,50000,500,v=>'₹'+v.toLocaleString('en-IN')),
+      numIn('Total across all purchases','cum',1000,100000,1000,v=>'₹'+v.toLocaleString('en-IN')),
+      numIn('Valid for','days',1,30,1,v=>v+' days'),
+      chips('Allowed categories (tap to toggle)','mccs',MCCS,o=>o[1]),
+      chips('Allowed shops','shops',SHOPS,o=>o.replace('merch:',''))]),
+    /* right: the attempt */
+    el('div',{class:'card'},[
+      el('h4',{},['2 · What the assistant tries to buy']),
+      numIn('Amount','amount',100,60000,100,v=>'₹'+v.toLocaleString('en-IN')),
+      numIn('Days since the mandate was signed','elapsed',0,30,1,v=>'day '+v),
+      numIn('Already spent under this mandate','spent',0,60000,1000,v=>'₹'+v.toLocaleString('en-IN')),
+      chips('Category','mcc',MCCS,o=>o[1]),
+      chips('Shop','shop',SHOPS,o=>o.replace('merch:','')),
+      el('div',{class:'lbl',style:'margin-top:16px'},['Tamper with the request']),
+      toggle('Forge the agent signature','forge','sign with a key the directory does not know'),
+      toggle('Swap the items after approval','tamper','change the cart once the user has confirmed'),
+      toggle('Use a withdrawn permission','revoked','present a mandate the user already revoked'),
+      toggle('Replay an earlier request','replay','resend a presentation that was already settled')])])])]));
+
+  /* verdict */
+  root.append(sec([W([
+    el('div',{style:'border:1.5px solid '+(blocked?'var(--neg)':'var(--pos)')+
+      ';border-radius:6px;overflow:hidden'},[
+      el('div',{style:'padding:16px 22px;background:'+(blocked?'var(--neg-soft)':'var(--pos-soft)')+
+        ';display:flex;align-items:baseline;gap:16px;flex-wrap:wrap'},[
+        el('div',{class:'mono',style:'font-size:20px;font-weight:600;color:'+(blocked?'var(--neg)':'var(--pos)')},
+          [blocked?'BLOCKED':'ALLOWED']),
+        el('div',{style:'font-size:13.5px;color:var(--ink-soft)'},[
+          blocked?(res.filter(r=>!r[2]).length+' of 10 checks failed'):'all 10 checks passed'])]),
+      el('div',{style:'padding:18px 22px;background:var(--surface)'},
+        res.map(r=>el('div',{style:'display:flex;gap:12px;align-items:baseline;padding:5px 0;font-size:13.5px'},[
+          el('span',{class:'mono',style:'width:34px;color:'+(r[2]?'var(--pos)':'var(--neg)')+';font-weight:600'},
+            [r[2]?'✓':'✗']),
+          el('span',{class:'mono',style:'width:34px;color:var(--muted);font-size:12px'},[r[0]]),
+          el('span',{style:'min-width:210px;'+(r[2]?'':'color:var(--neg);font-weight:500')},[r[1]]),
+          el('span',{style:'color:var(--neg);font-size:12.5px'},[r[3]||''])])))])])]));
+
+  /* presets */
+  root.append(sec([W([el('div',{class:'lbl'},['Or load a scenario']),
+    el('div',{style:'display:flex;gap:10px;flex-wrap:wrap'},[
+      preset('Ordinary purchase',()=>Object.assign(SB,{amount:4200,mcc:'5941',shop:'merch:runfast',
+        elapsed:1,spent:0,forge:false,tamper:false,revoked:false,replay:false})),
+      preset('Amount escalation',()=>Object.assign(SB,{amount:40000,mcc:'5691',shop:'merch:luxebags',
+        elapsed:1,spent:0,forge:false,tamper:false,revoked:false,replay:false})),
+      preset('Drain by many small buys',()=>Object.assign(SB,{amount:4000,mcc:'5941',shop:'merch:runfast',
+        elapsed:2,spent:11000,forge:false,tamper:false,revoked:false,replay:false})),
+      preset('Swap items after approval',()=>Object.assign(SB,{amount:4200,mcc:'5941',shop:'merch:runfast',
+        elapsed:1,spent:0,forge:false,tamper:true,revoked:false,replay:false})),
+      preset('Try an attack we cannot catch',()=>Object.assign(SB,{amount:4999,mcc:'5941',
+        shop:'merch:runfast',elapsed:2,spent:0,forge:false,tamper:false,revoked:false,replay:false}),'p')])])]));
+
+  if(!blocked&&SB.amount===4999){
+    root.append(W([take('the honest half','Every check passed — and this is a purchase the user never wanted. A compromised or prompt-injected assistant that <b>stays inside the rules</b> is invisible to this kind of check. Enforcement <b>bounds the loss</b>; it does not detect intent. Measured reduction: <b>91.9%</b> of expected loss, not detection.','bad')]));
+  } else {
+    root.append(W([take('what this is','Deterministic. The same inputs always give the same answer, and across 20,000 legitimate in-scope purchases it wrongly blocked <b>zero</b>. Eight of ten modelled attack families are caught this way; the two that are not are shown by the last preset.')]));
+  }
+  root.append(nav({id:'p-decide',label:'Decision tool'},{id:'p-problem',label:'Why any of this matters'}));
+}
+
+/* ================= SCREEN 2 — DECISION TOOL ================= */
+const RHOS=[0,0.2,0.4,0.6,0.8,1.0], LAMS=[0,0.05,0.10,0.20,0.35];
+const RHO_WORD=['none','light','moderate','determined','heavy','total'];
+const LAM_WORD=['none','few','some','many','very many'];
+const GOALS=[{id:'recall@fpr=0.001',label:'Catch more fraud',
+              sub:'at a fixed alert budget',op:'recall @ 0.1% FPR'},
+             {id:'fpr@recall=0.7',label:'Cut false alarms',
+              sub:'at a fixed catch rate',op:'false-alarm rate @ 70% recall'}];
+const ADVW=[{id:'uniform',label:'Coaches the victim',sub:'tells them what to type'},
+            {id:'prevalence',label:'Coaches carefully',sub:'the words leak no statistics'},
+            {id:'matched',label:'Knows your defence',sub:'also picks a matching account'}];
+let DT={r:2,l:2,adv:'matched',goal:'recall@fpr=0.001'};
+
+function pDecide(root){
+  root.replaceChildren();
+  root.append(head('The tool','Should you collect the purpose field?',
+    'Set the conditions you expect to operate in. Every answer below is a lookup into 282 pre-computed experiments — nothing is being estimated on the fly.'));
+
+  const redraw=()=>pDecide(root);
+  const slider=(label,key,arr,words,fmt)=>el('div',{style:'margin-bottom:20px'},[
+    el('div',{class:'lbl'},[label]),
+    el('input',{type:'range',min:'0',max:String(arr.length-1),step:'1',value:String(DT[key]),
+      style:'width:100%',oninput:e=>{DT[key]=+e.target.value;redraw();}}),
+    el('div',{style:'display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px'},[
+      el('span',{},[words[0]]),
+      el('span',{style:'color:var(--ink);font-weight:600'},[words[DT[key]]+'  ('+fmt(arr[DT[key]])+')']),
+      el('span',{},[words[words.length-1]])])]);
+
+  const cells=(D.phase&&D.phase.metrics[DT.adv+'|'+DT.goal])||[];
+  const c=cells.find(x=>x.rho===RHOS[DT.r]&&x.lam===LAMS[DT.l]);
+  const goal=GOALS.find(g=>g.id===DT.goal);
+  const yes=!!(c&&c.significant);
+
+  root.append(sec([W([el('div',{class:'grid g2'},[
+    el('div',{class:'card'},[
+      el('h4',{},['Your operating conditions']),
+      slider('How hard do you expect scammers to coach victims?','r',RHOS,RHO_WORD,v=>'ρ='+v),
+      slider('How many legitimate accounts in your network look like mules?','l',LAMS,LAM_WORD,v=>'λ='+v),
+      el('div',{class:'lbl'},['Which attacker are you planning against?']),
+      el('div',{class:'seg',style:'margin-bottom:6px'},ADVW.map(a=>el('button',{type:'button',
+        'aria-pressed':String(a.id===DT.adv),onclick:()=>{DT.adv=a.id;redraw();}},[a.label]))),
+      el('div',{style:'font-size:12px;color:var(--muted)'},[ADVW.find(a=>a.id===DT.adv).sub])]),
+    el('div',{class:'card'},[
+      el('h4',{},['What are you optimising?']),
+      el('div',{class:'seg',style:'margin:8px 0 6px'},GOALS.map(g=>el('button',{type:'button',
+        'aria-pressed':String(g.id===DT.goal),onclick:()=>{DT.goal=g.id;redraw();}},[g.label]))),
+      el('div',{style:'font-size:12px;color:var(--muted);margin-bottom:18px'},[goal.sub+' · measured as '+goal.op]),
+      el('p',{style:'font-size:13.5px;color:var(--ink-soft);margin:0'},[
+        'These two goals do not give the same answer, and that disagreement is one of the study’s findings. Both were fixed in advance so neither could be chosen after the results were in.'])])])])]));
+
+  /* verdict */
+  const vcol=yes?'var(--pos)':'var(--neg)', vbg=yes?'var(--pos-soft)':'var(--neg-soft)';
+  const rows=[];
+  if(c){
+    rows.push(['Effect on '+goal.op,(c.delta>=0?'+':'')+c.delta.toFixed(4)]);
+    rows.push(['95% confidence interval',
+      (c.ci_lo_min>=0?'+':'')+c.ci_lo_min.toFixed(4)+'  to  '+(c.ci_hi_max>=0?'+':'')+c.ci_hi_max.toFixed(4)]);
+    rows.push(['Holds across repeat runs',c.significant?'yes, all '+c.n_seeds:'no — interval includes zero']);
+    rows.push(['Minimum menu size','6 purpose categories · 3 is not enough']);
+    rows.push(['What you have to build','retain the field, pass it to the model you already run']);
+    rows.push(['What you do not have to build','a consistency engine — ours added +0.0008 over a plain label']);
+  }
+  root.append(sec([W([
+    el('div',{style:'border:1.5px solid '+vcol+';border-radius:6px;overflow:hidden'},[
+      el('div',{style:'padding:20px 24px;background:'+vbg},[
+        el('div',{class:'mono',style:'font-size:24px;font-weight:600;color:'+vcol+';letter-spacing:-.01em'},
+          [c?(yes?'COLLECT IT':'DO NOT BOTHER'):'no data for this cell']),
+        el('div',{style:'font-size:13.5px;color:var(--ink-soft);margin-top:7px'},[
+          c?(yes?'Under these conditions the purpose field earns its place.'
+                :'Under these conditions the field does not measurably help. Spend the effort elsewhere.'):'']),
+        el('div',{class:'mono',style:'font-size:12px;color:var(--muted);margin-top:9px'},[
+          'coaching ρ='+RHOS[DT.r]+' · look-alikes λ='+LAMS[DT.l]+' · '+
+          ADVW.find(a=>a.id===DT.adv).label.toLowerCase()+' · '+goal.op])]),
+      c?el('div',{style:'background:var(--surface);padding:6px 24px 18px'},
+        [tbl(['',''],rows,[1])]):null])])]));
+
+  root.append(W([take('a tool that says no','Move the sliders to the extremes, or switch the goal to <b>cut false alarms</b>, and the verdict flips. That is the point: the answer is conditional, and a network that deploys this everywhere is wasting money in the regions where it does not pay.','warn')]));
+  root.append(nav({id:'p-home',label:'Home'},{id:'p-sandbox',label:'Try the mandate check'}));
+}
+
 /* ---------- router ---------- */
-const PAGES=[{id:'p-home',label:'Home',render:pHome},{id:'p-problem',label:'The problem',render:pProblem},
+const PAGES=[{id:'p-home',label:'Home',render:pHome},
+  {id:'p-decide',label:'Decision tool',render:pDecide},
+  {id:'p-sandbox',label:'Mandate check',render:pSandbox},
+  {id:'p-problem',label:'The problem',render:pProblem},
   {id:'p-idea',label:'The idea',render:pIdea},{id:'p-method',label:'How we tested',render:pMethod},
-  {id:'p-findings',label:'What we found',render:pFindings},{id:'p-demo',label:'See it work',render:pDemo},
-  {id:'p-limits',label:'Honest limits',render:pLimits}];
+  {id:'p-findings',label:'The evidence',render:pFindings},{id:'p-demo',label:'Worked cases',render:pDemo},
+  {id:'p-limits',label:'Limits',render:pLimits}];
 const tabsEl=document.getElementById('tabs');const done=new Set();
 function show(id){
   PAGES.forEach(pg=>{document.getElementById(pg.id).hidden=pg.id!==id;
     tabsEl.querySelector('[data-id="'+pg.id+'"]').setAttribute('aria-current',String(pg.id===id));});
   const pg=PAGES.find(x=>x.id===id);
-  if(!done.has(id)||['p-findings','p-demo','p-limits'].includes(id)){pg.render(document.getElementById(id));done.add(id);}
+  if(!done.has(id)||['p-findings','p-demo','p-limits','p-decide','p-sandbox'].includes(id)){pg.render(document.getElementById(id));done.add(id);}
   window.scrollTo({top:0,behavior:'instant'});
   try{history.replaceState(null,'','#'+id.replace('p-',''));}catch(e){}}
 PAGES.forEach((pg,i)=>tabsEl.append(el('button',{type:'button','data-id':pg.id,
