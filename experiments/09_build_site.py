@@ -243,7 +243,14 @@ h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-
 .jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
 .jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
-.land{padding:70px 0 60px;background:var(--surface)}
+.land{min-height:calc(100vh - 56px);display:flex;align-items:center;background:var(--surface);padding:40px 0}
+.askclick{text-align:center;margin-top:22px}
+.askmain{font-size:16px;font-weight:600}
+.asksub{font-size:13px;color:var(--muted);margin-top:5px}
+.pickme{font-size:12px;color:var(--accent-ink);font-weight:600;border:1px solid var(--accent);
+  padding:3px 9px;border-radius:20px}
+.onward{display:flex;gap:12px;flex-wrap:wrap;padding:36px 0 70px}
+.jump.onhome nav a.cta{animation:none}
 .btn.big{font-size:15px;padding:14px 26px}
 .trust{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px;padding-top:22px;
   border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
@@ -296,11 +303,11 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 <div class="jump"><div class="wrap">
   <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
   <nav>
-    <a href="#s-feel" data-j>The problem</a>
-    <a href="#s-answer" data-j>How it works</a>
-    <a href="#s-catch" data-j>What we found</a>
-    <a href="#s-break" data-j>AI payments</a>
-    <a href="#try" data-j class="cta">Try it now</a>
+    <a href="#problem" data-v="problem">The problem</a>
+    <a href="#how" data-v="how">How it works</a>
+    <a href="#found" data-v="found">What we found</a>
+    <a href="#ai" data-v="ai">AI payments</a>
+    <a href="#tool" data-v="tool" class="cta">Try it now</a>
   </nav>
 </div></div>
 <main id="main"></main>
@@ -516,7 +523,7 @@ function hookAccounts(){
         el('div',{style:'display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px'},[
           el('h4',{style:'margin:0'},[label(i)]),
           done?el('span',{class:'pill '+(bad?'no':'ok')},[bad?'scam collection account':'legitimate']):
-               el('span',{style:'font-size:12px;color:var(--muted)'},['tap to choose'])]),
+               el('span',{class:'pickme'},['Click to pick this one'])]),
         el('div',{},ACCT_FIELDS.map(f=>el('div',{style:'display:flex;justify-content:space-between;gap:14px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px'},[
           el('span',{style:'color:var(--muted)'},[f[0]]),
           el('span',{class:'mono',style:'font-weight:500'},[isScam(i)?f[2]:f[1]])]))),
@@ -529,8 +536,9 @@ function hookAccounts(){
                      :'a savings group — members pay in, one member is paid out each month'])]):null]);};
     box.append(el('div',{class:'grid g2'},[card(0),card(1)]));
     if(HK.pick===null){
-      box.append(el('div',{style:'text-align:center;font-size:13.5px;color:var(--muted);margin-top:16px'},
-        ['These are the fields a fraud system actually has. One of these accounts collects scam proceeds.']));
+      box.append(el('div',{class:'askclick'},[
+        el('div',{class:'askmain'},['👇 Click the account you think collects the scam money']),
+        el('div',{class:'asksub'},['There is no trick — the sides are shuffled every time.'])]));
     } else {
       const right=!isScam(HK.pick);
       box.append(el('div',{style:'margin-top:18px'},[
@@ -1068,7 +1076,7 @@ function renderCalc(root){
   root.replaceChildren();
   const total=QS.length;
   const back=el('button',{class:'btn',type:'button',onclick:()=>{
-    if(STEP===0){VIEW='home';drawApp();}else{STEP--;renderCalc(root);}}},
+    if(STEP===0){go('home');}else{STEP--;renderCalc(root);}}},
     [STEP===0?'← Back':'← Previous']);
 
   /* progress */
@@ -1129,21 +1137,34 @@ function renderCalc(root){
     el('div',{style:'margin-top:22px'},[take('how we know','We trained <b>1,535 fraud models</b> to work this out. Each learned from 1.04 million payments and was tested on 167,345 more, from people it had never seen. Your seven answers are one of 8,448 combinations we scored in advance — so this is a real model looking up its own output, not a guess.')]),
     el('div',{style:'display:flex;gap:12px;flex-wrap:wrap;margin-top:26px'},[
       el('button',{class:'btn p',type:'button',onclick:()=>{STEP=0;renderCalc(root);}},['Try another payment']),
-      el('button',{class:'btn',type:'button',onclick:()=>{VIEW='home';drawApp();}},['See how this was built →'])])]));
+      el('button',{class:'btn',type:'button',onclick:()=>go('how')},['See how this was built →'])])]));
 }
 
 /* ================= LANDING + APP SHELL ================= */
 let VIEW='home';
+const VIEWS={home:renderLanding,tool:renderCalc,problem:renderProblem,
+             how:renderHow,found:renderFound,ai:renderAI};
+function go(v){VIEW=v;drawApp();}
 function drawApp(){
   const main=document.getElementById('main');
   main.replaceChildren();
-  document.querySelector('.jump').style.display = VIEW==='tool' ? 'none' : '';
-  if(VIEW==='tool'){STEP=STEP||0;renderCalc(main);window.scrollTo({top:0,behavior:'instant'});return;}
-  buildHome(main);
+  (VIEWS[VIEW]||renderLanding)(main);
+  document.querySelectorAll('.jump nav a').forEach(a=>
+    a.setAttribute('aria-current',String(a.dataset.v===VIEW)));
+  document.querySelector('.jump').classList.toggle('onhome',VIEW==='home');
   window.scrollTo({top:0,behavior:'instant'});
+  try{history.replaceState(null,'','#'+VIEW);}catch(e){}
 }
 
-function buildHome(root){
+
+function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
+
+function onward(pairs){
+  return el('div',{class:'wrap'},[el('div',{class:'onward'},pairs.map((x,i)=>
+    el('button',{class:'btn'+(i===0?' p':''),type:'button',
+      onclick:()=>{if(x[1]==='tool')STEP=0;go(x[1]);}},[x[0]])))]);}
+
+function renderLanding(root){
   /* landing */
   root.append(el('section',{class:'blk land'},[el('div',{class:'wrap'},[
     el('div',{class:'kicker'},['Pramana · a valid means of proof']),
@@ -1151,27 +1172,26 @@ function buildHome(root){
     el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud check correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded anywhere.']),
     el('p',{class:'lede',style:'margin-top:14px'},['Pramana scores a payment twice: once the way a bank does today, and once with that missing field added. You can see the difference on any payment you like.']),
     el('div',{class:'heroactions'},[
-      el('button',{id:'try',class:'btn p big',type:'button',onclick:()=>{VIEW='tool';STEP=0;drawApp();}},['Try it now →']),
-      el('button',{class:'btn big',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['How it works'])]),
+      el('button',{class:'btn p big',type:'button',onclick:()=>{STEP=0;go('tool');}},['Try it now →']),
+      el('button',{class:'btn big',type:'button',onclick:()=>go('how')},['How it works'])]),
     el('div',{class:'trust'},[
       el('span',{},['Built on ',el('b',{},['1,535']),' trained fraud models']),
       el('span',{},[el('b',{},['282']),' tested conditions']),
       el('span',{},[el('b',{},['3']),' attackers, the last one knowing the defence'])])])]));
 
-  /* 01 why it is hard */
+}
+
+function renderProblem(root){
   root.append(S('s-feel',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['01']),
     el('h2',{class:'t'},['The problem']),
     el('p',{class:'sub'},['A bank cannot already do this, and here is why. Two real accounts from our simulation — both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
     el('div',{class:'wrap'},[hookAccounts()])]));
 
-/* ================= ONE PAGE ================= */
-function anchor(id,label){return el('a',{href:'#'+id,onclick:e=>{e.preventDefault();
-  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}},[label]);}
+  root.append(onward([['How it works →','how'],['Try it now','tool']]));
+}
 
-function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
-
-  /* 4 — should you collect it */
+function renderHow(root){
   root.append(S('s-answer',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['02']),
     el('h2',{class:'t'},['How it works']),
@@ -1191,7 +1211,10 @@ function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
       'Two identical fraud models, one with the purpose field and one without, compared on how much more fraud the second catches, repeated across many conditions')]),
     el('div',{class:'wrap'},[take('the fair-fight rule','The model without the field got <b>all</b> the tuning effort. The one with it got none — it just inherited those settings. So every gap we report is the smallest the field could plausibly be worth.','good')])]));
 
-  /* 5 — the catch */
+  root.append(onward([['What we found →','found'],['Try it now','tool']]));
+}
+
+function renderFound(root){
   const yn=(ok,txt)=>el('div',{style:'display:flex;gap:9px;align-items:baseline'},[
     el('span',{style:'font-size:15px;font-weight:700;color:'+(ok?'var(--pos)':'var(--neg)')},[ok?'✓':'✗']),
     el('span',{},[txt])]);
@@ -1218,24 +1241,28 @@ function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
         return t;})()])]),
     el('div',{class:'wrap'},[take('why this matters','They can look consistent <b>or</b> stay spread out — not both. So this field is worth more than the fraud it catches by itself: it also forces the scammer into a shape your existing checks can already see.','good')])]));
 
-  /* 6 — break it */
+  root.append(onward([['AI payments →','ai'],['Try it now','tool']]));
+}
+
+function renderAI(root){
   root.append(S('s-break',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['04']),
     el('h2',{class:'t'},['When an AI assistant pays for you']),
     el('p',{class:'sub'},['The instruction can be signed before anything is bought — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
 
+  root.append(onward([['Try it now →','tool'],['Back to the start','home']]));
 }
 
+
 /* build + wire */
+VIEW=(location.hash||'').replace('#','') in VIEWS?(location.hash||'').replace('#',''):'home';
 drawApp();
-document.querySelectorAll('.jump nav a[data-j]').forEach(a=>{
+document.querySelectorAll('.jump nav a[data-v]').forEach(a=>{
   a.addEventListener('click',e=>{e.preventDefault();
-    if(a.classList.contains('cta')){VIEW='tool';STEP=0;drawApp();return;}
-    if(VIEW!=='home'){VIEW='home';drawApp();}
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
-document.getElementById('brand').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    if(a.dataset.v==='tool')STEP=0;
+    go(a.dataset.v);});});
+document.getElementById('brand').addEventListener('click',()=>go('home'));
 function show(){}   /* legacy no-op: nothing hides any more */
 </script>
 </body>
