@@ -274,6 +274,66 @@ function nav(prev,next){const b=el('div',{class:'nav'});
   if(next)b.append(el('button',{class:'btn p',type:'button',onclick:()=>show(next.id)},[next.label+' →']));
   return el('div',{class:'wrap end'},[b]);}
 
+
+/* ================= THE HOOK — tell these two apart ================= */
+const ACCT_FIELDS=[['How old the account is','318 days','202 days'],
+  ['People who paid it last month','62','69'],
+  ['Share of money forwarded within a day','90%','90%'],
+  ['How regular the incoming payments are','low','low'],
+  ['How spread out the payers are','wide','wide'],
+  ['Fraud complaints on record','none','none']];
+let HK={pick:null,flip:Math.random()<0.5};
+
+function hookAccounts(){
+  const box=el('div',{});
+  const draw=()=>{
+    box.replaceChildren();
+    const scamIsA=HK.flip;              /* which card is the mule */
+    const label=i=>i===0?'Account A':'Account B';
+    const isScam=i=>(i===0)===scamIsA;
+    const card=(i)=>{
+      const picked=HK.pick===i, done=HK.pick!==null;
+      const bad=done&&isScam(i), good=done&&!isScam(i);
+      return el('div',{class:'card',role:done?null:'button',tabindex:done?null:'0',
+        style:'cursor:'+(done?'default':'pointer')+';border-width:1.5px;border-color:'+
+          (bad?'var(--neg)':good?'var(--pos)':picked?'var(--accent)':'var(--line)'),
+        onclick:done?null:()=>{HK.pick=i;draw();},
+        onkeydown:done?null:e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();HK.pick=i;draw();}}},[
+        el('div',{style:'display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px'},[
+          el('h4',{style:'margin:0'},[label(i)]),
+          done?el('span',{class:'pill '+(bad?'no':'ok')},[bad?'scam collection account':'legitimate']):
+               el('span',{style:'font-size:12px;color:var(--muted)'},['tap to choose'])]),
+        el('div',{},ACCT_FIELDS.map(f=>el('div',{style:'display:flex;justify-content:space-between;gap:14px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px'},[
+          el('span',{style:'color:var(--muted)'},[f[0]]),
+          el('span',{class:'mono',style:'font-weight:500'},[isScam(i)?f[2]:f[1]])]))),
+        done?el('div',{style:'margin-top:14px;padding-top:12px;border-top:1px solid var(--line)'},[
+          el('div',{style:'font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;margin-bottom:5px'},
+            ['what payers said the money was for']),
+          el('div',{style:'font-size:15px;font-weight:600'},[isScam(i)?'“family support”':'“investment”']),
+          el('div',{style:'font-size:12.5px;color:var(--muted);margin-top:5px'},[
+            isScam(i)?'sent by 69 unrelated strangers, each believing they were helping a relative'
+                     :'a savings group — members pay in, one member is paid out each month'])]):null]);};
+    box.append(el('div',{class:'grid g2'},[card(0),card(1)]));
+    if(HK.pick===null){
+      box.append(el('div',{style:'text-align:center;font-size:13.5px;color:var(--muted);margin-top:16px'},
+        ['These are the fields a fraud system actually has. One of these accounts collects scam proceeds.']));
+    } else {
+      const right=!isScam(HK.pick);
+      box.append(el('div',{style:'margin-top:18px'},[
+        el('div',{class:'take '+(right?'good':'bad')},[
+          el('div',{class:'k'},[right?'lucky':'most people']),
+          el('p',{html:right
+            ?'You guessed right — but on those six fields the two accounts sit <b>0.33 standard deviations</b> apart. That is a coin flip, and a real system has to make this call millions of times a day.'
+            :'So does almost everyone. On those six fields the two accounts sit <b>0.33 standard deviations</b> apart — a coin flip. These are real accounts from the simulation, chosen because they are the hardest pair to separate.'})]),
+        el('div',{class:'take'},[el('div',{class:'k'},['the tell']),
+          el('p',{html:'One field separates them instantly, and no payment system records it. Sixty-nine unrelated people do not all send <b>family support</b> to the same collection account — but they absolutely do all send <b>investment</b> to a savings group. The account cannot lie about its own history, and the payer has no reason to lie about what they think they are doing.'})]),
+        el('div',{style:'text-align:center;margin-top:14px'},[
+          el('button',{class:'btn',type:'button',onclick:()=>{HK.pick=null;HK.flip=Math.random()<0.5;draw();}},
+            ['Try again with the sides swapped'])])]));
+    }};
+  draw();
+  return box;}
+
 /* ---------- 1 home ---------- */
 function pHome(root){
   const find=(n,t,x,num,cap,go)=>el('div',{class:'find click',role:'button',tabindex:'0',
@@ -282,11 +342,19 @@ function pHome(root){
     el('div',{class:'n'},['FINDING '+n]),el('h4',{},[t]),el('p',{html:x}),
     el('div',{class:'num'},[num]),el('div',{class:'cap'},[cap]),
     el('div',{class:'more'},['see the evidence →'])]);
+
   root.append(el('div',{class:'pg'},[el('div',{class:'wrap'},[
-    el('div',{class:'kicker'},['Scam fraud · payment context · adversarial measurement']),
-    el('h2',{class:'t',style:'max-width:20ch'},['Should a payment network ask what a payment is for?']),
-    el('p',{class:'lede'},['A bank can prove you authorised a transfer. It cannot prove you knew who you were sending it to. We tested whether asking the payer closes that gap, how long it keeps working once criminals adapt, and what it would cost to deploy.'])])]));
-  root.append(W([el('div',{class:'grid g3',style:'margin-top:30px'},[
+    el('div',{class:'kicker'},['Scam fraud · the missing field · adversarial pricing']),
+    el('h2',{class:'t',style:'max-width:22ch'},['Every payment records what happened. None records what the payer believed.']),
+    el('p',{class:'lede'},['Scam fraud lives entirely in that gap. The customer authorises the transfer themselves, so every control correctly says yes. We measured what closing the gap is worth — and how fast it stops being worth anything once criminals adapt.'])])]));
+
+  root.append(sec([W([h3('Thirty seconds: try being the fraud system')]),
+    COL([p('Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One is a scam collection account.')]),
+    W([hookAccounts()])]));
+
+  root.append(sec([W([h3('What we found'),
+    el('p',{style:'max-width:62ch;margin-bottom:18px'},['Three answers a payment team could act on. Each card opens its evidence.']),
+    el('div',{class:'grid g3'},[
     find('01','Evasion is not free',
       'To make a payment look consistent with its declared purpose, a scammer must send it to accounts that fit — and few do. Their traffic concentrates, and concentration is what recipient monitoring already catches.',
       '0.924 → 0.957','fraud the existing system caught, as the attacker coached harder'),
@@ -295,20 +363,25 @@ function pHome(root){
       'K=3 nothing · K=6 works','improvement at three versus six purpose categories'),
     find('03','Keep the field, don’t model it',
       'We built a consistency engine that learns what recipients normally look like per purpose. It beat plain one-hot encoding of the code by almost nothing.',
-      '+0.0008','all the extra modelling was worth')])]));
+      '+0.0008','all the extra modelling was worth')])])]));
+
   root.append(sec([W([h3('The finding we did not design for')]),
     W([fig(figCoupling(),
-      'The attacker’s dilemma. Left: spread payments across whatever accounts are available — the recipient monitor stays quiet, but the declared purpose does not match any of them. Right: route only to accounts that fit the declared purpose — the purpose check goes quiet, but six payments funnel into two accounts and the recipient monitor fires.',
+      'The attacker’s dilemma. Left: spread payments across whatever accounts are free — the recipient monitor stays quiet, but the declared purpose matches none of them. Right: route only to accounts that fit the declared purpose — the purpose check goes quiet, but six payments funnel into two accounts and the recipient monitor fires.',
       'Two panels comparing dispersed routing, where the purpose check fires, against purpose-matched routing, where the recipient check fires instead')]),
-    W([take('takeaway','The attacker can match the declared purpose <b>or</b> stay dispersed. Not both. Buying protection against one check costs exposure on the other — so the value of this field is not only what it catches itself, but what it forces the attacker to give up. We found no published statement of this trade-off.','good')])]));
-  root.append(sec([COL([h3('What this project is'),
-    p('Not another fraud classifier. A <b>deployment decision</b>: before a payment network asks hundreds of millions of people a new question, can we say when the answer stays useful under adversarial pressure — and when it stops?')]),
-    W([tbl(['The decision a bank faces','What the study says'],[
-      ['Is it worth collecting?','Yes — it helped in all 30 tested conditions, against three attackers including one that knows the defence.'],
-      ['How many menu options?','At least six. Three is worthless.'],
-      ['What must we build?','Almost nothing. Keep the code; pass it to the model you already run.'],
-      ['Where does it fail?','At structural extremes, and its value roughly halves against a purpose-matched attacker.']])])]));
-  root.append(nav(null,{id:'p-decide',label:'Try the decision tool'}));
+    W([take('takeaway','The attacker can match the declared purpose <b>or</b> stay dispersed. Not both. Buying protection against one check costs exposure on the other — so this field’s value is not only what it catches itself, but what it forces the attacker to give up. We found no published statement of this trade-off.','good')])]));
+
+  root.append(sec([COL([h3('What is actually new here'),
+    p('Purpose codes are not new — ISO 20022 has carried them for years. Consistency checking is not new either. What is missing is a way to <b>price</b> a signal like this before anyone builds it: not “does it work today”, but <em>how long does it keep working once the people it targets adapt to it</em>.'),
+    p('That is what this is. Three attackers of escalating capability, ending with one that knows the defence and picks its accounts to defeat it, and a threshold at which the signal stops paying for itself.')]),
+    W([el('div',{class:'grid g2'},[
+      el('div',{class:'card'},[el('h4',{},['Use the decision tool']),
+        el('p',{html:'Set the conditions you expect. Get a verdict with its confidence interval, the menu size you need, and what has to be built.'}),
+        el('div',{style:'margin-top:14px'},[el('button',{class:'btn p',type:'button',onclick:()=>show('p-decide')},['Should you collect it? →'])])]),
+      el('div',{class:'card'},[el('h4',{},['Break the mandate check']),
+        el('p',{html:'Set the rules an AI assistant must obey, then try to get a payment past them. Including the attack we cannot catch.'}),
+        el('div',{style:'margin-top:14px'},[el('button',{class:'btn',type:'button',onclick:()=>show('p-sandbox')},['Open the sandbox →'])])])])])]));
+  root.append(nav(null,{id:'p-problem',label:'Why this fraud is different'}));
 }
 
 /* ---------- 2 problem ---------- */
