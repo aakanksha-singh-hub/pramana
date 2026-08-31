@@ -231,7 +231,7 @@ def s1_executive(doc, d):
     rich(doc, [("3. Retain the field; do not model it. ", True, False),
                ("Our purpose-conditional consistency engine - the most technically involved "
                 "component here - beat plain one-hot encoding of the purpose code by "
-                "+0.0008, consistently, across all three adversaries. Almost all the value "
+                "+0.0007, consistently, across all three adversaries. Almost all the value "
                 "is in capturing and retaining the field. Deployment cost collapses to a "
                 "form field and a retained column rather than a new model to own, monitor "
                 "and retrain. It is the finding we would most have preferred to come out "

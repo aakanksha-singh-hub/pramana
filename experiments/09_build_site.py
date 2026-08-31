@@ -916,7 +916,7 @@ function renderDecide(root){
     rows.push(['Holds across repeat runs',c.significant?'yes, all '+c.n_seeds:'no — interval includes zero']);
     rows.push(['Minimum menu size','6 purpose categories · 3 is not enough']);
     rows.push(['What you have to build','retain the field, pass it to the model you already run']);
-    rows.push(['What you do not have to build','a hand-built consistency model — ours added +0.0008 over the plain field']);
+    rows.push(['What you do not have to build','a hand-built consistency model — ours added +0.0007 over the plain field']);
   }
   root.append(sec([W([
     el('div',{style:'border:1.5px solid '+vcol+';border-radius:6px;overflow:hidden'},[
@@ -932,7 +932,8 @@ function renderDecide(root){
       c?el('div',{style:'background:var(--surface);padding:6px 24px 18px'},
         [tbl(['',''],rows,[1])]):null])])]));
 
-  root.append(W([take('a tool that says no','Move the sliders to the extremes, or switch the goal to <b>cut false alarms</b>, and the verdict flips. That is the point: the answer is conditional, and a network that deploys this everywhere is wasting money in the regions where it does not pay.','warn')]));
+  root.append(W([take('the actual finding','Switch between the six operating points above and the verdict changes. At every alert budget we tested — 0.1%, 0.5% and 1% of payments — it is worth collecting. Aiming instead for a fixed catch rate, it does not pay at 50% or 70%, and pays again at 90%. <b>The same signal, the same data, opposite answers.</b> A network that deploys this everywhere is wasting money in the regions where it does not pay.','warn')]));
+  root.append(W([take('and the fancy layer was not the point','We also built a purpose–account consistency model to squeeze more out of the field. Across all 270 conditions it beat simply handing the raw field to the existing model by <b>+0.0007</b>. We went looking for a sophisticated mechanism; the experiment said the simpler thing was enough.','good')]));
 }
 
 
@@ -1210,7 +1211,7 @@ function renderHow(root){
   root.append(S('s-answer',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['02']),
     el('h2',{class:'t'},['How it works']),
-    el('p',{class:'sub'},['We trained the same fraud model twice — once with the field, once without — and measured the gap. Then we did it again for every combination of conditions. Set the conditions you expect and see the verdict.'])]),
+    el('p',{class:'sub'},['The answer is not yes or no — it depends on what you are optimising and who you are up against. The same signal is worth collecting under some operating conditions and worthless under others. Set yours and see.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()]),
     el('div',{class:'wrap'},[el('div',{class:'grid g4 stats'},[
       el('div',{class:'stat'},[el('div',{class:'v'},['1,535']),el('div',{class:'l'},['models trained']),
