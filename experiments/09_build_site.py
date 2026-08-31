@@ -1,10 +1,11 @@
 """Build the public site: one self-contained HTML file, no server.
 
-Structure is deliberately progressive. A reader arriving cold meets the
-problem in human terms, then the idea, then how it was tested, and only then
-any numbers. Someone who stops after two pages still understands what the
-project is and why it matters; someone who reads to the end gets the whole
-evidence base.
+Progressive by design. A cold reader meets the findings, then the problem, the
+idea, and the method, before any statistics. The mechanisms that prose reads
+badly - why every bank control passes, what the consistency check actually
+compares, why purpose cannot proxy the label, what each attacker controls, and
+the trade-off the strongest attacker cannot escape - are drawn rather than
+described.
 """
 
 from __future__ import annotations
@@ -34,26 +35,15 @@ def git(*a, default="—"):
 def slim_phase(phase):
     if not phase:
         return None
-    return {
-        "arm": phase["arm"],
-        "metrics": phase["metrics"],
-        "rho_star": phase["rho_star"],
-        "ablation": [r for r in phase["ablation"]
-                     if r["rho"] == 0.4 and r["lam"] == 0.1 and r["K"] == 11
-                     and r["beta"] == 0.5 and r["adversary"] == "uniform"],
-        "secondary": [c for c in phase["cells"]
-                      if c["arm"] == phase["arm"] and c["metric"] == "recall@fpr=0.001"
-                      and c["adversary"] == "uniform" and c["rho"] == 0.4
-                      and c["lam"] == 0.1],
-    }
+    return {"arm": phase["arm"], "metrics": phase["metrics"],
+            "rho_star": phase["rho_star"]}
 
 
 def slim_inspector(ins):
     if not ins:
         return None
-    keep = {"bucket", "is_fraud", "scam_type", "declared_purpose", "payee_role",
-            "amount", "channel", "score_base", "score_b4b", "rank_shift",
-            "consistency_mahalanobis", "residuals", "reference_n"}
+    keep = {"bucket", "is_fraud", "declared_purpose", "payee_role", "amount",
+            "rank_shift", "residuals"}
     return {"b3_cols": ins["b3_cols"],
             "cases": [{k: v for k, v in c.items() if k in keep} for c in ins["cases"]]}
 
@@ -62,17 +52,15 @@ def build() -> str:
     data = {
         "phase": slim_phase(load("phase_surface.json")),
         "agentic": load("agentic_conformance.json"),
-        "fidelity": load("fidelity.json"),
         "inspector": slim_inspector(load("inspector.json")),
         "meta": {
             "prereg_commit": (git("log", "--reverse", "--format=%H", default="") or "")[:40],
-            "head": git("rev-parse", "--short", "HEAD"),
             "built": datetime.now(timezone.utc).strftime("%d %B %Y"),
             "n_cells": len(list((RES / "raw").glob("*.json"))) if (RES / "raw").exists() else 0,
         },
     }
-    payload = json.dumps(data, separators=(",", ":"), default=str)
-    return TEMPLATE.replace("__PRAMANA_DATA__", payload)
+    return TEMPLATE.replace("__PRAMANA_DATA__",
+                            json.dumps(data, separators=(",", ":"), default=str))
 
 
 TEMPLATE = r"""<!doctype html>
@@ -81,154 +69,150 @@ TEMPLATE = r"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pramana — when is declared payment context worth collecting?</title>
-<meta name="description" content="A pre-registered study of whether asking a payer what a payment is for helps detect scam fraud, and how much adversarial pressure that signal survives.">
+<meta name="description" content="A pre-registered adversarial study of whether asking a payer what a payment is for helps detect scam fraud, and how much coaching that signal survives.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root{
-  --ground:#f8f7f4; --surface:#ffffff; --raised:#fbfaf7; --sunk:#f1efe9;
-  --ink:#16181d; --ink-soft:#3f4550; --muted:#666d7c;
-  --hairline:#e5e3dd; --hairline-strong:#d2cfc7;
+  --ground:#f7f6f3; --surface:#fff; --raised:#fbfaf7; --sunk:#efedE7;
+  --ink:#15171c; --ink-soft:#3d434e; --muted:#697080;
+  --line:#e3e1da; --line-2:#cfccc4;
   --accent:#1d3b73; --accent-soft:#e9eef7; --accent-ink:#1d3b73;
-  --positive:#1c6b4c; --positive-soft:#e7f3ed;
-  --negative:#a32e24; --negative-soft:#f9ebe9;
-  --caution:#8a6320; --caution-soft:#faf2e4;
-  --heat-pos:29,59,115; --heat-neg:163,46,36;
-  --shadow:0 1px 2px rgba(22,24,29,.045), 0 10px 30px -22px rgba(22,24,29,.4);
+  --pos:#1a6b4b; --pos-soft:#e6f2ec; --neg:#a52f24; --neg-soft:#f9ebe9;
+  --warn:#8a6320; --warn-soft:#faf2e3;
+  --heat-pos:29,59,115; --heat-neg:165,47,36;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#14161a; --surface:#1c1f25; --raised:#22262d; --sunk:#101216;
-    --ink:#e9eaee; --ink-soft:#c5cad3; --muted:#98a0b0;
-    --hairline:#2a2e37; --hairline-strong:#3a3f4a;
-    --accent:#7ba3de; --accent-soft:#1a2540; --accent-ink:#a9c4ea;
-    --positive:#5fbf92; --positive-soft:#142a21;
-    --negative:#e58278; --negative-soft:#2d1a18;
-    --caution:#d9ac5c; --caution-soft:#292216;
-    --heat-pos:123,163,222; --heat-neg:229,130,120;
-    --shadow:0 1px 2px rgba(0,0,0,.45), 0 10px 30px -22px rgba(0,0,0,.85);
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#14161a; --surface:#1c1f25; --raised:#22262d; --sunk:#101216;
-  --ink:#e9eaee; --ink-soft:#c5cad3; --muted:#98a0b0;
-  --hairline:#2a2e37; --hairline-strong:#3a3f4a;
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#131519; --surface:#1b1e24; --raised:#21252b; --sunk:#0e1013;
+  --ink:#eaebef; --ink-soft:#c6cbd4; --muted:#98a0af;
+  --line:#292d35; --line-2:#3a3f4a;
   --accent:#7ba3de; --accent-soft:#1a2540; --accent-ink:#a9c4ea;
-  --positive:#5fbf92; --positive-soft:#142a21;
-  --negative:#e58278; --negative-soft:#2d1a18;
-  --caution:#d9ac5c; --caution-soft:#292216;
-  --heat-pos:123,163,222; --heat-neg:229,130,120;
-  --shadow:0 1px 2px rgba(0,0,0,.45), 0 10px 30px -22px rgba(0,0,0,.85);
-}
+  --pos:#5fbf92; --pos-soft:#14291f; --neg:#e58278; --neg-soft:#2c1a18;
+  --warn:#d9ac5c; --warn-soft:#282116;
+  --heat-pos:123,163,222; --heat-neg:229,130,120;}}
+:root[data-theme="dark"]{
+  --ground:#131519; --surface:#1b1e24; --raised:#21252b; --sunk:#0e1013;
+  --ink:#eaebef; --ink-soft:#c6cbd4; --muted:#98a0af;
+  --line:#292d35; --line-2:#3a3f4a;
+  --accent:#7ba3de; --accent-soft:#1a2540; --accent-ink:#a9c4ea;
+  --pos:#5fbf92; --pos-soft:#14291f; --neg:#e58278; --neg-soft:#2c1a18;
+  --warn:#d9ac5c; --warn-soft:#282116;
+  --heat-pos:123,163,222; --heat-neg:229,130,120;}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0; background:var(--ground); color:var(--ink);
+body{margin:0;background:var(--ground);color:var(--ink);
   font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,sans-serif;
-  font-size:16px; line-height:1.68; -webkit-font-smoothing:antialiased;
-}
-h1,h2,h3,h4{font-family:Spectral,Georgia,"Times New Roman",serif;margin:0;text-wrap:balance}
-.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
-.wrap{max-width:1060px;margin:0 auto;padding:0 30px}
-.narrow{max-width:720px}
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Spectral,Georgia,serif;margin:0;text-wrap:balance}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
 a{color:var(--accent-ink)}
-img{max-width:100%}
+.wrap{max-width:1140px;margin:0 auto;padding:0 32px}
+.col{max-width:660px}
+@media(max-width:760px){.wrap{padding:0 20px}}
 
 /* nav */
-.topbar{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--hairline)}
-.topbar .wrap{display:flex;align-items:center;gap:26px;min-height:60px}
-.brand{display:flex;align-items:baseline;gap:9px;cursor:pointer;flex-shrink:0}
-.brand b{font-family:Spectral,Georgia,serif;font-size:22px;font-weight:700;letter-spacing:-.01em}
-.brand span{font-size:11px;color:var(--muted);font-style:italic;font-family:Spectral,Georgia,serif}
-.steps{display:flex;gap:1px;overflow-x:auto;margin-left:auto;scrollbar-width:none}
-.steps::-webkit-scrollbar{display:none}
-.steps button{
-  appearance:none;background:none;border:0;border-bottom:2px solid transparent;
-  font:inherit;font-size:13px;color:var(--muted);padding:19px 11px 15px;cursor:pointer;white-space:nowrap;
-}
-.steps button:hover{color:var(--ink)}
-.steps button[aria-current="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:500}
-.steps button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;border-radius:2px}
+.bar{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:22px;min-height:56px}
+.brand{display:flex;align-items:baseline;gap:8px;cursor:pointer;flex-shrink:0}
+.brand b{font-family:Spectral,Georgia,serif;font-size:21px;font-weight:700}
+.brand i{font-size:11px;color:var(--muted);font-family:Spectral,Georgia,serif}
+@media(max-width:900px){.brand i{display:none}}
+.tabs{display:flex;gap:0;overflow-x:auto;margin-left:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;
+  font:inherit;font-size:13px;color:var(--muted);padding:17px 12px 13px;cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-current="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:500}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
 
-/* page frame */
-main{min-height:60vh}
+/* page rhythm */
 section[hidden]{display:none!important}
-.pagehead{padding:56px 0 8px}
-.step-label{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:12px}
-h2.page{font-size:clamp(28px,4.2vw,40px);font-weight:600;letter-spacing:-.018em;line-height:1.16;max-width:17ch}
-.standfirst{font-size:19px;line-height:1.6;color:var(--ink-soft);max-width:60ch;margin-top:18px;font-family:Spectral,Georgia,serif}
-.body{padding:24px 0 60px}
-.body p{max-width:64ch;margin:0 0 18px}
-h3.sec{font-size:23px;font-weight:600;margin:44px 0 12px;letter-spacing:-.01em}
-h4.sub{font-size:16px;font-weight:600;margin:26px 0 8px;font-family:"IBM Plex Sans",sans-serif}
+.pg{padding:44px 0 0}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:11px}
+h2.t{font-size:clamp(27px,3.6vw,36px);font-weight:600;letter-spacing:-.016em;line-height:1.15;max-width:18ch}
+.lede{font-size:18px;line-height:1.55;color:var(--ink-soft);max-width:58ch;margin:16px 0 0;
+  font-family:Spectral,Georgia,serif}
+.sec{padding:34px 0 0}
+h3.s{font-size:21px;font-weight:600;margin:0 0 12px;letter-spacing:-.008em}
+p{margin:0 0 14px;max-width:62ch}
+.end{padding:34px 0 64px}
 
-/* footer nav */
-.pagenav{display:flex;gap:12px;flex-wrap:wrap;padding:34px 0 70px;border-top:1px solid var(--hairline);margin-top:20px}
-.btn{
-  appearance:none;font:inherit;font-size:14px;font-weight:500;cursor:pointer;
-  padding:12px 22px;border-radius:3px;border:1px solid var(--hairline-strong);
-  background:var(--surface);color:var(--ink);text-decoration:none;display:inline-block;
-}
-.btn:hover{border-color:var(--accent);color:var(--accent-ink)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--ground)}
-.btn.primary:hover{opacity:.9;color:var(--ground)}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* figure */
+figure{margin:22px 0;padding:0}
+figure svg{display:block;width:100%;max-width:100%;height:auto;color:var(--ink)}
+figcaption{font-size:13px;color:var(--muted);margin-top:12px;max-width:62ch;line-height:1.5}
+.figbox{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:26px 26px 20px}
 
-/* blocks */
+/* takeaway */
+.take{display:flex;gap:14px;align-items:flex-start;background:var(--accent-soft);
+  border-left:3px solid var(--accent);padding:16px 20px;border-radius:0 4px 4px 0;margin:24px 0 0}
+.take.good{background:var(--pos-soft);border-left-color:var(--pos)}
+.take.warn{background:var(--warn-soft);border-left-color:var(--warn)}
+.take.bad{background:var(--neg-soft);border-left-color:var(--neg)}
+.take .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);padding-top:4px;flex-shrink:0;width:64px}
+.take p{margin:0;max-width:58ch;font-size:15.5px}
+@media(max-width:700px){.take{flex-direction:column;gap:6px}.take .k{width:auto}}
+
+/* cards / grid */
 .grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
-.card{background:var(--surface);border:1px solid var(--hairline);border-radius:4px;padding:22px;box-shadow:var(--shadow)}
-.card h4{font-family:"IBM Plex Sans",sans-serif;font-size:15px;font-weight:600;margin:0 0 7px}
-.card p{font-size:14.5px;color:var(--ink-soft);margin:0;max-width:none}
-.pull{
-  border-left:3px solid var(--accent);background:var(--accent-soft);
-  padding:18px 24px;border-radius:0 4px 4px 0;margin:26px 0;
-}
-.pull.warn{border-left-color:var(--caution);background:var(--caution-soft)}
-.pull.bad{border-left-color:var(--negative);background:var(--negative-soft)}
-.pull.good{border-left-color:var(--positive);background:var(--positive-soft)}
-.pull p{margin:0;max-width:58ch;font-size:16px}
-.pull p+p{margin-top:12px}
-.pull .big{font-family:Spectral,Georgia,serif;font-size:20px;line-height:1.5}
-.aside{font-size:14px;color:var(--muted);max-width:62ch;border-top:1px solid var(--hairline);padding-top:14px;margin-top:26px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:20px}
+.card h4{font-family:"IBM Plex Sans",sans-serif;font-size:15px;font-weight:600;margin:0 0 6px}
+.card p{font-size:14px;color:var(--ink-soft);margin:0;max-width:none}
 
-/* numbers */
-.stat{background:var(--surface);border:1px solid var(--hairline);border-radius:4px;padding:18px 20px}
-.stat .v{font-family:"IBM Plex Mono",monospace;font-size:27px;font-weight:500;line-height:1.05;font-variant-numeric:tabular-nums}
-.stat .l{font-size:13.5px;font-weight:500;margin-top:9px}
-.stat .s{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
-.v.pos{color:var(--positive)}.v.neg{color:var(--negative)}.v.acc{color:var(--accent-ink)}
-.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:6px 0}
+/* finding block */
+.find{background:var(--surface);border:1px solid var(--line);border-radius:5px;
+  padding:24px;display:flex;flex-direction:column;gap:0}
+.find .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;color:var(--accent-ink)}
+.find h4{font-family:Spectral,Georgia,serif;font-size:19px;font-weight:600;margin:10px 0 9px;line-height:1.25}
+.find p{font-size:14px;color:var(--ink-soft);margin:0;max-width:none}
+.find .num{font-family:"IBM Plex Mono",monospace;font-size:21px;margin-top:16px;
+  padding-top:14px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.find .cap{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* table */
+.scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:13.5px}
-th{text-align:left;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);
-   font-weight:600;padding:9px 11px;border-bottom:1px solid var(--hairline-strong);white-space:nowrap}
-td{padding:9px 11px;border-bottom:1px solid var(--hairline);font-variant-numeric:tabular-nums;vertical-align:top}
+th{text-align:left;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line-2);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
 tr:last-child td{border-bottom:0}
 td.r,th.r{text-align:right}
-.tag{font-size:11px;padding:2px 8px;border-radius:2px;font-weight:600;white-space:nowrap;display:inline-block}
-.tag.ok{background:var(--positive-soft);color:var(--positive)}
-.tag.no{background:var(--negative-soft);color:var(--negative)}
-.tag.mid{background:var(--sunk);color:var(--muted)}
+.pill{font-size:11px;padding:2px 8px;border-radius:3px;font-weight:600;display:inline-block}
+.pill.ok{background:var(--pos-soft);color:var(--pos)}
+.pill.no{background:var(--neg-soft);color:var(--neg)}
 
 /* controls */
-.controls{display:flex;gap:26px;flex-wrap:wrap;margin:18px 0}
-.ctl-label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:7px}
-.seg{display:flex;gap:5px;flex-wrap:wrap}
-.seg button{appearance:none;font:inherit;font-size:12.5px;padding:7px 12px;cursor:pointer;
-  background:var(--surface);color:var(--ink);border:1px solid var(--hairline-strong);border-radius:2px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{appearance:none;font:inherit;font-size:12.5px;padding:7px 13px;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:3px}
 .seg button:hover{border-color:var(--accent)}
 .seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--ground)}
 .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-bottom:8px}
+
+/* buttons */
+.nav{display:flex;gap:12px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--line);margin-top:36px}
+.btn{appearance:none;font:inherit;font-size:14px;font-weight:500;cursor:pointer;padding:11px 20px;
+  border-radius:4px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+.btn.p{background:var(--accent);border-color:var(--accent);color:var(--ground)}
+.btn.p:hover{opacity:.9;color:var(--ground)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{font-size:13px;color:var(--muted);max-width:62ch;margin-top:18px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
-<div class="topbar"><div class="wrap">
-  <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><span>a valid means of proof</span></div>
-  <nav class="steps" id="steps"></nav>
+<div class="bar"><div class="wrap">
+  <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
+  <nav class="tabs" id="tabs"></nav>
 </div></div>
 <main>
   <section id="p-home"></section>
@@ -242,493 +226,469 @@ td.r,th.r{text-align:right}
 <script>
 const D = __PRAMANA_DATA__;
 
-/* ---------- helpers ---------- */
+/* ---------- shared bits ---------- */
 const el=(t,a={},k=[])=>{const n=document.createElement(t);
   for(const[key,v]of Object.entries(a)){if(v===null||v===undefined||v===false)continue;
     if(key==='class')n.className=v;else if(key==='html')n.innerHTML=v;
-    else if(key.startsWith('on'))n.addEventListener(key.slice(2),v);
-    else n.setAttribute(key,v===true?'':v);}
+    else if(key.startsWith('on'))n.addEventListener(key.slice(2),v);else n.setAttribute(key,v===true?'':v);}
   for(const c of [].concat(k)){if(c===null||c===undefined||c===false)continue;
-    n.append(c.nodeType?c:document.createTextNode(c));}
-  return n;};
-const pct=(v,d=1)=>(v*100).toFixed(d)+'%';
+    n.append(c.nodeType?c:document.createTextNode(c));}return n;};
 const inr=v=>'₹'+Math.round(v).toLocaleString('en-IN');
 const sgn=(v,d=4)=>(v>=0?'+':'')+v.toFixed(d);
-
-const head=(step,title,stand)=>el('div',{class:'pagehead'},[el('div',{class:'wrap narrow'},[
-  step?el('div',{class:'step-label'},[step]):null,
-  el('h2',{class:'page'},[title]),
-  stand?el('p',{class:'standfirst'},[stand]):null])]);
-const body=(kids)=>el('div',{class:'body'},[el('div',{class:'wrap narrow'},[].concat(kids))]);
-const wide=(kids)=>el('div',{class:'body'},[el('div',{class:'wrap'},[].concat(kids))]);
-const p=(t)=>el('p',{html:t});
-const h3=(t)=>el('h3',{class:'sec'},[t]);
-const h4=(t)=>el('h4',{class:'sub'},[t]);
-const pull=(html,kind='')=>el('div',{class:'pull '+kind},[el('p',{html})]);
-const card=(title,text)=>el('div',{class:'card'},[el('h4',{},[title]),el('p',{html:text})]);
-const stat=(v,l,s,tone)=>el('div',{class:'stat'},[el('div',{class:'v '+(tone||'')},[v]),
-  el('div',{class:'l'},[l]),s?el('div',{class:'s'},[s]):null]);
-function table(hd,rows,right=[]){const t=el('table');
+const W=(k,cls='')=>el('div',{class:'wrap '+cls},[].concat(k));
+const COL=(k)=>el('div',{class:'wrap'},[el('div',{class:'col'},[].concat(k))]);
+const p=t=>el('p',{html:t});
+const h3=t=>el('h3',{class:'s'},[t]);
+const sec=k=>el('div',{class:'sec'},[].concat(k));
+const take=(label,html,kind='')=>el('div',{class:'take '+kind},[
+  el('div',{class:'k'},[label]),el('p',{html})]);
+const card=(t,x)=>el('div',{class:'card'},[el('h4',{},[t]),el('p',{html:x})]);
+function tbl(hd,rows,right=[]){const t=el('table');
   t.append(el('thead',{},[el('tr',{},hd.map((h,i)=>el('th',{class:right.includes(i)?'r':''},[h])))]));
   t.append(el('tbody',{},rows.map(r=>el('tr',{},r.map((c,i)=>el('td',{class:right.includes(i)?'r':''},[c]))))));
   return el('div',{class:'scroll'},[t]);}
-function seg(label,opts,cur,pick){return el('div',{},[el('div',{class:'ctl-label'},[label]),
+function segCtl(label,opts,cur,pick){return el('div',{},[el('div',{class:'lbl'},[label]),
   el('div',{class:'seg'},opts.map(o=>el('button',{type:'button','aria-pressed':String(o.id===cur),
-    title:o.title||'',onclick:()=>pick(o.id)},[o.label])))]);}
-function nav(prev,next){const b=el('div',{class:'pagenav'});
+    onclick:()=>pick(o.id)},[o.label])))]);}
+const head=(k,t,l)=>el('div',{class:'pg'},[el('div',{class:'wrap'},[
+  el('div',{class:'kicker'},[k]),el('h2',{class:'t'},[t]),l?el('p',{class:'lede'},[l]):null])]);
+function nav(prev,next){const b=el('div',{class:'nav'});
   if(prev)b.append(el('button',{class:'btn',type:'button',onclick:()=>show(prev.id)},['← '+prev.label]));
-  if(next)b.append(el('button',{class:'btn primary',type:'button',onclick:()=>show(next.id)},[next.label+' →']));
-  return el('div',{class:'wrap narrow'},[b]);}
+  if(next)b.append(el('button',{class:'btn p',type:'button',onclick:()=>show(next.id)},[next.label+' →']));
+  return el('div',{class:'wrap end'},[b]);}
 
-/* ---------- 1. home ---------- */
+/* ---------- 1 home ---------- */
 function pHome(root){
-  const finding=(n,title,line,fig,figcap)=>el('div',{class:'card'},[
-    el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:11px;letter-spacing:.14em;color:var(--accent-ink);margin-bottom:9px'},['FINDING '+n]),
-    el('h4',{style:'font-size:17px;font-family:Spectral,Georgia,serif;line-height:1.3;margin-bottom:9px'},[title]),
-    el('p',{html:line}),
-    el('div',{style:'margin-top:14px;padding-top:13px;border-top:1px solid var(--hairline)'},[
-      el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:19px;font-variant-numeric:tabular-nums;color:var(--ink)'},[fig]),
-      el('div',{style:'font-size:12px;color:var(--muted);margin-top:4px'},[figcap])])]);
-
-  root.append(el('div',{class:'pagehead'},[el('div',{class:'wrap narrow'},[
-    el('div',{class:'step-label'},['Scam fraud · payment context · adversarial measurement']),
-    el('h2',{class:'page',style:'max-width:19ch'},['Should a payment network ask what a payment is for?']),
-    el('p',{class:'standfirst'},[
-      'Banks can prove you authorised a transfer. They cannot prove you knew who you were sending it to — which is exactly the gap scam fraud lives in. We tested whether asking the payer closes it, how long it keeps working once criminals adapt, and what it would cost to deploy.'])])]));
-
-  root.append(wide([
-    el('h3',{class:'sec',style:'margin-top:8px'},['Three answers a payment team could act on']),
-    el('div',{class:'grid g3',style:'margin:18px 0 6px'},[
-      finding('01','Evasion is not free',
-        'To make a payment look consistent with its declared purpose, a scammer must route it to accounts that fit that purpose — which concentrates their traffic onto a narrower set of accounts. That concentration is exactly what ordinary recipient monitoring is built to spot. <b>The attacker can match the purpose or stay dispersed, not both.</b>',
-        '0.924 → 0.957','fraud caught by the existing system, as the attacker coaches harder'),
-      finding('02','Six categories, minimum',
-        'A purpose menu with three options — personal, commercial, other — carries <b>no measurable value at all</b>. At six options it works. This is a concrete specification for a dropdown, not a research direction.',
-        'K=3 nothing · K=6 works','improvement at three vs six purpose categories'),
-      finding('03','Retain the field; don’t model it',
-        'We built a purpose-conditional consistency engine, and it beat plain one-hot encoding of the code by almost nothing. The value is in <b>capturing and keeping the field</b>, not in what you build on top of it. Deployment cost collapses.',
-        '+0.0008','all our extra modelling was worth, over a plain label')]),
-    el('div',{class:'wrap narrow',style:'padding:0'},[
-      pull('Finding 01 is the one we did not design for. Coaching the declared purpose and evading beneficiary intelligence turn out to be <b>coupled</b>: buying protection against one costs the attacker exposure on the other. We found no published statement of that trade-off.','good')])
-  ]));
-
-  root.append(body([
-    h3('What this project is'),
-    p('Not another fraud classifier. A <b>deployment decision framework</b>: before a payment network spends money collecting a new signal from hundreds of millions of people, can we say when that signal stays useful under adversarial pressure — and when it stops?'),
-    p('The four questions a bank actually has to answer, and what we found:'),
-    el('div',{class:'scroll'},[table(['The decision','What the study says'],[
-      ['Is it worth collecting at all?','Yes — it improved detection in every one of 30 tested conditions, against three attackers including one that knows how the defence works.'],
-      ['How many categories does the menu need?','At least six. Three is worthless.'],
-      ['What do we have to build?','Almost nothing. Keep the code, pass it to the model you already run.'],
-      ['Where does it fail?','At structural extremes, and against a purpose-matched attacker its value roughly halves — though that same attack makes the attacker easier to catch by other means.'],
-    ])]),
-
-    h3('Why you can believe the numbers'),
-    el('div',{class:'grid g2'},[
-      card('The answer was written down first','The question, the features, both success measures, and <b>the condition under which we would call the idea a failure</b> were committed before the simulator existed. That commit has never been edited.'),
-      card('The incumbent got every advantage','Transaction, behavioural and beneficiary intelligence form the baseline, and the baseline received the entire model-tuning budget. The new idea got none of it — so every effect reported is a floor, not a best case.'),
-      card('It was attacked until it bent','Three attackers of increasing capability, ending with one that knows the defence and picks its accounts to defeat it. The signal survived at roughly half strength.'),
-      card('The failures are shown','Two pre-registered measures disagreed and both are reported. Individual payments the idea got wrong are on by default. An attack class the system provably cannot catch is named.')]),
-    el('p',{class:'aside'},['Ten minutes end to end. Every figure is read from results committed to the repository; nothing is computed when you load this page.'])
-  ]));
+  const find=(n,t,x,num,cap)=>el('div',{class:'find'},[
+    el('div',{class:'n'},['FINDING '+n]),el('h4',{},[t]),el('p',{html:x}),
+    el('div',{class:'num'},[num]),el('div',{class:'cap'},[cap])]);
+  root.append(el('div',{class:'pg'},[el('div',{class:'wrap'},[
+    el('div',{class:'kicker'},['Scam fraud · payment context · adversarial measurement']),
+    el('h2',{class:'t',style:'max-width:20ch'},['Should a payment network ask what a payment is for?']),
+    el('p',{class:'lede'},['A bank can prove you authorised a transfer. It cannot prove you knew who you were sending it to. We tested whether asking the payer closes that gap, how long it keeps working once criminals adapt, and what it would cost to deploy.'])])]));
+  root.append(W([el('div',{class:'grid g3',style:'margin-top:30px'},[
+    find('01','Evasion is not free',
+      'To make a payment look consistent with its declared purpose, a scammer must send it to accounts that fit — and few do. Their traffic concentrates, and concentration is what recipient monitoring already catches.',
+      '0.924 → 0.957','fraud the existing system caught, as the attacker coached harder'),
+    find('02','Six categories, minimum',
+      'A three-option menu — personal, commercial, other — carried no measurable value. At six options it worked. That is a dropdown specification, not a research direction.',
+      'K=3 nothing · K=6 works','improvement at three versus six purpose categories'),
+    find('03','Keep the field, don’t model it',
+      'We built a consistency engine that learns what recipients normally look like per purpose. It beat plain one-hot encoding of the code by almost nothing.',
+      '+0.0008','all the extra modelling was worth')])]));
+  root.append(sec([W([h3('The finding we did not design for')]),
+    W([fig(figCoupling(),
+      'The attacker’s dilemma. Left: spread payments across whatever accounts are available — the recipient monitor stays quiet, but the declared purpose does not match any of them. Right: route only to accounts that fit the declared purpose — the purpose check goes quiet, but six payments funnel into two accounts and the recipient monitor fires.',
+      'Two panels comparing dispersed routing, where the purpose check fires, against purpose-matched routing, where the recipient check fires instead')]),
+    W([take('takeaway','The attacker can match the declared purpose <b>or</b> stay dispersed. Not both. Buying protection against one check costs exposure on the other — so the value of this field is not only what it catches itself, but what it forces the attacker to give up. We found no published statement of this trade-off.','good')])]));
+  root.append(sec([COL([h3('What this project is'),
+    p('Not another fraud classifier. A <b>deployment decision</b>: before a payment network asks hundreds of millions of people a new question, can we say when the answer stays useful under adversarial pressure — and when it stops?')]),
+    W([tbl(['The decision a bank faces','What the study says'],[
+      ['Is it worth collecting?','Yes — it helped in all 30 tested conditions, against three attackers including one that knows the defence.'],
+      ['How many menu options?','At least six. Three is worthless.'],
+      ['What must we build?','Almost nothing. Keep the code; pass it to the model you already run.'],
+      ['Where does it fail?','At structural extremes, and its value roughly halves against a purpose-matched attacker.']])])]));
   root.append(nav(null,{id:'p-problem',label:'Start with the problem'}));
 }
 
-/* ---------- 2. problem ---------- */
+/* ---------- 2 problem ---------- */
 function pProblem(root){
-  root.append(head('Step 1 of 6','A fraud that passes every check',
-    'Authorised push-payment fraud is the failure mode where all of a bank’s defences work exactly as designed, and the customer still loses everything.'));
-  root.append(body([
-    h3('How it actually happens'),
-    p('Someone receives a call. It is convincing — a police officer, a bank official, a courier company, an investment adviser, a relative in trouble. Over an hour or two they are persuaded that money must be moved right now, and told where to send it.'),
-    p('They open their banking app themselves. They type the amount themselves. They pass the authentication because they <em>are</em> the account holder. Then they press send.'),
-    pull('Nothing was hacked. No credential was stolen. No control was bypassed. The bank did its job correctly and the money is still gone.','bad'),
-    p('This is why it is called <em>authorised</em> push-payment fraud, and why it is so hard to stop. Card fraud and account takeover are unauthorised — someone is pretending to be you, so authentication and device checks are pointed at the right target. Here the real customer really did make the payment. What failed was not the authorisation. It was their understanding of who was on the other end.'),
-
-    h3('Three consequences that follow'),
-    el('div',{class:'grid g3'},[
-      card('Liability is contested','No control was breached, so it is genuinely unclear who should bear the loss — which is exactly why regulators are now legislating on it.'),
-      card('Reversal is hard','The transfer was valid at the moment it was made. By the time anyone realises, the money has been moved onward through other accounts.'),
-      card('Detection has nothing to work with','The system can see who paid whom, how much, from what device, at what time. It cannot see “this was supposed to be my daughter’s tuition”.')]),
-
-    h3('The scale, in India, right now'),
-    p('The Reserve Bank of India published a discussion paper in April 2026 on safeguards against digital payment fraud. It cites national cybercrime reporting figures for 2025: <b>₹22,931 crore lost across 28 lakh reported cases</b> — an average of roughly ₹82,000 per case.'),
-    p('One detail in those figures shapes everything that follows. Payments above ₹10,000 are about <b>45% of cases but around 98.5% of the money</b>. Most reported incidents are small. Almost all of the loss is not.'),
-
-    h3('What is being proposed, and what it does not do'),
-    p('That RBI paper proposes four controls: a one-hour delay on transfers above ₹10,000, authentication by a trusted person, a cap on credit, and a kill switch. Comments closed in May 2026. These are <b>proposals, not law</b>.'),
-    p('Each is reasonable. But look at what they have in common:'),
-    el('div',{class:'grid g4'},[
-      card('One-hour lag','Buys time to reverse. Detects nothing.'),
-      card('Trusted person','Adds a second human. Detects nothing.'),
-      card('Credit cap','Limits the damage. Detects nothing.'),
-      card('Kill switch','Stops the bleeding afterwards. Detects nothing.')]),
-    pull('Every proposed control is <b>friction</b>. Not one of them improves the network’s ability to tell, at the moment of payment, that this transfer is not what the payer believes it is. That gap is what this project is about.'),
-    el('p',{class:'aside'},['Sources are cited directly from the RBI discussion paper and national reporting figures. No statistics aggregators are used anywhere in this project.'])
-  ]));
-  root.append(nav({id:'p-home',label:'Home'},{id:'p-idea',label:'Next: the idea'}));
+  root.append(head('Step 1 of 6','A fraud where every check correctly says yes',
+    'The customer is authenticated, on their own device, sending their own money. Nothing is bypassed. The money still goes.'));
+  root.append(sec([W([fig(figScam(),
+    'A scam payment as the bank sees it. Every control passes, because every control is true: the customer really is the customer. The one fact that would have flagged it — what the payer believed they were paying for — is never recorded.',
+    'A payment passing four green checks into a twelve-day-old scammer account, with the payer’s belief shown as an unrecorded dashed box')])]));
+  root.append(sec([COL([
+    p('This is why it is called <b>authorised</b> push-payment fraud, and why it is hard. Card fraud is unauthorised — someone pretends to be you, so authentication is aimed at the right target. Here the real customer really did send the money. What failed was their understanding of who was on the other end.'),
+    h3('The scale, in India, now'),
+    p('The Reserve Bank of India’s April 2026 discussion paper cites national reporting for 2025: <b>₹22,931 crore across 28 lakh cases</b>, roughly ₹82,000 per case. Payments above ₹10,000 are about 45% of cases but around <b>98.5% of the money</b>.'),
+    h3('Four controls have been proposed. None of them detects anything.')]),
+    W([el('div',{class:'grid g3'},[
+      card('One-hour lag','Buys time to reverse.'),
+      card('Trusted person','Adds a second human.'),
+      card('Credit cap','Limits the damage.')])]),
+    W([take('takeaway','Every proposed control is <b>friction</b>. Not one improves the ability to tell, at the moment of payment, that this transfer is not what the payer believes it is. That gap is what this project measures.','warn')])]));
+  root.append(nav({id:'p-home',label:'Home'},{id:'p-idea',label:'The idea'}));
 }
 
-
-/* ---------- 3. idea ---------- */
+/* ---------- 3 idea ---------- */
 function pIdea(root){
-  const acct=(title,sub,rows,tone)=>el('div',{class:'card',style:tone==='bad'?'border-color:var(--negative)':''},[
-    el('h4',{},[title]),
-    el('p',{style:'margin-bottom:12px;font-size:13px;color:var(--muted)'},[sub]),
-    el('div',{},rows.map(([k,v])=>el('div',{style:'display:flex;justify-content:space-between;gap:14px;font-size:13.5px;padding:5px 0;border-bottom:1px solid var(--hairline)'},[
-      el('span',{style:'color:var(--muted)'},[k]),el('span',{style:'text-align:right'},[v])])))]);
-
   root.append(head('Step 2 of 6','Ask what the payment is for',
-    'The signal nobody collects is the payer’s own belief about the transaction. If a system knew it, it could check that belief against the recipient.'));
-  root.append(body([
-    p('Suppose the payment carried one extra field: <b>what the payer thinks they are paying for</b>. Rent. Tuition. A refund. An investment. Money to a friend.'),
-    p('On its own that field is just a label, and a liar can write anything in it. But it becomes interesting when you check it against the account receiving the money — because <em>the recipient cannot lie about its own history</em>.'),
-
-    h3('What a real recipient looks like'),
-    p('Consider two accounts receiving a payment labelled “rent”:'),
-    el('div',{class:'grid g2',style:'margin:20px 0'},[
-      acct('An actual landlord','What people normally send rent to',[
-        ['Account age','Several years'],['People paying it','A handful, stable'],
-        ['Payment rhythm','Same date each month'],['Money leaving','Sits, then spends normally'],
-        ['Your history with it','Months or years']]),
-      acct('A mule account','Where this payment actually went',[
-        ['Account age','Twelve days'],['People paying it','Dozens of strangers'],
-        ['Payment rhythm','None'],['Money leaving','Forwarded within hours'],
-        ['Your history with it','None']],'bad')]),
-    pull('You did not need a model to see that. The word “rent” and that second account are <b>not consistent with each other</b>, and the inconsistency is visible without knowing anything about fraud.'),
-    p('That is the whole idea. Not a new fraud model — a consistency check between something the payer declares and something the recipient cannot fake.'),
-
-    h3('Why this might be worthless'),
-    p('Here is the problem, and it is the reason this project exists rather than just proposing the feature.'),
-    p('Scammers adapt. Once the question is being asked, the script changes: <em>“when it asks what this is for, choose ‘transfer to a friend’.”</em> And a friend genuinely does have a thin, irregular, unfamiliar account. There is no mismatch left to detect.'),
-    pull('So the honest question is not “does declared context help?” It is: <b>how much coaching does it survive, and is it therefore worth the cost of collecting?</b>','warn'),
-    p('That question has a number attached to it, and that number is what a payment network actually needs before it changes a payment form used by hundreds of millions of people.'),
-
-    h3('And one more thing that has to be ruled out'),
-    p('There is an obvious objection: banks already look hard at the recipient. Account age, how many people pay it, how fast money leaves — all of this is standard beneficiary intelligence. If that already catches these accounts, the declared purpose adds nothing.'),
-    p('So the test cannot be “does purpose beat nothing”. It has to be <b>does purpose add anything once you already have everything else</b> — and the study is built around exactly that comparison.'),
-    el('p',{class:'aside'},['Structured purpose codes are not a new invention. They already exist in the ISO 20022 payment message standard and travel on corporate payments today. What is not established is whether they survive an adversary — which is what is measured here.'])
-  ]));
-  root.append(nav({id:'p-problem',label:'The problem'},{id:'p-method',label:'Next: how we tested it'}));
+    'The label alone is worthless — a liar writes anything. It becomes useful when checked against the recipient, because the recipient cannot lie about its own history.'));
+  root.append(sec([W([fig(figConsistency(),
+    'The check. Rent normally goes to accounts with years of history, a handful of regular payers, a monthly rhythm and money that stays put. This recipient sits nowhere near that. The word and the account are not consistent with each other.',
+    'A range showing what rent recipients normally look like, with a landlord inside it and the actual recipient far outside')])]));
+  root.append(sec([COL([
+    p('No model is needed to see the mismatch. That is the whole idea: a consistency check between something the payer declares and something the recipient cannot fake.'),
+    h3('Why it might be worthless'),
+    p('Scammers adapt. Once the question is asked, the script changes: <em>“when it asks what this is for, choose transfer to a friend.”</em> And a friend genuinely does have a thin, irregular account. No mismatch is left.')]),
+    W([take('the real question','Not “does this help?” but <b>how much coaching does it survive, and is it therefore worth collecting?</b> That question has a number attached, and the number is what a payment network needs before changing a form used by hundreds of millions of people.')]),
+    COL([h3('And one thing that must be ruled out'),
+      p('Banks already study the recipient — age, how many people pay it, how fast money leaves. If that already catches these accounts, the declared purpose adds nothing. So the test cannot be “purpose versus nothing”. It has to be <b>purpose versus everything else you already have</b>.')])]));
+  root.append(nav({id:'p-problem',label:'The problem'},{id:'p-method',label:'How we tested it'}));
 }
 
-/* ---------- 4. method ---------- */
+/* ---------- 4 method ---------- */
 function pMethod(root){
   root.append(head('Step 3 of 6','How the question was tested',
-    'Before any results: this is the part that decides whether the numbers on the next page mean anything.'));
-  root.append(body([
-    p('A study like this is easy to rig, usually by accident. Four things were done to stop that, and they matter more than any result.'),
+    'This is the part that decides whether the numbers on the next page mean anything.'));
+  root.append(sec([COL([h3('The answer was written down first'),
+    p('The question, the features, both success measures, and <b>the condition under which we would call the idea a failure</b> were committed before the simulator existed. That commit has never been edited.')]),
+    W([take('committed first','“Under what levels of adversarially degraded payment-context reliability does declared payment context provide incremental fraud-detection value beyond transaction, behavioural, and beneficiary intelligence?”')])]));
+  root.append(sec([W([h3('The data cannot plant the answer')]),
+    W([fig(figProcesses(),
+      'Three generators that never consult each other. What a payment is for is decided by the relationship; who gets scammed is decided by a separate campaign. Purpose is never derived from whether a payment is fraudulent, so if a consistency signal exists it has to emerge rather than be planted.',
+      'Three independent generators feeding one ledger, with a crossed-out link between the purpose generator and the fraud generator')]),
+    COL([p('The population also contains legitimate accounts that <em>look</em> like mules — property managers, savings-group collectors, gig workers. Without them, recipient checks alone would separate fraud almost perfectly and there would be nothing left to test.')])]));
+  root.append(sec([COL([h3('The new idea competes against a strong opponent'),
+    p('Transaction, behavioural and recipient intelligence together form the baseline. The baseline received the <b>entire</b> model-tuning budget; the new idea got none of it — so every result reported is a floor, not a best case.')]),
+    W([h3('Then it was attacked until it bent')]),
+    W([fig(figLadder(),
+      'Three attackers of increasing capability. The first controls only what the victim types. The second also controls the statistics of those words, so the label carries no information by itself. The third additionally chooses which account receives the money.',
+      'Three attacker rows showing which of the label, its statistics and the receiving account each one controls')]),
+    W([take('takeaway','Each rung adds exactly one capability, so the surfaces can be compared against each other. The third attacker is assumed to <b>know the defence</b> and score accounts against the defender’s own reference.')])]));
+  root.append(nav({id:'p-idea',label:'The idea'},{id:'p-findings',label:'What we found'}));
+}
 
-    h3('1. The answer was written down before the experiment'),
-    p('The research question, the exact features, both success measures, the levels they would be read at, and <b>the condition under which we would declare the idea a failure</b> were all committed to the project’s version history before the simulator existed.'),
-    el('div',{class:'card',style:'margin:16px 0'},[
-      el('p',{style:'font-family:Spectral,Georgia,serif;font-size:17px;line-height:1.55;color:var(--ink)'},[
-        '“Under what levels of adversarially degraded payment-context reliability does declared payment context provide incremental fraud-detection value beyond transaction, behavioural, and beneficiary intelligence?”']),
-      el('p',{style:'margin-top:12px;font-size:13px;color:var(--muted)'},[
-        'The pre-registration was the sole content of the first commit in the repository and has never been edited. Anyone can verify that.'])]),
-    p('Every change made to the study afterwards is recorded separately, with what prompted it and why. Nothing was quietly adjusted after seeing a result.'),
+const AR='<defs><marker id="ar" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto"><path d="M0 0 L10 4 L0 8 z" fill="currentColor"/></marker>'+
+'<marker id="arN" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto"><path d="M0 0 L10 4 L0 8 z" style="fill:var(--neg)"/></marker>'+
+'<marker id="arP" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="7" orient="auto"><path d="M0 0 L10 4 L0 8 z" style="fill:var(--pos)"/></marker></defs>';
 
-    h3('2. The data had to make the signal earn itself'),
-    p('There is no public dataset of scam-fraud payments that includes a declared purpose field, so the population is simulated. That is a real limitation and it is stated plainly throughout.'),
-    p('But a simulator can cheat, so this one is built from <b>three processes that do not talk to each other</b>:'),
-    el('div',{class:'grid g3'},[
-      card('How recipients behave','Depends only on what kind of account it is — a landlord, a school, a small shop, a mule.'),
-      card('What a payment is for','Depends only on the relationship between payer and recipient.'),
-      card('Who gets scammed','Depends only on a separate campaign process that never looks at anyone’s payment history.')]),
-    pull('Purpose is never generated from whether a payment is fraudulent. If the consistency signal exists, it has to <b>emerge</b> from those three processes interacting. It cannot be planted.'),
-    p('The population also deliberately contains legitimate accounts that <em>look</em> like mules — property managers, community savings collectors, gig workers, settlement agents. All receive money from many unrelated people and pass it straight on. Without them, recipient checks alone would separate fraud almost perfectly and there would be nothing left to test.'),
+function fig(svg,caption,aria,boxed=true){
+  const f=el('figure',{});
+  const holder=el('div',{class:boxed?'figbox':''});
+  holder.innerHTML='<svg viewBox="'+svg.vb+'" role="img" aria-label="'+aria.replace(/"/g,'&quot;')+'">'+AR+svg.body+'</svg>';
+  f.append(holder);
+  f.append(el('figcaption',{html:caption}));
+  return f;
+}
+const T=(x,y,s,o={})=>'<text x="'+x+'" y="'+y+'" text-anchor="'+(o.a||'middle')+'" font-size="'+(o.s||12.5)+
+  '" font-weight="'+(o.w||400)+'" style="fill:'+(o.c||'currentColor')+'" font-family="'+(o.f||'IBM Plex Sans, sans-serif')+'">'+s+'</text>';
+const BOX=(x,y,w,h,o={})=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(o.r||4)+
+  '" style="fill:'+(o.fill||'var(--surface)')+';stroke:'+(o.stroke||'var(--line-2)')+';stroke-width:'+(o.sw||1.2)+
+  (o.dash?';stroke-dasharray:'+o.dash:'')+'"/>';
+const LINE=(x1,y1,x2,y2,o={})=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+
+  '" style="stroke:'+(o.c||'currentColor')+';stroke-width:'+(o.w||1.4)+(o.dash?';stroke-dasharray:'+o.dash:'')+
+  '" '+(o.m?'marker-end="url(#'+o.m+')"':'')+'/>';
 
-    h3('3. The new idea competes against a strong opponent'),
-    p('Four groups of information are tested, added one at a time:'),
-    el('div',{class:'scroll'},[table(['Group','What it knows'],[
-      ['Transaction','amount, timing, channel, how often this person pays'],
-      ['+ Behaviour','how long they hesitated, edits, app-switching, whether a call was active'],
-      ['+ Recipient','account age, how many people pay it, how fast money leaves, prior complaints'],
-      ['+ Declared purpose','the label, and whether it fits the recipient'],
-    ])]),
-    p('The first three together are the <b>baseline</b> — a realistic modern fraud system. The question is only whether the fourth adds anything on top.'),
-    pull('The baseline received the <b>entire</b> model-tuning effort. Its settings were chosen to suit it alone, then frozen and reused unchanged for the versions containing the new idea. The incumbent got the search; the challenger got none of it.','good'),
-    p('A related trap: the new group must not secretly re-use recipient information under a different name, or a gain would just mean the model was handed the same evidence twice. Every feature is assigned to exactly one group, and an automated check fails the build if that is ever violated.'),
+/* 1 — every control passes */
+function figScam(){
+  const y=64,bw=132,bh=52,gap=34;
+  let s='';
+  const steps=[['Payer','the real customer'],['Password','correct'],['Device','recognised'],['Amount','unremarkable']];
+  steps.forEach((st,i)=>{const x=20+i*(bw+gap);
+    s+=BOX(x,y,bw,bh)+T(x+bw/2,y+22,st[0],{w:600,s:13})+T(x+bw/2,y+39,st[1],{s:11.5,c:'var(--muted)'});
+    s+=T(x+bw/2,y-10,'✓',{s:15,c:'var(--pos)',w:700});
+    if(i<3)s+=LINE(x+bw,y+bh/2,x+bw+gap-8,y+bh/2,{m:'ar'});});
+  const mx=20+4*(bw+gap);
+  s+=LINE(mx-gap,y+bh/2,mx-8,y+bh/2,{m:'arN',c:'var(--neg)'});
+  s+=BOX(mx,y,150,bh,{stroke:'var(--neg)',fill:'var(--neg-soft)'})+
+     T(mx+75,y+22,'Scammer’s account',{w:600,s:13,c:'var(--neg)'})+T(mx+75,y+39,'12 days old',{s:11.5,c:'var(--neg)'});
+  s+=BOX(20,y+96,bw*2+gap,46,{dash:'5 4',fill:'none'})+
+     T(20+(bw*2+gap)/2,y+118,'What the payer believed',{w:600,s:13})+
+     T(20+(bw*2+gap)/2,y+134,'never recorded, never checked',{s:11.5,c:'var(--muted)'});
+  s+=LINE(20+bw*2+gap+10,y+119,mx-10,y+119,{dash:'4 4',c:'var(--muted)',w:1.2});
+  s+=T((20+bw*2+gap+mx)/2,y+112,'the only thing that would have flagged it',{s:11,c:'var(--muted)'});
+  return {vb:'0 0 880 230',body:s};
+}
 
-    h3('4. Three attackers, not one'),
-    p('Finally, the idea is attacked at three levels of sophistication — from a scammer who simply coaches the victim, to one that knows precisely how the defence works and chooses its accounts to defeat it. That ladder is what produces the actual answer.'),
-    el('p',{class:'aside'},['The full method, including the exact features, the model, the splits and the statistics, is documented in the project’s data card and model card.'])
-  ]));
-  root.append(nav({id:'p-idea',label:'The idea'},{id:'p-findings',label:'Next: what we found'}));
+/* 2 — the consistency check */
+function figConsistency(){
+  let s='';
+  const x0=90,x1=800,ymid=118;
+  s+=T(20,42,'Recipients that people normally send RENT to',{a:'start',w:600,s:13});
+  s+=BOX(x0,ymid-34,300,68,{fill:'var(--accent-soft)',stroke:'var(--accent)',r:34});
+  s+=T(x0+150,ymid+5,'the usual range',{s:12,c:'var(--accent-ink)'});
+  s+=LINE(x0-40,ymid,x1,ymid,{c:'var(--line-2)',w:1.2});
+  s+=T(x0+150,ymid+56,'years old · few payers · same date monthly · money stays',{s:11.5,c:'var(--muted)'});
+  s+=BOX(x0+110,ymid-52,80,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
+     T(x0+150,ymid-34,'landlord',{s:11.5,w:600,c:'var(--pos)'});
+  s+=LINE(x0+150,ymid-26,x0+150,ymid-8,{c:'var(--pos)',w:1.2});
+  const mx=640;
+  s+=BOX(mx-58,ymid-52,116,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
+     T(mx,ymid-34,'this recipient',{s:11.5,w:600,c:'var(--neg)'});
+  s+=LINE(mx,ymid-26,mx,ymid-8,{c:'var(--neg)',w:1.2});
+  s+='<circle cx="'+mx+'" cy="'+ymid+'" r="6" style="fill:var(--neg)"/>';
+  s+=T(mx,ymid+30,'12 days old · dozens of strangers · no rhythm',{s:11.5,c:'var(--neg)'});
+  s+=T(mx,ymid+47,'money forwarded within hours',{s:11.5,c:'var(--neg)'});
+  s+=LINE(x0+300+14,ymid-20,mx-20,ymid-20,{c:'var(--neg)',w:1.3,dash:'5 4',m:'arN'});
+  s+=T((x0+300+mx)/2+2,ymid-28,'distance from normal',{s:11,c:'var(--neg)'});
+  return {vb:'0 0 880 200',body:s};
+}
+
+/* 3 — three independent processes */
+function figProcesses(){
+  let s='';const bw=232,bh=76,y=34;
+  const b=[['Account role','decides how a recipient behaves'],
+           ['Relationship','decides what a payment is for'],
+           ['Scam campaign','decides who gets targeted']];
+  b.forEach((t,i)=>{const x=22+i*(bw+40);
+    s+=BOX(x,y,bw,bh)+T(x+bw/2,y+30,t[0],{w:600,s:14})+T(x+bw/2,y+50,t[1],{s:11.5,c:'var(--muted)'});
+    s+=LINE(x+bw/2,y+bh,x+bw/2,y+bh+34,{m:'ar'});});
+  s+=BOX(22,y+bh+40,bw*3+80,44,{fill:'var(--raised)'})+
+     T(22+(bw*3+80)/2,y+bh+68,'one simulated payment ledger',{w:600,s:14});
+  const ay=y+30;
+  s+=LINE(22+bw+18,ay,22+bw+22,ay,{c:'var(--neg)',w:0});
+  s+='<g><line x1="'+(22+bw*2+40)+'" y1="'+(y+18)+'" x2="'+(22+bw+18)+'" y2="'+(y+18)+
+     '" style="stroke:var(--neg);stroke-width:1.4;stroke-dasharray:5 4"/>'+
+     '<line x1="'+(22+bw*1.5+29-9)+'" y1="'+(y+9)+'" x2="'+(22+bw*1.5+29+9)+'" y2="'+(y+27)+
+     '" style="stroke:var(--neg);stroke-width:2"/>'+
+     '<line x1="'+(22+bw*1.5+29+9)+'" y1="'+(y+9)+'" x2="'+(22+bw*1.5+29-9)+'" y2="'+(y+27)+
+     '" style="stroke:var(--neg);stroke-width:2"/></g>';
+  s+=T(22+bw*1.5+29,y-6,'no connection',{s:11.5,c:'var(--neg)',w:600});
+  return {vb:'0 0 880 200',body:s};
+}
+
+/* 4 — the adversary ladder */
+function figLadder(){
+  let s='';const y0=40,rh=54,lw=250,cw=112,gap=14;
+  s+=T(lw+22+cw/2,26,'the label',{s:11,c:'var(--muted)',w:600});
+  s+=T(lw+22+cw*1.5+gap,26,'its statistics',{s:11,c:'var(--muted)',w:600});
+  s+=T(lw+22+cw*2.5+gap*2,26,'which account',{s:11,c:'var(--muted)',w:600});
+  const rows=[['A basic scammer','tells the victim what to type',1],
+              ['A careful scammer','picks words that leave no statistical trace',2],
+              ['One that knows the defence','also picks a recipient that fits the words',3]];
+  rows.forEach((r,i)=>{const y=y0+i*(rh+gap);
+    s+=T(20,y+26,r[0],{a:'start',w:600,s:13.5});
+    s+=T(20,y+43,r[1],{a:'start',s:11.5,c:'var(--muted)'});
+    for(let c=0;c<3;c++){const x=lw+22+c*(cw+gap),on=c<r[2];
+      s+=BOX(x,y+6,cw,40,{fill:on?'var(--neg-soft)':'var(--sunk)',stroke:on?'var(--neg)':'var(--line)'});
+      s+=T(x+cw/2,y+31,on?'controls':'—',{s:12,w:on?600:400,c:on?'var(--neg)':'var(--muted)'});}});
+  return {vb:'0 0 880 250',body:s};
+}
+
+/* 5 — the coupling trade-off: the headline finding */
+function figCoupling(){
+  let s='';const py=44,ph=180,pw=396;
+  const panel=(x,title,sub)=>{
+    let g=BOX(x,py,pw,ph,{fill:'var(--surface)'});
+    g+=T(x+pw/2,py+26,title,{w:600,s:14.5});
+    g+=T(x+pw/2,py+45,sub,{s:11.5,c:'var(--muted)'});
+    return g;};
+  /* left: dispersed */
+  s+=panel(20,'Stay spread out','send to whatever account is free');
+  const sx=76,sy=py+92;
+  s+='<circle cx="'+sx+'" cy="'+sy+'" r="13" style="fill:var(--sunk);stroke:var(--line-2)"/>'+T(sx,sy+4,'₹',{s:12});
+  for(let i=0;i<6;i++){const tx=180+ (i%3)*68, ty=py+74+Math.floor(i/3)*46;
+    s+=LINE(sx+14,sy,tx-11,ty,{c:'var(--muted)',w:1});
+    s+='<circle cx="'+tx+'" cy="'+ty+'" r="9" style="fill:var(--raised);stroke:var(--line-2)"/>';}
+  s+=T(228,py+ph-14,'6 accounts, none of them fits “rent”',{s:11.5,c:'var(--muted)'});
+  s+=BOX(258,py+62,150,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
+     T(333,py+80,'recipient check: quiet',{s:11.5,c:'var(--pos)',w:600});
+  s+=BOX(258,py+120,150,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
+     T(333,py+138,'purpose check: FIRES',{s:11.5,c:'var(--neg)',w:600});
+  /* right: matched */
+  const ox=462;
+  s+=panel(ox,'Match the declared purpose','only a few accounts look like a landlord');
+  const mx2=ox+56,my=py+92;
+  s+='<circle cx="'+mx2+'" cy="'+my+'" r="13" style="fill:var(--sunk);stroke:var(--line-2)"/>'+T(mx2,my+4,'₹',{s:12});
+  for(let i=0;i<6;i++){const ty=py+78+ (i%2)*30;
+    s+=LINE(mx2+14,my,ox+142,ty,{c:'var(--neg)',w:1.1});}
+  s+='<circle cx="'+(ox+152)+'" cy="'+(py+78)+'" r="10" style="fill:var(--neg-soft);stroke:var(--neg);stroke-width:1.4"/>';
+  s+='<circle cx="'+(ox+152)+'" cy="'+(py+108)+'" r="10" style="fill:var(--neg-soft);stroke:var(--neg);stroke-width:1.4"/>';
+  s+=T(ox+196,py+ph-14,'all six funnel into 2 accounts',{s:11.5,c:'var(--neg)'});
+  s+=BOX(ox+206,py+62,168,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
+     T(ox+290,py+80,'recipient check: FIRES',{s:11.5,c:'var(--neg)',w:600});
+  s+=BOX(ox+206,py+120,168,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
+     T(ox+290,py+138,'purpose check: quiet',{s:11.5,c:'var(--pos)',w:600});
+  s+=T(440,26,'the attacker must choose',{s:12,c:'var(--muted)',w:600});
+  return {vb:'0 0 880 250',body:s};
 }
 
 
 /* ---------- heatmap ---------- */
 function heatColour(v,max){
-  if(v===null||v===undefined||Number.isNaN(v))return 'var(--sunk)';
+  if(v==null||Number.isNaN(v))return 'var(--sunk)';
   const t=Math.max(-1,Math.min(1,v/(max||1e-9)));
   const c=getComputedStyle(document.documentElement).getPropertyValue(t>=0?'--heat-pos':'--heat-neg');
   return 'rgba('+c.trim()+','+(0.08+0.85*Math.abs(t)).toFixed(3)+')';}
-
-function heatmap(cells,digits,onPick){
+function heatmap(cells,onPick){
   const xs=[...new Set(cells.map(c=>c.rho))].sort((a,b)=>a-b);
   const ys=[...new Set(cells.map(c=>c.lam))].sort((a,b)=>b-a);
   const max=Math.max(...cells.map(c=>Math.abs(c.delta||0)),1e-9);
-  const grid=el('div',{style:'display:grid;gap:3px;grid-template-columns:repeat('+xs.length+',minmax(0,1fr))'});
-  ys.forEach(y=>xs.forEach(x=>{
-    const c=cells.find(k=>k.rho===x&&k.lam===y);
-    const n=el('div',{tabindex:'0',role:'button','aria-label':'coaching '+x+', overlap '+y,
-      style:'height:46px;display:flex;align-items:center;justify-content:center;border-radius:2px;'+
-        'font-family:\"IBM Plex Mono\",monospace;font-size:11.5px;font-variant-numeric:tabular-nums;cursor:default;background:'+
-        heatColour(c?c.delta:null,max)+(c&&!c.significant?
-        ';background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,var(--hairline-strong) 3px,var(--hairline-strong) 4.4px)':'')},
-      [c?sgn(c.delta,digits):'—']);
-    if(c){n.addEventListener('mouseenter',()=>onPick(c));n.addEventListener('focus',()=>onPick(c));}
-    grid.append(n);}));
-  return el('div',{},[
-    el('div',{style:'display:grid;grid-template-columns:auto 1fr;gap:0 10px'},[
-      el('div',{style:'display:flex;flex-direction:column;justify-content:space-between;padding-bottom:26px'},
-        ys.map(y=>el('span',{style:'font-size:11.5px;color:var(--muted);height:46px;display:flex;align-items:center;font-variant-numeric:tabular-nums'},[String(y)]))),
-      el('div',{},[grid,
-        el('div',{style:'display:grid;gap:3px;margin-top:7px;grid-template-columns:repeat('+xs.length+',minmax(0,1fr))'},
-          xs.map(x=>el('span',{style:'font-size:11.5px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums'},[String(x)]))),
-        el('div',{style:'text-align:center;font-size:12.5px;color:var(--muted);margin-top:8px'},['how effectively the scammer coached the victim  →'])])]),
-    el('div',{style:'text-align:center;font-size:12.5px;color:var(--muted);margin-top:2px'},['rows: how many legitimate accounts look like mules'])]);
-}
+  const rows=el('div',{style:'display:flex;flex-direction:column;gap:4px'});
+  ys.forEach(y=>{
+    const r=el('div',{style:'display:grid;grid-template-columns:52px repeat('+xs.length+',minmax(0,1fr));gap:4px;align-items:center'});
+    r.append(el('div',{style:'font-size:11.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums'},[String(y)]));
+    xs.forEach(x=>{const c=cells.find(k=>k.rho===x&&k.lam===y);
+      const n=el('div',{tabindex:'0',role:'button','aria-label':'coaching '+x+', look-alikes '+y,
+        style:'height:44px;display:flex;align-items:center;justify-content:center;border-radius:3px;'+
+          'font-family:\"IBM Plex Mono\",monospace;font-size:11.5px;font-variant-numeric:tabular-nums;background:'+
+          heatColour(c?c.delta:null,max)+(c&&!c.significant?
+          ';background-image:repeating-linear-gradient(45deg,transparent,transparent 3px,var(--line-2) 3px,var(--line-2) 4.5px)':'')},
+        [c?sgn(c.delta,3):'—']);
+      if(c){n.addEventListener('mouseenter',()=>onPick(c));n.addEventListener('focus',()=>onPick(c));}
+      r.append(n);});
+    rows.append(r);});
+  const axis=el('div',{style:'display:grid;grid-template-columns:52px repeat('+xs.length+',minmax(0,1fr));gap:4px;margin-top:8px'});
+  axis.append(el('div',{}));
+  xs.forEach(x=>axis.append(el('div',{style:'font-size:11.5px;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums'},[String(x)])));
+  return el('div',{},[rows,axis,
+    el('div',{style:'font-size:12px;color:var(--muted);text-align:center;margin-top:8px'},['how hard the scammer coached the victim  →']),
+    el('div',{style:'font-size:12px;color:var(--muted);text-align:center;margin-top:2px'},['rows ↓ how many legitimate accounts look like mules'])]);}
 
-/* ---------- 5. findings ---------- */
-const ADVS=[{id:'uniform',label:'A basic scammer',title:'coaches the victim toward a safe-sounding purpose'},
-            {id:'prevalence',label:'A careful scammer',title:'coaching leaves no statistical trace in the label itself'},
-            {id:'matched',label:'A scammer who knows the defence',title:'also picks a recipient account that fits the coached purpose'}];
-let fState={adv:'uniform'};
-
+/* ---------- 5 findings ---------- */
+const ADVS=[{id:'uniform',label:'Basic scammer'},{id:'prevalence',label:'Careful scammer'},
+            {id:'matched',label:'Knows the defence'}];
+let advSel='uniform';
 function pFindings(root){
   root.replaceChildren();
   root.append(head('Step 4 of 6','What the experiment found',
-    'Two results, one expected and one not. The unexpected one is more useful.'));
+    'It works, it keeps working under coaching, and the harder the attacker the more it costs them elsewhere.'));
+  if(!D.phase){root.append(COL([p('Results not generated.')]));return;}
 
-  if(!D.phase){root.append(body([el('div',{class:'card'},['Results not generated yet.'])]));return;}
-
-  root.append(body([
-    h3('First: it works, and it keeps working'),
-    p('At a fixed tolerance for false alarms, adding the declared purpose improved fraud detection in <b>every single one of the 30 test conditions</b>, at every level of coaching, against all three attackers.'),
-    p('That was not guaranteed. The expectation going in was that heavy coaching would erase the signal entirely. It does not — because steering every victim toward the same few safe-sounding purposes is <em>itself</em> a pattern.'),
-    h3('Second: the harder the attacker, the faster it decays'),
-    p('This is the part worth understanding. All three attackers start in exactly the same place, because with no coaching there is nothing for any of them to do. They separate as coaching increases:'),
-    el('div',{class:'scroll'},[table(
-      ['The attacker','No coaching','Full coaching','How much it lost'],
+  root.append(sec([COL([h3('It survives coaching — at reduced strength'),
+    p('All three attackers start in the same place: with no coaching there is nothing for any of them to do. They separate as coaching rises.')]),
+    W([tbl(['The attacker','No coaching','Full coaching','Value lost'],
       [['Basic — coaches the victim','+0.078','+0.064','−19%'],
-       ['Careful — coaching leaves no trace','+0.078','+0.054','−31%'],
+       ['Careful — leaves no statistical trace','+0.078','+0.054','−31%'],
        ['Knows the defence, picks matching accounts','+0.078','+0.033','−57%']],[1,2,3])]),
-    p('Those figures are the improvement in fraud caught, at a fixed false-alarm budget. A competent attacker roughly halves the value of the signal. It does not eliminate it.'),
-    pull('The honest reading: <b>declared payment context degrades under pressure but does not collapse.</b> Anyone deploying it should expect roughly half its measured value once attackers adapt — and should plan for that, rather than being surprised by it.'),
+    COL([p('Extra fraud caught, at a fixed false-alarm budget. A competent attacker roughly halves the value. It does not remove it.')])]));
 
-    h3('Adversarial coupling: coaching the purpose creates beneficiary exposure'),
-    p('This is the result we did not design for, and the one most worth taking away.'),
-    p('When the strongest attacker went to work, the <b>baseline system got better</b> — the part of the model that never sees the declared purpose at all. That looks backwards until you see the mechanism.'),
-    p('To make a payment look consistent with the purpose the victim was coached to declare, the scammer has to send it to accounts that fit that purpose. There are not many such accounts. So traffic concentrates — and concentration is precisely what ordinary recipient monitoring is built to detect.'),
-    el('div',{class:'scroll'},[table(
-      ['How hard the victim was coached','Basic scammer','Careful scammer','Knows the defence'],
-      [['none','0.9242','0.9242','0.9242'],
-       ['moderate','0.9242','0.9242','0.9300'],
-       ['heavy','0.9242','0.9242','0.9413'],
-       ['total','0.9242','0.9242','0.9574']],[1,2,3])]),
-    p('Fraud caught by the <em>baseline</em> system, which never sees the declared purpose. The first two attackers leave it completely unmoved — as they must, since neither touches the recipient. Only the attacker that picks matching accounts moves it, and it moves monotonically. The effect holds in <b>all five</b> structural conditions tested, gaining between +0.028 and +0.043.'),
-    pull('The attacker faces a trade-off it cannot escape: <b>match the declared purpose, or stay dispersed. Not both.</b> Defeating the consistency check buys visibility on the check it was already failing. We found no published statement of this trade-off.','good'),
-    p('For a deploying institution this changes the calculation. The declared-purpose field is not only worth something on its own — it also constrains what the attacker can do to evade everything else. Its value does not have to be counted in isolation.'),
-  ]));
+  root.append(sec([W([h3('Adversarial coupling — the result we did not design for')]),
+    COL([p('When the strongest attacker went to work, the <b>baseline got better</b> — the part of the model that never sees the declared purpose at all.')])]),
+    W([tbl(['How hard the victim was coached','Basic','Careful','Knows the defence'],
+      [['none','0.9242','0.9242','0.9242'],['moderate','0.9242','0.9242','0.9300'],
+       ['heavy','0.9242','0.9242','0.9413'],['total','0.9242','0.9242','0.9574']],[1,2,3])]),
+    COL([p('Fraud caught by the baseline system. The first two attackers leave it <b>exactly</b> unmoved — as they must, since neither touches the recipient. Only the attacker that picks matching accounts moves it, and it moves steadily. The effect holds in all five structural conditions.')]),
+    W([take('why it matters','Defeating the consistency check buys visibility on the check it was already failing. For a deploying bank the field’s value is not only what it catches — it is what it forces the attacker to give up.','good')]));
 
-  /* interactive surface */
-  const readout=el('div',{class:'card',style:'margin-top:14px;font-size:13.5px'},
-    [el('span',{style:'color:var(--muted)'},['Hover any square to see the detail behind it.'])]);
+  const readout=el('div',{class:'card',style:'margin-top:16px;font-size:13.5px'},
+    [el('span',{style:'color:var(--muted)'},['Hover any square for the detail behind it.'])]);
   const holder=el('div',{});
-  const draw=()=>{
-    const key=fState.adv+'|recall@fpr=0.001';
-    const cells=D.phase.metrics[key]||[];
-    holder.replaceChildren(cells.length?heatmap(cells,4,c=>{
-      readout.replaceChildren(
-        el('div',{style:'font-weight:600;margin-bottom:6px'},['Coaching '+c.rho+'  ·  look-alike accounts '+c.lam]),
-        el('div',{style:'font-variant-numeric:tabular-nums'},['Extra fraud caught: '+sgn(c.delta,4)+
-          '   ·   plausible range '+sgn(c.ci_lo_min,4)+' to '+sgn(c.ci_hi_max,4)]),
-        el('div',{style:'margin-top:6px;color:'+(c.significant?'var(--positive)':'var(--muted)')},
-          [c.significant?'Reliable — the improvement holds in every repeat run.':
-           'Not reliable here — the improvement could be zero.']));
-    }):el('div',{class:'card'},['This surface has not been computed.']));};
+  const draw=()=>{const cells=D.phase.metrics[advSel+'|recall@fpr=0.001']||[];
+    holder.replaceChildren(cells.length?heatmap(cells,c=>readout.replaceChildren(
+      el('div',{style:'font-weight:600;margin-bottom:5px'},['Coaching '+c.rho+' · look-alike accounts '+c.lam]),
+      el('div',{style:'font-variant-numeric:tabular-nums'},['Extra fraud caught '+sgn(c.delta,4)+
+        '  ·  plausible range '+sgn(c.ci_lo_min,4)+' to '+sgn(c.ci_hi_max,4)]),
+      el('div',{style:'margin-top:5px;color:'+(c.significant?'var(--pos)':'var(--muted)')},
+        [c.significant?'Reliable — holds in every repeat run.':'Not reliable here — could be zero.'])
+    )):el('div',{},['not computed']));};
   draw();
+  root.append(sec([W([h3('Every condition at once'),
+    el('p',{style:'max-width:62ch;margin-bottom:16px'},[
+      'Each square is one tested condition. Darker blue means the declared purpose helped more. Cross-hatched squares are conditions where the improvement could not be told apart from zero.']),
+    el('div',{style:'margin-bottom:16px'},[segCtl('Choose the attacker',
+      ADVS.filter(a=>D.phase.metrics[a.id+'|recall@fpr=0.001']),advSel,id=>{advSel=id;pFindings(root);})]),
+    el('div',{class:'figbox'},[holder,readout])])]));
 
-  root.append(wide([
-    h3('The whole picture at once'),
-    p('Every square is one tested condition. <b>Darker blue means the declared purpose helped more.</b> Left to right, the scammer coaches the victim harder. Top to bottom, the world contains fewer legitimate accounts that resemble mules. Cross-hatched squares are conditions where the improvement could not be distinguished from zero.'),
-    el('div',{class:'controls'},[seg('Choose the attacker',ADVS.filter(a=>D.phase.metrics[a.id+'|recall@fpr=0.001']),
-      fState.adv,id=>{fState.adv=id;pFindings(root);})]),
-    el('div',{class:'card'},[holder,readout]),
-    pull('Cross-hatching is a result, not missing data. Those are the conditions where a payment network should <b>not</b> spend money collecting this field.','warn'),
-  ]));
-
-  root.append(body([
-    h3('Six categories, minimum — a specification, not a direction'),
-    p('Collapsing the purpose menu from eleven options to three — personal, commercial, other — <b>destroyed the signal entirely</b>. At six options it worked.'),
-    el('div',{class:'scroll'},[table(['Menu size','Improvement','Reliable?'],[
-      ['3 options','+0.014',el('span',{class:'tag no'},['no'])],
-      ['6 options','+0.052',el('span',{class:'tag ok'},['yes'])],
-      ['11 options','+0.063',el('span',{class:'tag ok'},['yes'])]],[1])]),
-    p('This is a design decision a product team would otherwise guess at, answered with a number. A coarse menu is cheaper to build and easier for a payer to answer correctly — and below roughly six categories it is also worthless.'),
-
-    h3('Retain the field; don’t model it'),
-    p('We built a purpose-conditional consistency engine: it learns what recipients normally look like for each purpose and scores how far this one deviates. It is the most technically involved part of the project.'),
-    p('It beat plain one-hot encoding of the purpose code by <b>+0.0008</b>, consistently, across all three attackers.'),
-    pull('Almost all the value is in <b>capturing and retaining the field</b>, not in what is built on top of it. For a deployment that is good news: the integration work is a form field and a retained column, not a new model to own, monitor and retrain.','good'),
-    p('It is also the finding we would most have preferred to come out differently, which is why it is reported here rather than in a footnote.'),
-
-    h3('And it matters most where you can see least'),
-    p('The signal was worth most where recipient intelligence was <em>weakest</em>, varying roughly fifteenfold across the range tested. It is a tool for institutions that cannot see the receiving side of a payment well — smaller banks, cross-border corridors, new rails — rather than for those that already can.'),
-    el('p',{class:'aside'},['282 tested conditions, three repeats each, with confidence intervals computed by resampling payers rather than payments — because one person’s transactions are not independent of each other.'])
-  ]));
-  root.append(nav({id:'p-method',label:'How we tested'},{id:'p-demo',label:'Next: see it work'}));
+  root.append(sec([COL([h3('Six categories, minimum'),
+    p('Collapsing the menu from eleven options to three — personal, commercial, other — <b>destroyed the signal</b>. At six it worked.')]),
+    W([tbl(['Menu size','Improvement','Reliable?'],
+      [['3 options','+0.014',el('span',{class:'pill no'},['no'])],
+       ['6 options','+0.052',el('span',{class:'pill ok'},['yes'])],
+       ['11 options','+0.063',el('span',{class:'pill ok'},['yes'])]],[1])]),
+    COL([h3('Keep the field, don’t model it'),
+      p('Our purpose-conditional consistency engine — the most technically involved part of the project — beat plain one-hot encoding of the code by <b>+0.0008</b>, consistently, across all three attackers.')]),
+    W([take('takeaway','Almost all the value is in <b>capturing and keeping the field</b>. Integration is a form field and a retained column, not a new model to own and retrain. It is the finding we would most have preferred to come out differently, which is why it is here and not in a footnote.','good')])]));
+  root.append(nav({id:'p-method',label:'How we tested'},{id:'p-demo',label:'See it work'}));
 }
 
 
-/* ---------- 6. demo ---------- */
-const CHECKS={C1_amount_scope:'amount within the limit',C2_category_scope:'category allowed',
-  C3_merchant_scope:'shop allowed',C4_temporal_validity:'still within the valid dates',
-  C5_nonce_freshness:'not a repeat of an earlier request',C6_cumulative_cap:'total spend within the limit',
+/* ---------- 6 demo ---------- */
+const CHK={C1_amount_scope:'amount within the limit',C2_category_scope:'category allowed',
+  C3_merchant_scope:'shop allowed',C4_temporal_validity:'still in date',
+  C5_nonce_freshness:'not a repeat request',C6_cumulative_cap:'total spend within limit',
   C7_agent_binding:'signed by the authorised assistant',C8_confirmation_bind:'matches what the user approved',
-  C9_revocation_state:'permission not withdrawn',C10_mandate_sig:'permission genuinely signed by the user'};
-const BUCKETS=[{id:'helps',label:'It helped'},{id:'misleads_false_alarm',label:'It raised a false alarm'},
-  {id:'misleads_missed_fraud',label:'It hid real fraud'},{id:'confirms',label:'It changed nothing'}];
-let dState={frame:0,bucket:'helps',idx:0};
-
+  C9_revocation_state:'permission not withdrawn',C10_mandate_sig:'permission genuinely signed'};
+const BK=[{id:'helps',label:'It helped'},{id:'misleads_false_alarm',label:'False alarm'},
+  {id:'misleads_missed_fraud',label:'It hid real fraud'},{id:'confirms',label:'No change'}];
+let dFrame=0,dBucket='helps',dIdx=0;
 function pDemo(root){
   root.replaceChildren();
   root.append(head('Step 5 of 6','See it working — and failing',
-    'Two demonstrations. The first is where this idea is heading. The second shows what it looks like on individual payments, including the ones it gets wrong.'));
-
-  /* --- mandate --- */
+    'Where the payer is an AI assistant the intent can be signed in advance, so the check stops being a guess and becomes arithmetic.'));
   if(D.agentic){
-    const a=D.agentic,f=a.demo_frames[dState.frame],bl=a.bounded_loss,fp=a.false_positives_on_in_scope_traffic;
-    root.append(body([
-      h3('When the payer is an AI assistant'),
-      p('Everything so far dealt with a human being deceived, where intent can only be guessed at. But payments made by AI shopping assistants are different: the user’s instruction can be written down and cryptographically signed <em>before</em> anything is bought.'),
-      p('Then the check stops being a guess and becomes arithmetic. Here is a signed instruction, and an assistant trying to exceed it:'),
-    ]));
-    root.append(wide([
-      el('div',{class:'seg',style:'margin-bottom:14px'},a.demo_frames.map((fr,i)=>
-        el('button',{type:'button','aria-pressed':String(i===dState.frame),
-          onclick:()=>{dState.frame=i;pDemo(root);}},
-          [fr.label==='violating'?'The assistant overreaches':'The assistant stays within the rules']))),
-      el('div',{style:'display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--hairline-strong);border-radius:4px;overflow:hidden'},[
-        el('div',{style:'padding:22px;background:var(--surface);border-right:1px solid var(--hairline)'},[
-          el('div',{class:'ctl-label'},['What the user authorised']),
+    const a=D.agentic,f=a.demo_frames[dFrame],bl=a.bounded_loss,fp=a.false_positives_on_in_scope_traffic;
+    root.append(sec([W([
+      el('div',{style:'margin-bottom:16px'},[segCtl('Choose what the assistant does',
+        a.demo_frames.map((fr,i)=>({id:String(i),label:fr.label==='violating'?'It overreaches':'It stays within the rules'})),
+        String(dFrame),id=>{dFrame=+id;pDemo(root);})]),
+      el('div',{class:'grid g2',style:'gap:0;border:1px solid var(--line-2);border-radius:5px;overflow:hidden'},[
+        el('div',{style:'padding:22px;background:var(--surface);border-right:1px solid var(--line)'},[
+          el('div',{class:'lbl'},['What the user authorised']),
           el('div',{class:'mono',style:'font-size:13px;line-height:2'},[
             el('div',{},['spend at most  '+inr(f.mandate.max_amount)]),
             el('div',{},['only at  sports retailers']),
-            el('div',{},['total cap  '+inr(f.mandate.max_cumulative)]),
-            el('div',{},['valid until  '+f.mandate.valid_until.slice(0,10)])]),
-          el('div',{class:'ctl-label',style:'margin-top:22px'},['What the assistant tried to buy']),
+            el('div',{},['total cap  '+inr(f.mandate.max_cumulative)])]),
+          el('div',{class:'lbl',style:'margin-top:20px'},['What the assistant tried to buy']),
           el('div',{class:'mono',style:'font-size:13px;line-height:2'},[
             el('div',{},['amount  '+inr(f.attempt.amount)]),
-            el('div',{},['category  '+f.attempt.mcc]),
             el('div',{},['shop  '+f.attempt.merchant_id])])]),
-        el('div',{style:'padding:22px;background:'+(f.accepted?'var(--caution-soft)':'var(--negative-soft)')},[
-          el('div',{class:'ctl-label'},['The check']),
-          el('div',{class:'mono',style:'font-size:12.5px;line-height:1.95'},f.checks.map(c=>
+        el('div',{style:'padding:22px;background:'+(f.accepted?'var(--warn-soft)':'var(--neg-soft)')},[
+          el('div',{class:'lbl'},['The check']),
+          el('div',{class:'mono',style:'font-size:12.5px;line-height:1.9'},f.checks.map(c=>
             el('div',{style:'display:flex;gap:9px'},[
-              el('span',{style:'width:12px;color:'+(c.passed?'var(--positive)':'var(--negative)')+(c.passed?'':';font-weight:700')},[c.passed?'✓':'✗']),
-              el('span',{style:c.passed?'':'color:var(--negative);font-weight:500'},[CHECKS[c.id]||c.id])]))),
-          el('div',{style:'margin-top:16px;padding-top:13px;border-top:1px solid var(--hairline-strong);font-family:\"IBM Plex Mono\",monospace;font-size:16px;font-weight:600;color:'+(f.accepted?'var(--caution)':'var(--negative)')},
+              el('span',{style:'width:12px;color:'+(c.passed?'var(--pos)':'var(--neg)')},[c.passed?'✓':'✗']),
+              el('span',{style:c.passed?'':'color:var(--neg);font-weight:500'},[CHK[c.id]||c.id])]))),
+          el('div',{class:'mono',style:'margin-top:16px;padding-top:13px;border-top:1px solid var(--line-2);font-size:16px;font-weight:600;color:'+(f.accepted?'var(--warn)':'var(--neg)')},
             [f.accepted?'ALLOWED':'BLOCKED']),
-          el('div',{style:'font-size:13px;margin-top:8px;color:var(--ink-soft)'},[f.note])])]),
-    ]));
-    root.append(body([
-      dState.frame===1?
-        pull('<b>This is the honest half.</b> An assistant that stays inside the rules but buys something the user never wanted passes every check. This kind of check does not detect intent — it caps the damage. Saying so is what makes the other results believable.','bad'):
-        p('The rejection is arithmetic, not a prediction. Same inputs, same answer, every time — and no legitimate purchase is ever wrongly blocked by it.'),
-      el('div',{class:'grid g3',style:'margin:20px 0'},[
-        stat(a.coverage.caught+' of '+a.coverage.total,'Attack types blocked outright','with no model involved','pos'),
-        stat(fp.false_positive_rate.toFixed(4),'False alarms',fp.rejected+' out of '+fp.n.toLocaleString()+' legitimate purchases','pos'),
-        stat(pct(bl.reduction_persistent),'Damage prevented','on the attacks it cannot detect','acc')]),
-      p('Two of the ten attack types are <b>not</b> blocked, by design rather than oversight. Those two are reported as prominently as the eight that are.'),
-    ]));
+          el('div',{style:'font-size:13px;margin-top:8px;color:var(--ink-soft)'},[f.note])])])]),
+      W([dFrame===1?
+        take('the honest half','An assistant that stays inside the rules but buys something the user never wanted <b>passes every check</b>. This kind of check does not detect intent — it caps the damage. Saying so is what makes the other results believable.','bad'):
+        take('note','The rejection is arithmetic, not a prediction. Same inputs, same answer, every time — and no legitimate purchase was ever wrongly blocked.')]),
+      W([el('div',{class:'grid g3',style:'margin-top:20px'},[
+        card(a.coverage.caught+' of '+a.coverage.total+' attack types blocked','with no model involved'),
+        card(fp.rejected+' false alarms','out of '+fp.n.toLocaleString()+' legitimate purchases'),
+        card(Math.round(bl.reduction_persistent*100)+'% damage prevented','on the attacks it cannot detect')])])]));
   }
-
-  /* --- inspector --- */
   if(D.inspector){
-    const cases=D.inspector.cases.filter(c=>c.bucket===dState.bucket);
-    const c=cases[Math.min(dState.idx,cases.length-1)];
-    root.append(body([
-      h3('And on individual payments'),
-      p('Back to human payments. For any single payment the system can show <em>why</em> it thought the recipient did or did not fit the declared purpose — and it gets some of them wrong.'),
-      el('div',{class:'controls'},[seg('Show me a case where…',BUCKETS,dState.bucket,
-        id=>{dState.bucket=id;dState.idx=0;pDemo(root);})]),
-    ]));
+    const cases=D.inspector.cases.filter(c=>c.bucket===dBucket);
+    const c=cases[Math.min(dIdx,cases.length-1)];
+    root.append(sec([COL([h3('And on individual human payments'),
+      p('For any single payment the system can show <em>why</em> it thought the recipient did or did not fit the declared purpose — including when it was wrong.')]),
+      W([el('div',{style:'margin-bottom:16px'},[segCtl('Show me a case where…',BK,dBucket,
+        id=>{dBucket=id;dIdx=0;pDemo(root);})])])]));
     if(c){
       const rows=D.inspector.b3_cols.map(k=>({k:k.replace(/^payee_/,'').replace(/^payer_payee_/,'your history: ').replace(/_/g,' '),z:c.residuals[k]}))
         .sort((a,b)=>Math.abs(b.z)-Math.abs(a.z)).slice(0,7);
       const zmax=Math.max(...rows.map(r=>Math.abs(r.z)),1);
-      root.append(wide([el('div',{class:'grid g2'},[
-        el('div',{class:'card'},[
-          el('div',{class:'ctl-label'},['The payment']),
-          table(['',''],[
-            ['payer said it was for',el('b',{},[c.declared_purpose.replace(/_/g,' ')])],
+      root.append(W([el('div',{class:'grid g2'},[
+        el('div',{class:'card'},[el('div',{class:'lbl'},['The payment']),
+          tbl(['',''],[['payer said it was for',el('b',{},[c.declared_purpose.replace(/_/g,' ')])],
             ['amount',inr(c.amount)],
-            ['recipient really was',el('span',{class:'mono',style:'font-size:12px'},[c.payee_role.replace(/_/g,' ')])],
-            ['truth',c.is_fraud?el('span',{class:'tag no'},['fraud']):el('span',{class:'tag ok'},['legitimate'])],
-            ['effect of adding purpose',el('b',{style:'color:'+((c.rank_shift>0)===(c.is_fraud===1)?'var(--positive)':'var(--negative)')},
-              [(c.rank_shift>0?'moved up ':'moved down ')+Math.abs(c.rank_shift*100).toFixed(1)+' places per 100'])]],[1])]),
-        el('div',{class:'card'},[
-          el('div',{class:'ctl-label'},['How the recipient differed from what that purpose normally goes to']),
-          el('div',{style:'display:flex;flex-direction:column;gap:6px;margin-top:12px'},rows.map(r=>{
+            ['recipient really was',c.payee_role.replace(/_/g,' ')],
+            ['truth',c.is_fraud?el('span',{class:'pill no'},['fraud']):el('span',{class:'pill ok'},['legitimate'])],
+            ['effect of adding purpose',el('b',{style:'color:'+((c.rank_shift>0)===(c.is_fraud===1)?'var(--pos)':'var(--neg)')},
+              [(c.rank_shift>0?'moved up ':'moved down ')+Math.abs(c.rank_shift*100).toFixed(1)+' per 100'])]],[1])]),
+        el('div',{class:'card'},[el('div',{class:'lbl'},['How this recipient differed from the usual for that purpose']),
+          el('div',{style:'display:flex;flex-direction:column;gap:7px;margin-top:12px'},rows.map(r=>{
             const w=(Math.abs(r.z)/zmax)*50,strong=Math.abs(r.z)>1.5;
-            return el('div',{style:'display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;font-size:12px'},[
+            return el('div',{style:'display:grid;grid-template-columns:145px 1fr;gap:10px;align-items:center;font-size:12px'},[
               el('div',{style:'color:var(--muted);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap'},[r.k]),
               el('div',{style:'position:relative;height:15px;background:var(--sunk);border-radius:2px'},[
-                el('div',{style:'position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--hairline-strong)'}),
-                el('div',{style:'position:absolute;top:2px;bottom:2px;border-radius:1px;background:'+(strong?'var(--negative)':'var(--accent)')+';'+
+                el('div',{style:'position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line-2)'}),
+                el('div',{style:'position:absolute;top:2px;bottom:2px;border-radius:1px;background:'+(strong?'var(--neg)':'var(--accent)')+';'+
                   (r.z>=0?'left:50%;width:'+w+'%':'right:50%;width:'+w+'%')})])]);})),
           el('p',{style:'font-size:12px;color:var(--muted);margin-top:14px'},
-            ['Bars to the right mean “more than usual for this purpose”, to the left “less than usual”. Longer bars are bigger surprises.'])])])]));
+            ['Right of centre: more than usual for that purpose. Left: less. Longer bars are bigger surprises.'])])])]));
     }
-    root.append(body([
-      pull('Two of the four case types above are <b>failures</b> — payments the idea pushed the wrong way. They are shown by default rather than hidden, because anyone deciding whether to collect this field needs to see both directions.','warn')
-    ]));
+    root.append(W([take('shown by default','Two of the four case types are <b>failures</b> — payments the idea pushed the wrong way. Anyone deciding whether to collect this field needs to see both directions.','warn')]));
   }
-  root.append(nav({id:'p-findings',label:'What we found'},{id:'p-limits',label:'Next: what this does not prove'}));
+  root.append(nav({id:'p-findings',label:'What we found'},{id:'p-limits',label:'What this does not prove'}));
 }
 
-/* ---------- 7. limits ---------- */
+/* ---------- 7 limits ---------- */
 function pLimits(root){
   root.replaceChildren();
   root.append(head('Step 6 of 6','What this does not prove',
-    'The most useful thing a study can do is be precise about its own boundaries.'));
-  root.append(body([
-    h3('The big one: this is simulated'),
-    p('There is no public dataset of scam-fraud payments carrying a declared purpose field, so the population is generated. That means <b>no claim is made about absolute detection rates</b>. The detection numbers here are higher than any real deployed system and should not be read as a forecast.'),
-    p('What the study measures is <em>relative</em> behaviour — how the value of a signal moves as attackers get better and as the world changes around it. Those comparisons hold within the model even though the absolute levels do not transfer.'),
-    pull('We plant the context field, so we make no claim about absolute detection rates. What is not circular: the deterministic results are structural, the phase diagram measures relative behaviour across conditions rather than a single score, and the entire generative process is published so the design can be challenged.'),
-
-    h3('Everything else we are not claiming'),
-    el('div',{class:'scroll'},[table(['Not claiming','Because'],[
-      ['That purpose fields are a new idea','They already exist in the ISO 20022 standard and travel on corporate payments today.'],
-      ['That banks never ask purpose','UK banks do, under the Consumer Standard of Caution.'],
-      ['That the technique is novel','Comparing a label against a counterparty profile is ordinary feature engineering.'],
-      ['That nobody does this','A global negative cannot be proven. Only that we found no publicly documented production system treating purpose-recipient consistency as its own signal.'],
-      ['That the numbers are deployable','They characterise when a control is worth deploying, not how well it would perform in production.'],
-    ])]),
-
-    h3('Things that would weaken the result'),
-    el('div',{class:'grid g2'},[
-      card('The engineered version barely beat the simple one','Adding a sophisticated consistency score on top of a plain purpose label improved things by almost nothing. The simple version does nearly all the work — reported as fact, though it deflates the more elaborate machinery.'),
-      card('The strongest attacker was added afterwards','It was added after seeing that the original attackers never broke the signal. That is disclosed in full. It makes the test harder rather than easier, which is the right direction for a change made after the fact — but a reader should know.'),
-      card('The two success measures disagree','On one, the idea works everywhere. On the other, it stops paying under even mild coaching. Both were fixed in advance precisely so neither could be chosen after the fact.'),
-      card('Real systems already have much of this','Behavioural and recipient intelligence are standard. The question asked here is only whether one further signal earns its cost on top of them.')]),
-
-    h3('What was built'),
-    el('div',{class:'grid g4',style:'margin-top:6px'},[
-      stat(String(D.meta.n_cells),'Tested conditions','three repeats each'),
-      stat('3','Attacker models','increasing in capability'),
-      stat('16','Automated checks','including two proving the method cannot cheat'),
-      stat('19 pp','Technical write-up','with data card and model card')]),
-    el('p',{class:'aside'},['Pre-registration committed as '+(D.meta.prereg_commit||'—').slice(0,10)+
-      '. Built '+D.meta.built+'. Synthetic data only; no live systems were tested and no attack tooling was produced.']),
-    h3('The question this was all for'),
-    pull('Before a payment network spends money collecting another signal, can we say <b>when</b> that signal stays useful under adversarial pressure — and when it does not?','good'),
-    p('That is the deliverable. Not a better fraud model: a way of deciding whether a control is worth having, with its breaking point measured rather than assumed.')
-  ]));
+    'The most useful thing a study can do is be exact about its own edges.'));
+  root.append(sec([COL([h3('It is simulated, and that bounds everything'),
+    p('No public dataset of scam payments carries a declared-purpose field, so the population is generated. <b>No claim is made about absolute detection rates</b> — the levels here are higher than any deployed system and are not a forecast.'),
+    p('What transfers is the <em>relative</em> behaviour: how a signal’s value moves as attackers improve and as the world around it changes.')]),
+    W([take('the circularity answer','We plant the context field, so we make no claim about absolute detection rates. What is not circular: the deterministic results are structural, the surface measures relative behaviour across conditions rather than one score, and the entire generative process is published so the design can be challenged.')])]));
+  root.append(sec([W([h3('Things that count against us')]),
+    W([el('div',{class:'grid g2'},[
+      card('The engineered version barely beat the simple one','Our consistency engine added +0.0008 over a plain label. Reported as fact, though it deflates the most elaborate part of the work.'),
+      card('The strongest attacker was added later','After seeing the first two never broke the signal. Fully disclosed. It makes the test harder, not easier — the right direction for a change made after the fact.'),
+      card('The two success measures disagree','On one, it works everywhere. On the other, it stops paying under mild coaching. Both were fixed in advance so neither could be chosen afterwards.'),
+      card('Real systems already have much of this','Behavioural and recipient intelligence are standard. The question asked here is only whether one further signal earns its cost on top of them.')])])]));
+  root.append(sec([W([h3('What was built')]),
+    W([tbl(['','',''],[
+      [String(D.meta.n_cells)+' tested conditions','3 attacker models','3 repeats each'],
+      ['16 automated checks','2 of them prove the method cannot cheat','20-page technical write-up'],
+      ['Pre-registration '+(D.meta.prereg_commit||'').slice(0,10),'never edited','built '+D.meta.built]])]),
+    W([take('the question it was all for','Before a payment network spends money collecting another signal, can we say <b>when</b> that signal stays useful under adversarial pressure — and when it does not? That is the deliverable: not a better fraud model, but a way to decide whether a control is worth having, with its breaking point measured rather than assumed.','good')])]));
   root.append(nav({id:'p-demo',label:'See it work'},{id:'p-home',label:'Back to the start'}));
 }
 
@@ -737,22 +697,19 @@ const PAGES=[{id:'p-home',label:'Home',render:pHome},{id:'p-problem',label:'The 
   {id:'p-idea',label:'The idea',render:pIdea},{id:'p-method',label:'How we tested',render:pMethod},
   {id:'p-findings',label:'What we found',render:pFindings},{id:'p-demo',label:'See it work',render:pDemo},
   {id:'p-limits',label:'Honest limits',render:pLimits}];
-const stepsEl=document.getElementById('steps');
-const done=new Set();
+const tabsEl=document.getElementById('tabs');const done=new Set();
 function show(id){
-  PAGES.forEach(pg=>{const s=document.getElementById(pg.id);s.hidden=pg.id!==id;
-    stepsEl.querySelector('[data-id="'+pg.id+'"]').setAttribute('aria-current',String(pg.id===id));});
+  PAGES.forEach(pg=>{document.getElementById(pg.id).hidden=pg.id!==id;
+    tabsEl.querySelector('[data-id="'+pg.id+'"]').setAttribute('aria-current',String(pg.id===id));});
   const pg=PAGES.find(x=>x.id===id);
   if(!done.has(id)||['p-findings','p-demo','p-limits'].includes(id)){pg.render(document.getElementById(id));done.add(id);}
   window.scrollTo({top:0,behavior:'instant'});
-  try{history.replaceState(null,'','#'+id.replace('p-',''));}catch(e){}
-}
-PAGES.forEach((pg,i)=>stepsEl.append(el('button',{type:'button','data-id':pg.id,
+  try{history.replaceState(null,'','#'+id.replace('p-',''));}catch(e){}}
+PAGES.forEach((pg,i)=>tabsEl.append(el('button',{type:'button','data-id':pg.id,
   'aria-current':String(i===0),onclick:()=>show(pg.id)},[pg.label])));
 document.getElementById('brand').addEventListener('click',()=>show('p-home'));
-document.getElementById('brand').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')show('p-home');});
-const initial=(location.hash||'').replace('#','');
-show(PAGES.some(p=>p.id==='p-'+initial)?'p-'+initial:'p-home');
+const init=(location.hash||'').replace('#','');
+show(PAGES.some(p=>p.id==='p-'+init)?'p-'+init:'p-home');
 
 </script>
 </body>

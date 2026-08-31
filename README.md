@@ -44,7 +44,7 @@ tolerance characterised rather than assumed.
 
 ## The experiment
 
-Four feature groups, one model class, one tuning budget — spent entirely on
+Four feature groups, one model class, one tuning budget, spent entirely on
 the baseline.
 
 | group | content |
@@ -56,7 +56,7 @@ the baseline.
 
 Every feature belongs to **exactly one** group. `pramana/features/__init__.py`
 is the authority and `tests/test_feature_hygiene.py` fails the build if any
-column appears twice — because if B4 silently re-encoded B3, a measured gain
+column appears twice, because if B4 silently re-encoded B3, a measured gain
 would only mean "we gave the model beneficiary information twice".
 
 **The baseline gets the advantage.** LightGBM hyperparameters were selected by
@@ -72,8 +72,8 @@ fixed FPR (0.1%, 0.5%, 1%) and FPR at fixed recall (50%, 70%, 90%), all with
 
 The consistency residuals are an unsupervised conditional density over
 beneficiary features, estimated per purpose class on **training legitimate
-rows only**. The label is used in exactly one place — to exclude known fraud
-from the reference set — which is what a bank does in production when it
+rows only**. The label is used in exactly one place, to exclude known fraud
+from the reference set, which is what a bank does in production when it
 builds a profile from confirmed-good history. It is never a target, never
 enters the transform, and is never touched at test time.
 
@@ -102,7 +102,7 @@ so the surfaces decompose:
 | `prevalence` | proportional to legitimate frequencies, so the code carries no marginal information at rho = 1 | random mule |
 | `matched` | as `prevalence` | mule chosen to fit the declared purpose |
 
-`matched` is assumed to **know the defence** — it scores candidate mules
+`matched` is assumed to **know the defence**, it scores candidate mules
 against the defender's own purpose-conditional reference. It cannot change what
 a mule account fundamentally is, and it cannot manufacture pair history with
 the victim. See `CHANGELOG.md` for why it was added and why making the
@@ -110,7 +110,7 @@ adversary stronger biases the study *against* its own hypothesis.
 
 3 seeds per cell, 282 cells. The reported quantity is **rho\***: the coaching
 threshold above which the incremental value of declared context ceases to be
-significant. It is a threshold, not a percentage improvement — and it is a
+significant. It is a threshold, not a percentage improvement, and it is a
 property of *this* threat model and parameterisation, never a universal fact.
 
 ## The agentic surface
@@ -142,11 +142,11 @@ make figures     # phase diagrams
 
 ## Documents
 
-- `PREREGISTRATION.md` — frozen, first commit, never edited
-- `CHANGELOG.md` — every post-hoc change to the generative model, with cause
-- `docs/DATA_CARD.md` — population, calibration, modelling choices
-- `docs/MODEL_CARD.md` — model, tuning protocol, evaluation
-- `docs/LIMITATIONS.md` — read this before the results
+- `PREREGISTRATION.md`, frozen, first commit, never edited
+- `CHANGELOG.md`, every post-hoc change to the generative model, with cause
+- `docs/DATA_CARD.md`, population, calibration, modelling choices
+- `docs/MODEL_CARD.md`, model, tuning protocol, evaluation
+- `docs/LIMITATIONS.md`, read this before the results
 
 ## Rules this project held to
 
