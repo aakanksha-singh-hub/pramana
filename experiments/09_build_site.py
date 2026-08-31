@@ -51,6 +51,7 @@ def slim_inspector(ins):
 def build() -> str:
     data = {
         "phase": slim_phase(load("phase_surface.json")),
+        "scorer": load("scorer.json"),
         "agentic": load("agentic_conformance.json"),
         "inspector": slim_inspector(load("inspector.json")),
         "meta": {
@@ -211,7 +212,7 @@ td.r,th.r{text-align:right}
 .heroactions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
 .blk{padding:64px 0;border-top:1px solid var(--line)}
 .blk:first-child{border-top:0;padding-top:52px}
-#s-answer,#s-break{background:var(--surface)}
+#s-score,#s-break{background:var(--surface)}
 .blk .num{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
   color:var(--accent-ink);margin-bottom:10px}
 h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-height:1.2;max-width:20ch;margin:0}
@@ -266,10 +267,10 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
   <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
   <nav>
     <a href="#s-feel" data-j>The problem</a>
-    <a href="#s-how" data-j>How we know</a>
+    <a href="#s-answer" data-j>Should you collect it?</a>
     <a href="#s-catch" data-j>The surprise</a>
     <a href="#s-break" data-j>Try to break it</a>
-    <a href="#s-answer" data-j class="cta">Get the answer</a>
+    <a href="#s-score" data-j class="cta">Score a payment</a>
   </nav>
 </div></div>
 <main id="main"></main>
@@ -910,6 +911,93 @@ function figExperiment(){
   return {vb:'0 0 880 250',body:s};
 }
 
+/* ================= THE PRODUCT — score a payment ================= */
+const PZ={rent:'Rent',salary_reimburse:'Paying back a colleague',family_support:'Family support',
+  friend_transfer:'Sending a friend money',education_fees:'School or college fees',
+  utility_bill:'A utility bill',merchant_purchase:'Buying something',loan_repayment:'Loan repayment',
+  investment:'An investment',medical:'Medical',other:'Something else'};
+const AGEZ=[[15,'2 weeks old'],[120,'4 months old'],[400,'about a year old'],[1500,'4 years old']];
+const PAYZ=[[3,'3 people'],[25,'25 people'],[80,'80 people'],[400,'400 people']];
+const FANZ=[[0.10,'keeps it'],[0.50,'moves half on'],[0.90,'moves it all on within hours']];
+const AMTZ=[[2000,'₹2,000'],[15000,'₹15,000'],[60000,'₹60,000'],[200000,'₹2,00,000']];
+const KNWZ=[[1,'yes, many times'],[0,'no, first time']];
+const BEHZ=[[0,'calm, as usual'],[1,'rushed, hesitating, on a call']];
+const REVIEW=0.995;   /* a bank reviewing the riskiest 0.5% of payments */
+let SC={purpose:'salary_reimburse',age:400,payers:80,fanout:0.90,amount:2000,known:0,behave:1};
+
+function scIndex(){
+  const g=D.scorer.grid;
+  const i=[g.purpose.indexOf(SC.purpose),g.age.indexOf(SC.age),g.payers.indexOf(SC.payers),
+           g.fanout.indexOf(SC.fanout),g.amount.indexOf(SC.amount),g.known.indexOf(SC.known),
+           g.behave.indexOf(SC.behave)];
+  const s=D.scorer.shape;
+  return (((((i[0]*s[1]+i[1])*s[2]+i[2])*s[3]+i[3])*s[4]+i[4])*s[5]+i[5])*s[6]+i[6];}
+
+function renderScorer(root){
+  root.replaceChildren();
+  if(!D.scorer){root.append(el('p',{},['Scorer not generated.']));return;}
+  const redraw=()=>renderScorer(root);
+  const idx=scIndex();
+  const a=D.scorer.baseline.pct[idx], b=D.scorer.with_purpose.pct[idx];
+  const flagA=a>=REVIEW, flagB=b>=REVIEW;
+
+  const pick=(label,key,opts,fmt)=>el('div',{style:'margin-bottom:16px'},[
+    el('div',{class:'lbl'},[label]),
+    el('div',{class:'seg'},opts.map(o=>{const v=Array.isArray(o)?o[0]:o,t=fmt?fmt(o):o;
+      return el('button',{type:'button','aria-pressed':String(SC[key]===v),
+        onclick:()=>{SC[key]=v;redraw();}},[t]);}))]);
+
+  const meter=(title,pct,flag,tone)=>el('div',{class:'card',style:'border-color:'+
+      (flag?'var(--neg)':'var(--line)')+';border-width:1.5px'},[
+    el('div',{class:'lbl'},[title]),
+    el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:30px;font-weight:500;line-height:1;margin:8px 0 4px;color:'+
+      (flag?'var(--neg)':'var(--ink)')},[(pct*100).toFixed(1)+'%']),
+    el('div',{style:'font-size:13px;color:var(--muted)'},['riskier than this share of all payments']),
+    el('div',{style:'height:8px;background:var(--sunk);border-radius:4px;margin:14px 0 10px;position:relative;overflow:hidden'},[
+      el('div',{style:'position:absolute;left:0;top:0;bottom:0;width:'+(pct*100).toFixed(1)+'%;background:'+
+        (flag?'var(--neg)':'var(--accent)')}),
+      el('div',{style:'position:absolute;left:99.5%;top:-3px;bottom:-3px;width:2px;background:var(--ink)'})]),
+    el('div',{style:'font-size:13.5px;font-weight:600;color:'+(flag?'var(--neg)':'var(--muted)')},
+      [flag?'⚑ Held for review':'Goes through'])]);
+
+  root.append(el('div',{class:'grid g2'},[
+    el('div',{class:'card'},[
+      el('h4',{},['The payment']),
+      pick('What the payer says it is for','purpose',D.scorer.grid.purpose,o=>PZ[o]),
+      pick('Amount','amount',AMTZ,o=>o[1]),
+      pick('Have they paid this account before?','known',KNWZ,o=>o[1]),
+      pick('How the payer behaved while sending it','behave',BEHZ,o=>o[1])]),
+    el('div',{class:'card'},[
+      el('h4',{},['The account receiving it']),
+      pick('How old it is','age',AGEZ,o=>o[1]),
+      pick('How many people paid into it last month','payers',PAYZ,o=>o[1]),
+      pick('What it does with the money','fanout',FANZ,o=>o[1])])]));
+
+  const moved=Math.abs(b-a)>0.005;
+  root.append(el('div',{class:'grid g2',style:'margin-top:18px'},[
+    meter('A bank’s system today',a,flagA),
+    meter('The same system, told what the payment is for',b,flagB)]));
+
+  let verdict,kind;
+  if(flagB&&!flagA){verdict='The purpose field caught this one. Without it, this payment goes straight through.';kind='good';}
+  else if(!flagB&&flagA){verdict='The purpose field cleared this one — it looked suspicious until you knew what it was for.';kind='good';}
+  else if(flagA&&flagB){verdict='Both catch it. The purpose field adds nothing here — this payment was already obvious.';kind='';}
+  else if(moved){verdict='Both let it through, though the purpose field did move the ranking. Not every payment is decidable.';kind='warn';}
+  else{verdict='No change. On payments like this one the field simply does not matter.';kind='warn';}
+  root.append(el('div',{style:'margin-top:16px'},[take('what happened',verdict,kind)]));
+
+  root.append(el('div',{style:'margin-top:16px'},[el('div',{class:'lbl'},['Three cases worth trying']),
+    el('div',{class:'seg'},[
+    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'salary_reimburse',age:400,payers:80,fanout:0.90,amount:2000,known:0,behave:1};redraw();}},
+      ['The field catches one']),
+    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'merchant_purchase',age:15,payers:400,fanout:0.90,amount:200000,known:0,behave:1};redraw();}},
+      ['The field clears one']),
+    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'investment',age:120,payers:25,fanout:0.90,amount:2000,known:1,behave:1};redraw();}},
+      ['A coached scammer beats it'])])]));
+  root.append(el('p',{style:'font-size:12.5px;color:var(--muted);margin-top:14px;max-width:62ch'},
+    ['These are real outputs from the two trained models, not a re-implementation. The line on each bar is where a bank reviewing its riskiest 0.5% of payments would draw the cut.']));
+}
+
 /* ================= ONE PAGE ================= */
 function anchor(id,label){return el('a',{href:'#'+id,onclick:e=>{e.preventDefault();
   document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}},[label]);}
@@ -923,7 +1011,7 @@ function buildPage(root){
     el('h1',{class:'hero'},['Is it worth asking people what a payment is for?']),
     el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud control correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded. We measured what recording it is worth, and how long it stays worth anything once criminals adapt.']),
     el('div',{class:'heroactions'},[
-      el('button',{class:'btn p',type:'button',onclick:()=>document.getElementById('s-answer').scrollIntoView({behavior:'smooth'})},['Get the answer for your case →']),
+      el('button',{class:'btn p',type:'button',onclick:()=>document.getElementById('s-score').scrollIntoView({behavior:'smooth'})},['Score a payment →']),
       el('button',{class:'btn',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['First, see the problem'])])])]));
 
   /* 2 — feel it */
@@ -933,31 +1021,32 @@ function buildPage(root){
     el('p',{class:'sub'},['Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
     el('div',{class:'wrap'},[hookAccounts()])]));
 
-  /* 3 — the answer */
-  root.append(S('s-answer',[el('div',{class:'wrap'},[
+  /* 3 — THE PRODUCT */
+  root.append(S('s-score',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['02']),
-    el('h2',{class:'t'},['So — should you collect it?']),
-    el('p',{class:'sub'},['Set the conditions you expect to operate in. Every answer is a lookup into experiments already run; nothing is estimated live.'])]),
-    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()])]));
+    el('h2',{class:'t'},['Score a payment yourself']),
+    el('p',{class:'sub'},['Build a payment on the left, describe the account receiving it on the right. Two real models score it: the one a bank runs today, and the same model told what the payer says the money is for.'])]),
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderScorer(h);return h;})()])]));
 
-  /* 4 — what we did */
-  root.append(S('s-how',[el('div',{class:'wrap'},[
+  /* 4 — should you collect it */
+  root.append(S('s-answer',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['03']),
-    el('h2',{class:'t'},['How we know that']),
-    el('p',{class:'sub'},['One idea, done many times over: train the same fraud model twice — once with the field, once without — and measure the gap.'])]),
-    el('div',{class:'wrap'},[fig(figExperiment(),
-      'The experiment. Model A is a realistic modern fraud system. Model B is the identical model given one extra field. The difference between them is the value of the field — and the whole study is that difference, measured again under every combination of conditions.',
-      'Two identical fraud models, one with the purpose field and one without, compared on how much more fraud the second catches, repeated across many conditions')]),
+    el('h2',{class:'t'},['So — should you collect it?']),
+    el('p',{class:'sub'},['That was one payment. Across 282 sets of conditions we measured whether the field is worth having at all. Set the conditions you expect and get the verdict.'])]),
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()]),
     el('div',{class:'wrap'},[el('div',{class:'grid g4 stats'},[
       el('div',{class:'stat'},[el('div',{class:'v'},['1,535']),el('div',{class:'l'},['models trained']),
-        el('div',{class:'s'},['not one model — a model for every combination of conditions'])]),
-      el('div',{class:'stat'},[el('div',{class:'v'},['1.04M']),el('div',{class:'l'},['payments each one learned from']),
-        el('div',{class:'s'},['tested on 167,345 more, from people it had never seen'])]),
+        el('div',{class:'s'},['one for every combination of conditions'])]),
+      el('div',{class:'stat'},[el('div',{class:'v'},['1.04M']),el('div',{class:'l'},['payments each learned from']),
+        el('div',{class:'s'},['tested on 167,345 more, from people it never saw'])]),
       el('div',{class:'stat'},[el('div',{class:'v'},['282']),el('div',{class:'l'},['conditions tested']),
-        el('div',{class:'s'},['three repeats of each, to be sure it was not luck'])]),
-      el('div',{class:'stat'},[el('div',{class:'v'},['3']),el('div',{class:'l'},['scammers of rising skill']),
-        el('div',{class:'s'},['the last one knows exactly how the defence works'])])])]),
-    el('div',{class:'wrap'},[take('the fair-fight rule','Model A got <b>all</b> the tuning effort. Model B got none — it just inherited A’s settings. So every gap we report is the smallest the field could plausibly be worth, not the largest.','good')])]));
+        el('div',{class:'s'},['three repeats of each'])]),
+      el('div',{class:'stat'},[el('div',{class:'v'},['3']),el('div',{class:'l'},['attackers of rising skill']),
+        el('div',{class:'s'},['the last knows how the defence works'])])])]),
+    el('div',{class:'wrap'},[fig(figExperiment(),
+      'How every one of those numbers was produced: the same fraud model trained twice, once with the field and once without, with the gap between them as the measurement.',
+      'Two identical fraud models, one with the purpose field and one without, compared on how much more fraud the second catches, repeated across many conditions')]),
+    el('div',{class:'wrap'},[take('the fair-fight rule','The model without the field got <b>all</b> the tuning effort. The one with it got none — it just inherited those settings. So every gap we report is the smallest the field could plausibly be worth.','good')])]));
 
   /* 5 — the catch */
   const yn=(ok,txt)=>el('div',{style:'display:flex;gap:9px;align-items:baseline'},[
@@ -993,16 +1082,13 @@ function buildPage(root){
     el('p',{class:'sub'},['When an AI assistant pays on your behalf, the instruction can be signed in advance — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
 
-  /* 7 — limits */
+  /* 6 — the short honest note */
   root.append(S('s-limits',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['06']),
-    el('h2',{class:'t'},['What this does not prove']),
-    el('p',{class:'sub'},['The useful thing a study can do is be exact about its own edges.'])]),
-    el('div',{class:'wrap'},[el('div',{class:'grid g3'},[
-      card('It is simulated','No public dataset of scam payments carries a purpose field, so we built the world. We claim nothing about absolute detection rates — only how the value <em>moves</em> as attackers improve.'),
-      card('Our clever version was pointless','We built an engine that learns what recipients normally look like per purpose. Against a plain tick-box it added next to nothing. Keep the field; skip the machinery.'),
-      card('Our two measures disagree','On one, it helps everywhere. On the other, it stops paying almost immediately. Both were fixed before we ran anything, so neither could be chosen afterwards.')])]),
-    el('div',{class:'wrap'},[take('the circularity answer','We put the purpose field into the data ourselves, so we make no claim about absolute detection rates. What is not circular: the mandate results are structural arithmetic, the study measures <em>relative</em> behaviour across conditions rather than one score, and the whole generative process is published so the design can be challenged.')])]));
+    el('h2',{class:'t'},['Two things to know before you use this']),
+    el('div',{class:'grid g2',style:'margin-top:22px'},[
+      card('The world is simulated','No public dataset of scam payments carries a purpose field, so we built one. The scores compare the two models like for like — they are not a forecast of what a real system would catch.'),
+      card('Keep the field, skip the machinery','We also built an engine that learns what recipients normally look like for each purpose. Against a plain tick-box it added next to nothing. Collect the field; you do not need the model on top.')])])]));
 }
 
 /* build + wire */

@@ -146,7 +146,8 @@ def prepare_cell(base: pd.DataFrame, cfg: dict, rho: float, lam: float, K: int,
     # roughly 300 MB per worker, which is what decides whether a parallel sweep
     # runs or thrashes.
     keep = ["txn_id", "payer_id", "payee_id", "day", "month", "amount",
-            "is_fraud", "payee_role", "payee_legit", "scam_type", "true_purpose"]
+            "is_fraud", "payee_role", "payee_legit", "scam_type", "true_purpose",
+            "coerced"]
     parts = {c: base[c] for c in keep}
     for c in B1_COLS + B2_COLS:
         parts[c] = base[c]
