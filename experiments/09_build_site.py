@@ -274,10 +274,9 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 </div></div>
 <main id="main"></main>
 <footer class="foot"><div class="wrap">
-  <b>Synthetic data only.</b> No production, cardholder or personal data was used, and no live
-  system was tested. Absolute detection rates are not comparable to deployed systems; every
-  figure is a comparison between arms measured under the same conditions, and each carries the
-  operating point it was measured at.
+  <b>Simulated data only.</b> No production, cardholder or personal data was used, and no live
+  system was tested. All figures are like-for-like comparisons under identical conditions, not
+  benchmarks of deployed performance.
 </div></footer>
 <script>
 const D = __PRAMANA_DATA__;
