@@ -649,7 +649,7 @@ function renderSandbox(root){
         shop:'merch:runfast',elapsed:2,spent:0,forge:false,tamper:false,revoked:false,replay:false}),'p')])])]));
 
   if(!blocked&&SB.amount===4999){
-    root.append(W([take('the honest half','Every check passed — and this is a purchase the user never wanted. A compromised or prompt-injected assistant that <b>stays inside the rules</b> is invisible to this kind of check. Enforcement <b>bounds the loss</b>; it does not detect intent. Measured reduction: <b>91.9%</b> of expected loss, not detection.','bad')]));
+    root.append(W([take('the honest half','Every check passed — and this is a purchase the user never wanted. A compromised or prompt-injected assistant that <b>stays inside the rules</b> is invisible to this kind of check. Enforcement <b>bounds the loss</b>; it does not detect intent. Measured reduction: <b>'+(D.agentic.bounded_loss.reduction_persistent*100).toFixed(1)+'%</b> of expected loss, not detection.','bad')]));
   } else {
     root.append(W([take('what this is','Deterministic. The same inputs always give the same answer, and across 20,000 legitimate in-scope purchases it wrongly blocked <b>zero</b>. Eight of ten modelled attack families are caught this way; the two that are not are shown by the last preset.')]));
   }
