@@ -847,14 +847,23 @@ function renderSandbox(root){
 const RHOS=[0,0.2,0.4,0.6,0.8,1.0], LAMS=[0,0.05,0.10,0.20,0.35];
 const RHO_WORD=['none','light','moderate','determined','heavy','total'];
 const LAM_WORD=['none','few','some','many','very many'];
-const GOALS=[{id:'recall@fpr=0.001',label:'Catch more fraud',
-              sub:'at a fixed alert budget',op:'recall @ 0.1% FPR'},
-             {id:'fpr@recall=0.7',label:'Cut false alarms',
-              sub:'at a fixed catch rate',op:'false-alarm rate @ 70% recall'}];
+/* Both metric families and all three operating points from the
+   pre-registration, so nothing is hidden behind a default. */
+const GOALS=[
+ {id:'catch',label:'Catch more fraud',sub:'holding the alert budget fixed',
+  ptLabel:'How many payments can you afford to review?',
+  pts:[{m:'recall@fpr=0.001',lab:'0.1% of payments',op:'recall @ 0.1% FPR'},
+       {m:'recall@fpr=0.005',lab:'0.5% of payments',op:'recall @ 0.5% FPR'},
+       {m:'recall@fpr=0.01', lab:'1% of payments',  op:'recall @ 1% FPR'}]},
+ {id:'cut',label:'Cut false alarms',sub:'holding the catch rate fixed',
+  ptLabel:'What catch rate are you aiming for?',
+  pts:[{m:'fpr@recall=0.5',lab:'catch 50% of fraud',op:'false-alarm rate @ 50% recall'},
+       {m:'fpr@recall=0.7',lab:'catch 70% of fraud',op:'false-alarm rate @ 70% recall'},
+       {m:'fpr@recall=0.9',lab:'catch 90% of fraud',op:'false-alarm rate @ 90% recall'}]}];
 const ADVW=[{id:'uniform',label:'Coaches the victim',sub:'tells them what to type'},
             {id:'prevalence',label:'Coaches carefully',sub:'the words leak no statistics'},
             {id:'matched',label:'Knows your defence',sub:'also picks a matching account'}];
-let DT={r:2,l:2,adv:'matched',goal:'recall@fpr=0.001'};
+let DT={r:2,l:2,adv:'matched',goal:'catch',pt:0};
 
 function renderDecide(root){
   root.replaceChildren();
@@ -869,9 +878,10 @@ function renderDecide(root){
       el('span',{style:'color:var(--ink);font-weight:600'},[words[DT[key]]+'  ('+fmt(arr[DT[key]])+')']),
       el('span',{},[words[words.length-1]])])]);
 
-  const cells=(D.phase&&D.phase.metrics[DT.adv+'|'+DT.goal])||[];
-  const c=cells.find(x=>x.rho===RHOS[DT.r]&&x.lam===LAMS[DT.l]);
   const goal=GOALS.find(g=>g.id===DT.goal);
+  const pt=goal.pts[Math.min(DT.pt,goal.pts.length-1)];
+  const cells=(D.phase&&D.phase.metrics[DT.adv+'|'+pt.m])||[];
+  const c=cells.find(x=>x.rho===RHOS[DT.r]&&x.lam===LAMS[DT.l]);
   const yes=!!(c&&c.significant);
 
   root.append(sec([W([el('div',{class:'grid g2'},[
@@ -887,21 +897,26 @@ function renderDecide(root){
       el('h4',{},['What are you optimising?']),
       el('div',{class:'seg',style:'margin:8px 0 6px'},GOALS.map(g=>el('button',{type:'button',
         'aria-pressed':String(g.id===DT.goal),onclick:()=>{DT.goal=g.id;redraw();}},[g.label]))),
-      el('div',{style:'font-size:12px;color:var(--muted);margin-bottom:18px'},[goal.sub+' · measured as '+goal.op]),
+      el('div',{style:'font-size:12px;color:var(--muted);margin-bottom:18px'},[goal.sub]),
+      el('div',{class:'lbl'},[goal.ptLabel]),
+      el('div',{class:'seg',style:'margin-bottom:8px'},goal.pts.map((q,i)=>el('button',{type:'button',
+        'aria-pressed':String(i===Math.min(DT.pt,goal.pts.length-1)),
+        onclick:()=>{DT.pt=i;redraw();}},[q.lab]))),
+      el('div',{style:'font-size:12px;color:var(--muted);margin-bottom:18px'},['measured as '+pt.op]),
       el('p',{style:'font-size:13.5px;color:var(--ink-soft);margin:0'},[
-        'These two goals do not give the same answer, and that disagreement is one of the study’s findings. Both were fixed in advance so neither could be chosen after the results were in.'])])])])]));
+        'These two goals do not give the same answer, and that disagreement is one of the study’s findings. Both metric families and all three operating points were fixed in advance, so none could be chosen after the results were in.'])])])])]));
 
   /* verdict */
   const vcol=yes?'var(--pos)':'var(--neg)', vbg=yes?'var(--pos-soft)':'var(--neg-soft)';
   const rows=[];
   if(c){
-    rows.push(['Effect on '+goal.op,(c.delta>=0?'+':'')+c.delta.toFixed(4)]);
+    rows.push(['Effect on '+pt.op,(c.delta>=0?'+':'')+c.delta.toFixed(4)]);
     rows.push(['95% confidence interval',
       (c.ci_lo_min>=0?'+':'')+c.ci_lo_min.toFixed(4)+'  to  '+(c.ci_hi_max>=0?'+':'')+c.ci_hi_max.toFixed(4)]);
     rows.push(['Holds across repeat runs',c.significant?'yes, all '+c.n_seeds:'no — interval includes zero']);
     rows.push(['Minimum menu size','6 purpose categories · 3 is not enough']);
     rows.push(['What you have to build','retain the field, pass it to the model you already run']);
-    rows.push(['What you do not have to build','a consistency engine — ours added +0.0008 over a plain label']);
+    rows.push(['What you do not have to build','a hand-built consistency model — ours added +0.0008 over the plain field']);
   }
   root.append(sec([W([
     el('div',{style:'border:1.5px solid '+vcol+';border-radius:6px;overflow:hidden'},[
@@ -913,7 +928,7 @@ function renderDecide(root){
                 :'Under these conditions the field does not measurably help. Spend the effort elsewhere.'):'']),
         el('div',{class:'mono',style:'font-size:12px;color:var(--muted);margin-top:9px'},[
           'coaching ρ='+RHOS[DT.r]+' · look-alikes λ='+LAMS[DT.l]+' · '+
-          ADVW.find(a=>a.id===DT.adv).label.toLowerCase()+' · '+goal.op])]),
+          ADVW.find(a=>a.id===DT.adv).label.toLowerCase()+' · '+pt.op])]),
       c?el('div',{style:'background:var(--surface);padding:6px 24px 18px'},
         [tbl(['',''],rows,[1])]):null])])]));
 
@@ -1001,7 +1016,7 @@ function renderScorer(root){
   root.append(el('div',{class:'grid g2'},[
     el('div',{class:'card'},[
       el('h4',{},['The payment']),
-      pick('What the payer says it is for','purpose',D.scorer.grid.purpose,o=>PZ[o]),
+      pick('The declared context — what the payer says it is for','purpose',D.scorer.grid.purpose,o=>PZ[o]),
       pick('Amount','amount',AMTZ,o=>o[1]),
       pick('Have they paid this account before?','known',KNWZ,o=>o[1]),
       pick('How the payer behaved while sending it','behave',BEHZ,o=>o[1])]),
@@ -1014,7 +1029,7 @@ function renderScorer(root){
   const moved=Math.abs(b-a)>0.005;
   root.append(el('div',{class:'grid g2',style:'margin-top:18px'},[
     meter('A bank’s system today',a,flagA),
-    meter('The same system, told what the payment is for',b,flagB)]));
+    meter('The same system, given the declared context',b,flagB)]));
 
   let verdict,kind;
   if(flagB&&!flagA){verdict='The purpose field caught this one. Without it, this payment goes straight through.';kind='good';}
@@ -1039,7 +1054,7 @@ function renderScorer(root){
 /* ================= THE CALCULATOR ================= */
 const QS=[
  {k:'purpose',q:'What does the payer say the money is for?',
-  hint:'This is the field that does not exist today. Everything else here, a bank already has.',
+  hint:'This is the declared context — the piece a fraud model rarely has. Everything else here, a bank already sees.',
   opts:()=>D.scorer.grid.purpose.map(v=>[v,PZ[v]])},
  {k:'amount',q:'How much are they sending?',hint:'',opts:()=>AMTZ},
  {k:'known',q:'Have they paid this account before?',hint:'',opts:()=>KNWZ},
@@ -1111,17 +1126,17 @@ function renderCalc(root){
     el('div',{style:'font-size:14px;font-weight:600;color:'+(flag?'var(--neg)':'var(--muted)')},[flag?'⚑ Held for review':'Goes through'])]);
 
   let verdict,kind;
-  if(fb&&!fa){verdict='<b>The purpose field caught this one.</b> Without it, this payment goes straight through to the scammer.';kind='good';}
-  else if(!fb&&fa){verdict='<b>The purpose field cleared this one.</b> It looked suspicious until you knew what it was for — that is a customer who does not get wrongly blocked.';kind='good';}
+  if(fb&&!fa){verdict='<b>The declared context caught this one.</b> Without it, this payment goes straight through to the scammer.';kind='good';}
+  else if(!fb&&fa){verdict='<b>The declared context cleared this one.</b> It looked suspicious until you knew what it was for — that is a customer who does not get wrongly blocked.';kind='good';}
   else if(fa&&fb){verdict='<b>Both catch it.</b> This payment was already obvious; the extra field changes nothing here.';kind='';}
-  else{verdict='<b>Both let it through.</b> The field is not magic — on payments like this one it does not decide anything.';kind='warn';}
+  else{verdict='<b>Both let it through.</b> The context is not magic — on payments like this one it does not decide anything.';kind='warn';}
 
   root.append(el('div',{class:'wrap qwrap'},[
     el('div',{class:'qnum'},['Result']),
     el('h2',{class:'qtitle'},['Two models, same payment']),
     el('div',{class:'grid g2',style:'margin-top:22px'},[
       meter('A bank’s system today',a,fa),
-      meter('The same system, told what the payment is for',b,fb)]),
+      meter('The same system, given the declared context',b,fb)]),
     el('div',{style:'margin-top:16px'},[take('what happened',verdict,kind)])]));
 
   /* explainability */
@@ -1249,7 +1264,11 @@ function renderAI(root){
     el('div',{class:'num'},['04']),
     el('h2',{class:'t'},['When an AI assistant pays for you']),
     el('p',{class:'sub'},['The instruction can be signed before anything is bought — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
-    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()]),
+    el('div',{class:'wrap'},[el('div',{class:'grid g3',style:'margin-top:26px'},[
+      card('8 of 10 attack types blocked','They break an explicit rule in the signed instruction, so no model is needed — the check is arithmetic.'),
+      card('0 false alarms','Across 20,000 simulated legitimate in-scope purchases, none was wrongly blocked.'),
+      card('2 types cannot be caught','They stay <em>inside</em> the instruction, so no conformance check can see them. Enforcement caps the loss at 91.9%; it does not detect intent.')])])]));
 
   root.append(onward([['Try it now →','tool'],['Back to the start','home']]));
 }
