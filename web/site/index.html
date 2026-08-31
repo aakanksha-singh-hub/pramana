@@ -145,8 +145,10 @@ td.r,th.r{text-align:right}
 .lede{font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:60ch;margin:20px 0 0}
 .heroactions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
 .blk{padding:64px 0;border-top:1px solid var(--line)}
-.blk:first-child{border-top:0;padding-top:52px}
-#s-score,#s-break{background:var(--surface)}
+.blk:first-child{border-top:0;padding-top:40px}
+.hero{margin-bottom:0}
+#s-top .lede{margin-bottom:30px}
+#s-top,#s-break{background:var(--surface)}
 .blk .num{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
   color:var(--accent-ink);margin-bottom:10px}
 h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-height:1.2;max-width:20ch;margin:0}
@@ -200,11 +202,11 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 <div class="jump"><div class="wrap">
   <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
   <nav>
-    <a href="#s-feel" data-j>The problem</a>
+    <a href="#s-feel" data-j>Why it is hard</a>
     <a href="#s-answer" data-j>Should you collect it?</a>
     <a href="#s-catch" data-j>The surprise</a>
-    <a href="#s-break" data-j>Try to break it</a>
-    <a href="#s-score" data-j class="cta">Score a payment</a>
+    <a href="#s-break" data-j>Agent payments</a>
+    <a href="#s-top" data-j class="cta">Score a payment</a>
   </nav>
 </div></div>
 <main id="main"></main>
@@ -939,32 +941,22 @@ function anchor(id,label){return el('a',{href:'#'+id,onclick:e=>{e.preventDefaul
 function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
 
 function buildPage(root){
-  /* 1 — hero */
+  /* 1 — HERO IS THE PRODUCT */
   root.append(S('s-top',[el('div',{class:'wrap'},[
-    el('div',{class:'kicker'},['A decision tool for payment teams']),
-    el('h1',{class:'hero'},['Is it worth asking people what a payment is for?']),
-    el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud control correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded. We measured what recording it is worth, and how long it stays worth anything once criminals adapt.']),
-    el('div',{class:'heroactions'},[
-      el('button',{class:'btn p',type:'button',onclick:()=>document.getElementById('s-score').scrollIntoView({behavior:'smooth'})},['Score a payment →']),
-      el('button',{class:'btn',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['First, see the problem'])])])]));
+    el('h1',{class:'hero'},['See what one missing field does to a fraud decision.']),
+    el('p',{class:'lede'},['Below is a real fraud model, running twice on the same payment. The only difference is that the second one is told what the payer says the money is for. Change anything and watch the decision move.'])]),
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderScorer(h);return h;})()])]));
 
-  /* 2 — feel it */
+  /* 2 — why it is hard */
   root.append(S('s-feel',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['01']),
-    el('h2',{class:'t'},['Thirty seconds: try being the fraud system']),
-    el('p',{class:'sub'},['Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
+    el('h2',{class:'t'},['Why a bank cannot already do this']),
+    el('p',{class:'sub'},['Scam victims authorise their own transfers, so every existing control correctly says yes. Here are two real accounts from our simulation — both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
     el('div',{class:'wrap'},[hookAccounts()])]));
-
-  /* 3 — THE PRODUCT */
-  root.append(S('s-score',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['02']),
-    el('h2',{class:'t'},['Score a payment yourself']),
-    el('p',{class:'sub'},['Build a payment on the left, describe the account receiving it on the right. Two real models score it: the one a bank runs today, and the same model told what the payer says the money is for.'])]),
-    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderScorer(h);return h;})()])]));
 
   /* 4 — should you collect it */
   root.append(S('s-answer',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['03']),
+    el('div',{class:'num'},['02']),
     el('h2',{class:'t'},['So — should you collect it?']),
     el('p',{class:'sub'},['That was one payment. Across 282 sets of conditions we measured whether the field is worth having at all. Set the conditions you expect and get the verdict.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()]),
@@ -987,7 +979,7 @@ function buildPage(root){
     el('span',{style:'font-size:15px;font-weight:700;color:'+(ok?'var(--pos)':'var(--neg)')},[ok?'✓':'✗']),
     el('span',{},[txt])]);
   root.append(S('s-catch',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['04']),
+    el('div',{class:'num'},['03']),
     el('h2',{class:'t'},['The part we did not expect']),
     el('p',{class:'sub'},['We assumed the cleverest scammer would simply beat the new field. Instead, it turned out they have to choose.'])]),
     el('div',{class:'wrap'},[el('div',{class:'scroll'},[
@@ -1011,14 +1003,14 @@ function buildPage(root){
 
   /* 6 — break it */
   root.append(S('s-break',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['05']),
+    el('div',{class:'num'},['04']),
     el('h2',{class:'t'},['Where this is heading: try to break it']),
     el('p',{class:'sub'},['When an AI assistant pays on your behalf, the instruction can be signed in advance — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
 
   /* 6 — the short honest note */
   root.append(S('s-limits',[el('div',{class:'wrap'},[
-    el('div',{class:'num'},['06']),
+    el('div',{class:'num'},['05']),
     el('h2',{class:'t'},['Two things to know before you use this']),
     el('div',{class:'grid g2',style:'margin-top:22px'},[
       card('The world is simulated','No public dataset of scam payments carries a purpose field, so we built one. The scores compare the two models like for like — they are not a forecast of what a real system would catch.'),
