@@ -112,7 +112,9 @@ for phrase, why in [
     ("In our simulated attack", "coupling scoped to the simulation"),
     ("purpose–account check", "signal named as purpose x account, not purpose alone"),
     ("simulated legitimate in-scope purchases", "false-alarm figure marked simulated"),
-    ("git log --oneline -- PREREGISTRATION.md", "footer gives a runnable one-line proof"),
+    ("Want to check the work?", "footer invites verification"),
+    ("commits/main/PREREGISTRATION.md", "footer links to the file's commit history"),
+    ("D.meta.repo", "repo URL read from git, not hardcoded"),
 ]:
     check(f"qualification kept: {why}", True, on_site(phrase))
 for phrase, why in [

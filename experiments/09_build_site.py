@@ -56,6 +56,8 @@ def build() -> str:
         "inspector": slim_inspector(load("inspector.json")),
         "meta": {
             "prereg_commit": (git("log", "--reverse", "--format=%H", default="") or "")[:40],
+            "repo": (git("config", "--get", "remote.origin.url", default="")
+                     .removesuffix(".git").replace("git@github.com:", "https://github.com/")),
             "built": datetime.now(timezone.utc).strftime("%d %B %Y"),
             "n_cells": len(list((RES / "raw").glob("*.json"))) if (RES / "raw").exists() else 0,
         },
@@ -243,9 +245,20 @@ h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-
 .jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
 .jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
-.verify{padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
-.verify b{color:var(--ink)}
-.verify .mono{font-size:11.5px;background:var(--sunk);padding:1px 6px;border-radius:3px}
+.verify{padding:18px 0 16px;margin-bottom:14px;border-bottom:1px solid var(--line);
+  display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.vtext{flex:1 1 320px;color:var(--ink-soft);font-size:13px;line-height:1.55;max-width:52ch}
+.vtext b{color:var(--ink);display:block;font-size:14.5px;margin-bottom:4px}
+.vbtns{flex:0 1 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vbtn{appearance:none;font-size:13px;font-weight:500;text-decoration:none;padding:9px 15px;
+  border-radius:4px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);
+  white-space:nowrap}
+.vbtn:hover{border-color:var(--accent);color:var(--accent-ink)}
+.vbtn.p{background:var(--accent);border-color:var(--accent);color:var(--ground)}
+.vbtn.p:hover{opacity:.9;color:var(--ground)}
+.vbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vnote{flex-basis:100%;font-size:12px;color:var(--muted);margin-top:4px}
+.vnote .mono{background:var(--sunk);padding:1px 5px;border-radius:3px}
 .land{min-height:calc(100vh - 56px);display:flex;align-items:center;background:var(--surface);padding:40px 0}
 .askclick{text-align:center;margin-top:22px}
 .askmain{font-size:16px;font-weight:600}
@@ -316,14 +329,12 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 <main id="main"></main>
 <footer class="foot"><div class="wrap">
   <div class="verify">
-    <b>Check the work.</b> The research question, the features and the condition under which we
-    would call the idea a failure were committed <em>before</em> the simulator existed, in commit
-    <span class="mono" id="pcommit"></span>, which has never been edited.
-    Verify with <span class="mono">git log --oneline -- PREREGISTRATION.md</span> — it returns
-    exactly one commit — in
-    <span class="mono">github.com/aakanksha-singh-hub/pramana</span> —
-    the repository also holds the 20-page write-up, the data and model cards, and the full
-    generative process.
+    <div class="vtext">
+      <b>Want to check the work?</b>
+      The research question, the features, and the condition under which we would call the idea
+      a failure were all written down <em>before</em> the simulator existed — and never edited since.
+    </div>
+    <div class="vbtns" id="vbtns"></div>
   </div>
   <b>Simulated data only.</b> No production, cardholder or personal data was used, and no live
   system was tested. All figures are like-for-like comparisons under identical conditions, not
@@ -1125,8 +1136,23 @@ document.querySelectorAll('.jump nav a[data-v]').forEach(a=>{
     if(a.dataset.v==='tool')STEP=0;
     go(a.dataset.v);});});
 document.getElementById('brand').addEventListener('click',()=>go('home'));
-(function(){const e=document.getElementById('pcommit');
-  if(e&&D.meta&&D.meta.prereg_commit)e.textContent=D.meta.prereg_commit.slice(0,10);})();
+(function(){
+  const box=document.getElementById('vbtns'); if(!box||!D.meta) return;
+  const repo=D.meta.repo||'', sha=D.meta.prereg_commit||'';
+  const a=(href,label,cls)=>{const n=document.createElement('a');
+    n.href=href; n.target='_blank'; n.rel='noopener'; n.className='vbtn'+(cls?' '+cls:'');
+    n.textContent=label; return n;};
+  if(repo){
+    box.append(a(repo+'/commits/main/PREREGISTRATION.md','Proof it was never edited →','p'));
+    box.append(a(repo+'/blob/main/PREREGISTRATION.md','Read the pre-registration'));
+    box.append(a(repo,'The full repository'));
+  }
+  const note=document.createElement('div'); note.className='vnote';
+  note.innerHTML='The first link shows the commit history of that one file. It has '+
+    '<b>exactly one entry</b> — commit <span class="mono">'+sha.slice(0,10)+
+    '</span>, which created it and never touched it again.';
+  box.append(note);
+})();
 function show(){}   /* legacy no-op: nothing hides any more */
 </script>
 </body>
