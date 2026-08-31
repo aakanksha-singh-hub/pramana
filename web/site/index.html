@@ -140,6 +140,40 @@ td.r,th.r{text-align:right}
 .btn.p:hover{opacity:.9;color:var(--ground)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .note{font-size:13px;color:var(--muted);max-width:62ch;margin-top:18px}
+.hero{font-family:Spectral,Georgia,serif;font-size:clamp(30px,4.6vw,46px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.1;max-width:17ch;margin:14px 0 0}
+.lede{font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:60ch;margin:20px 0 0}
+.heroactions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.blk{padding:64px 0;border-top:1px solid var(--line)}
+.blk:first-child{border-top:0;padding-top:52px}
+#s-answer,#s-break{background:var(--surface)}
+.blk .num{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  color:var(--accent-ink);margin-bottom:10px}
+h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-height:1.2;max-width:20ch;margin:0}
+.sub{font-size:16.5px;color:var(--ink-soft);max-width:62ch;margin:14px 0 26px}
+.stats{margin-top:24px}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.g4{grid-template-columns:1fr}}
+.stat{background:var(--ground);border:1px solid var(--line);border-radius:5px;padding:18px 20px}
+#s-answer .stat,#s-break .stat{background:var(--raised)}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:26px;font-weight:500;line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--accent-ink)}
+.stat .l{font-size:13.5px;font-weight:600;margin-top:10px}
+.stat .s{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.45}
+.jump{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.jump .wrap{display:flex;align-items:center;gap:20px;min-height:54px}
+.jump .brand{display:flex;align-items:baseline;gap:8px;flex-shrink:0;cursor:pointer}
+.jump .brand b{font-family:Spectral,Georgia,serif;font-size:20px;font-weight:700}
+.jump .brand i{font-size:11px;color:var(--muted);font-family:Spectral,Georgia,serif}
+@media(max-width:820px){.jump .brand i{display:none}}
+.jump nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.jump nav::-webkit-scrollbar{display:none}
+.jump nav a{font-size:13px;color:var(--muted);text-decoration:none;padding:8px 11px;
+  border-radius:3px;white-space:nowrap}
+.jump nav a:hover{color:var(--ink);background:var(--raised)}
+.jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
+.jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
 .find.click{cursor:pointer;transition:border-color .12s,transform .12s}
 .find.click:hover{border-color:var(--accent)}
@@ -154,16 +188,17 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 </style>
 </head>
 <body>
-<div class="bar"><div class="wrap">
+<div class="jump"><div class="wrap">
   <div class="brand" id="brand" role="button" tabindex="0"><b>Pramana</b><i>a valid means of proof</i></div>
-  <nav class="tabs" id="tabs"></nav>
+  <nav>
+    <a href="#s-feel" data-j>The problem</a>
+    <a href="#s-how" data-j>How we know</a>
+    <a href="#s-catch" data-j>The surprise</a>
+    <a href="#s-break" data-j>Try to break it</a>
+    <a href="#s-answer" data-j class="cta">Get the answer</a>
+  </nav>
 </div></div>
-<main>
-  <section id="p-start"></section>
-  <section id="p-findings" hidden></section>
-  <section id="p-try" hidden></section>
-  <section id="p-evidence" hidden></section>
-</main>
+<main id="main"></main>
 <footer class="foot"><div class="wrap">
   <b>Synthetic data only.</b> No production, cardholder or personal data was used, and no live
   system was tested. Absolute detection rates are not comparable to deployed systems; every
@@ -774,25 +809,119 @@ function renderDecide(root){
 }
 
 
-/* ---------- router ---------- */
-const PAGES=[{id:'p-start',label:'Start',render:pStart},
-  {id:'p-findings',label:'What we found',render:pFindings2},
-  {id:'p-try',label:'Try it',render:pTry},
-  {id:'p-evidence',label:'The evidence',render:pEvidence}];
-const tabsEl=document.getElementById('tabs');const done=new Set();
-function show(id){
-  PAGES.forEach(pg=>{document.getElementById(pg.id).hidden=pg.id!==id;
-    tabsEl.querySelector('[data-id="'+pg.id+'"]').setAttribute('aria-current',String(pg.id===id));});
-  const pg=PAGES.find(x=>x.id===id);
-  if(!done.has(id)||['p-try','p-evidence'].includes(id)){pg.render(document.getElementById(id));done.add(id);}
-  window.scrollTo({top:0,behavior:'instant'});
-  try{history.replaceState(null,'','#'+id.replace('p-',''));}catch(e){}}
-PAGES.forEach((pg,i)=>tabsEl.append(el('button',{type:'button','data-id':pg.id,
-  'aria-current':String(i===0),onclick:()=>show(pg.id)},[pg.label])));
-document.getElementById('brand').addEventListener('click',()=>show('p-start'));
-const init=(location.hash||'').replace('#','');
-show(PAGES.some(p=>p.id==='p-'+init)?'p-'+init:'p-start');
 
+/* the experiment, drawn */
+function figExperiment(){
+  let s='';
+  const ly=44, bh=58;
+  s+=BOX(20,ly,150,bh,{fill:'var(--raised)'})+
+     T(95,ly+25,'2 million payments',{w:600,s:13})+T(95,ly+43,'0.8% of them scams',{s:11.5,c:'var(--muted)'});
+  s+=LINE(170,ly+bh/2,206,ly-6,{m:'ar'});
+  s+=LINE(170,ly+bh/2,206,ly+bh+30,{m:'ar'});
+  s+=BOX(212,ly-32,264,52,{stroke:'var(--line-2)'})+
+     T(344,ly-12,'Model A — everything a bank has today',{w:600,s:12.5})+
+     T(344,ly+5,'the payment, the behaviour, the recipient',{s:11.5,c:'var(--muted)'});
+  s+=BOX(212,ly+bh+6,264,52,{stroke:'var(--accent)',fill:'var(--accent-soft)'})+
+     T(344,ly+bh+26,'Model B — the same, plus one field',{w:600,s:12.5,c:'var(--accent-ink)'})+
+     T(344,ly+bh+43,'“what did the payer think this was for?”',{s:11.5,c:'var(--accent-ink)'});
+  s+=LINE(476,ly-6,516,ly+bh/2-4,{m:'ar'});
+  s+=LINE(476,ly+bh+32,516,ly+bh/2+8,{m:'ar'});
+  s+=BOX(522,ly+2,182,bh-4,{fill:'var(--surface)'})+
+     T(613,ly+24,'How much more fraud',{w:600,s:13})+T(613,ly+42,'did B catch than A?',{w:600,s:13});
+  s+=LINE(704,ly+bh/2,742,ly+bh/2,{m:'ar'});
+  s+=BOX(748,ly+2,112,bh-4,{fill:'var(--raised)'})+
+     T(804,ly+26,'one answer',{s:12.5,w:600})+T(804,ly+43,'for one setting',{s:11,c:'var(--muted)'});
+  s+=BOX(20,ly+bh+80,840,44,{dash:'5 4',fill:'none',stroke:'var(--muted)'});
+  s+=T(440,ly+bh+100,'Now repeat that for every combination of how hard the scammer coached the victim,',{s:12});
+  s+=T(440,ly+bh+116,'how many legitimate accounts look suspicious, and how skilled the attacker is.',{s:12});
+  return {vb:'0 0 880 250',body:s};
+}
+
+/* ================= ONE PAGE ================= */
+function anchor(id,label){return el('a',{href:'#'+id,onclick:e=>{e.preventDefault();
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}},[label]);}
+
+function S(id,kids){return el('section',{id,class:'blk'},[].concat(kids));}
+
+function buildPage(root){
+  /* 1 — hero */
+  root.append(S('s-top',[el('div',{class:'wrap'},[
+    el('div',{class:'kicker'},['A decision tool for payment teams']),
+    el('h1',{class:'hero'},['Is it worth asking people what a payment is for?']),
+    el('p',{class:'lede'},['Scam victims authorise their own transfers, so every fraud control correctly says yes. The one thing that would give it away — what the payer thought they were paying for — is never recorded. We measured what recording it is worth, and how long it stays worth anything once criminals adapt.']),
+    el('div',{class:'heroactions'},[
+      el('button',{class:'btn p',type:'button',onclick:()=>document.getElementById('s-answer').scrollIntoView({behavior:'smooth'})},['Get the answer for your case →']),
+      el('button',{class:'btn',type:'button',onclick:()=>document.getElementById('s-feel').scrollIntoView({behavior:'smooth'})},['First, see the problem'])])])]));
+
+  /* 2 — feel it */
+  root.append(S('s-feel',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['01']),
+    el('h2',{class:'t'},['Thirty seconds: try being the fraud system']),
+    el('p',{class:'sub'},['Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam money. These are the only fields a fraud system has.'])]),
+    el('div',{class:'wrap'},[hookAccounts()])]));
+
+  /* 3 — the answer */
+  root.append(S('s-answer',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['02']),
+    el('h2',{class:'t'},['So — should you collect it?']),
+    el('p',{class:'sub'},['Set the conditions you expect to operate in. Every answer is a lookup into experiments already run; nothing is estimated live.'])]),
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderDecide(h);return h;})()])]));
+
+  /* 4 — what we did */
+  root.append(S('s-how',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['03']),
+    el('h2',{class:'t'},['How we know that']),
+    el('p',{class:'sub'},['One idea, done many times over: train the same fraud model twice — once with the field, once without — and measure the gap.'])]),
+    el('div',{class:'wrap'},[fig(figExperiment(),
+      'The experiment. Model A is a realistic modern fraud system. Model B is the identical model given one extra field. The difference between them is the value of the field — and the whole study is that difference, measured again under every combination of conditions.',
+      'Two identical fraud models, one with the purpose field and one without, compared on how much more fraud the second catches, repeated across many conditions')]),
+    el('div',{class:'wrap'},[el('div',{class:'grid g4 stats'},[
+      el('div',{class:'stat'},[el('div',{class:'v'},['1,535']),el('div',{class:'l'},['models trained']),
+        el('div',{class:'s'},['not one model — a model for every combination of conditions'])]),
+      el('div',{class:'stat'},[el('div',{class:'v'},['1.04M']),el('div',{class:'l'},['payments each one learned from']),
+        el('div',{class:'s'},['tested on 167,345 more, from people it had never seen'])]),
+      el('div',{class:'stat'},[el('div',{class:'v'},['282']),el('div',{class:'l'},['conditions tested']),
+        el('div',{class:'s'},['three repeats of each, to be sure it was not luck'])]),
+      el('div',{class:'stat'},[el('div',{class:'v'},['3']),el('div',{class:'l'},['scammers of rising skill']),
+        el('div',{class:'s'},['the last one knows exactly how the defence works'])])])]),
+    el('div',{class:'wrap'},[take('the fair-fight rule','Model A got <b>all</b> the tuning effort. Model B got none — it just inherited A’s settings. So every gap we report is the smallest the field could plausibly be worth, not the largest.','good')])]));
+
+  /* 5 — the catch */
+  root.append(S('s-catch',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['04']),
+    el('h2',{class:'t'},['The part we did not expect']),
+    el('p',{class:'sub'},['We assumed the cleverest scammer would simply beat the field. It did — and made the rest of the system better while doing it.'])]),
+    el('div',{class:'wrap'},[fig(figCoupling(),
+      'Left: spread the payments around and the recipient monitor stays quiet, but the declared purpose matches none of those accounts. Right: use only accounts that fit the declared purpose and the purpose check goes quiet — but the payments bunch into a handful of accounts, and the recipient monitor fires.',
+      'Two panels comparing dispersed routing, where the purpose check fires, against purpose-matched routing, where the recipient check fires instead')]),
+    el('div',{class:'wrap'},[take('why this matters','A scammer can look consistent <b>or</b> stay spread out — not both. So the field is worth more than what it catches by itself: it also forces the attacker into a shape the checks you already run can see. We found no published statement of this trade-off.','good')])]));
+
+  /* 6 — break it */
+  root.append(S('s-break',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['05']),
+    el('h2',{class:'t'},['Where this is heading: try to break it']),
+    el('p',{class:'sub'},['When an AI assistant pays on your behalf, the instruction can be signed in advance — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
+    el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()])]));
+
+  /* 7 — limits */
+  root.append(S('s-limits',[el('div',{class:'wrap'},[
+    el('div',{class:'num'},['06']),
+    el('h2',{class:'t'},['What this does not prove']),
+    el('p',{class:'sub'},['The useful thing a study can do is be exact about its own edges.'])]),
+    el('div',{class:'wrap'},[el('div',{class:'grid g3'},[
+      card('It is simulated','No public dataset of scam payments carries a purpose field, so we built the world. We claim nothing about absolute detection rates — only how the value <em>moves</em> as attackers improve.'),
+      card('Our clever version was pointless','We built an engine that learns what recipients normally look like per purpose. Against a plain tick-box it added next to nothing. Keep the field; skip the machinery.'),
+      card('Our two measures disagree','On one, it helps everywhere. On the other, it stops paying almost immediately. Both were fixed before we ran anything, so neither could be chosen afterwards.')])]),
+    el('div',{class:'wrap'},[take('the circularity answer','We put the purpose field into the data ourselves, so we make no claim about absolute detection rates. What is not circular: the mandate results are structural arithmetic, the study measures <em>relative</em> behaviour across conditions rather than one score, and the whole generative process is published so the design can be challenged.')])]));
+}
+
+/* build + wire */
+buildPage(document.getElementById('main'));
+document.querySelectorAll('.jump nav a[data-j], .jump nav a.cta').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});});});
+document.getElementById('brand').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+function show(){}   /* legacy no-op: nothing hides any more */
 </script>
 </body>
 </html>
