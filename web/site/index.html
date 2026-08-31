@@ -175,6 +175,15 @@ h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-
 .jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
 .jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
+table.cmp{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:5px;overflow:hidden}
+table.cmp th{font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:600;
+  padding:16px 18px;vertical-align:bottom;border-bottom:1.5px solid var(--line-2);background:var(--raised)}
+table.cmp th:first-child{color:var(--muted);font-weight:500}
+table.cmp td{padding:15px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+table.cmp td:first-child{color:var(--muted);font-weight:500;width:30%}
+table.cmp tr.verdict td{background:var(--raised);border-bottom:0}
+@media(max-width:760px){table.cmp{font-size:13px}table.cmp th,table.cmp td{padding:11px 12px}}
 .find.click{cursor:pointer;transition:border-color .12s,transform .12s}
 .find.click:hover{border-color:var(--accent)}
 .find.click:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -887,14 +896,31 @@ function buildPage(root){
     el('div',{class:'wrap'},[take('the fair-fight rule','Model A got <b>all</b> the tuning effort. Model B got none — it just inherited A’s settings. So every gap we report is the smallest the field could plausibly be worth, not the largest.','good')])]));
 
   /* 5 — the catch */
+  const yn=(ok,txt)=>el('div',{style:'display:flex;gap:9px;align-items:baseline'},[
+    el('span',{style:'font-size:15px;font-weight:700;color:'+(ok?'var(--pos)':'var(--neg)')},[ok?'✓':'✗']),
+    el('span',{},[txt])]);
   root.append(S('s-catch',[el('div',{class:'wrap'},[
     el('div',{class:'num'},['04']),
     el('h2',{class:'t'},['The part we did not expect']),
-    el('p',{class:'sub'},['We assumed the cleverest scammer would simply beat the field. It did — and made the rest of the system better while doing it.'])]),
-    el('div',{class:'wrap'},[fig(figCoupling(),
-      'Left: spread the payments around and the recipient monitor stays quiet, but the declared purpose matches none of those accounts. Right: use only accounts that fit the declared purpose and the purpose check goes quiet — but the payments bunch into a handful of accounts, and the recipient monitor fires.',
-      'Two panels comparing dispersed routing, where the purpose check fires, against purpose-matched routing, where the recipient check fires instead')]),
-    el('div',{class:'wrap'},[take('why this matters','A scammer can look consistent <b>or</b> stay spread out — not both. So the field is worth more than what it catches by itself: it also forces the attacker into a shape the checks you already run can see. We found no published statement of this trade-off.','good')])]));
+    el('p',{class:'sub'},['We assumed the cleverest scammer would simply beat the new field. Instead, it turned out they have to choose.'])]),
+    el('div',{class:'wrap'},[el('div',{class:'scroll'},[
+      (()=>{const t=el('table',{class:'cmp'});
+        t.append(el('thead',{},[el('tr',{},[
+          el('th',{},['A scammer collecting “rent” payments can…']),
+          el('th',{},['Spread the money across many accounts']),
+          el('th',{},['Use only accounts that look like a landlord'])])]));
+        t.append(el('tbody',{},[
+          el('tr',{},[el('td',{},['Does the story match the account?']),
+            el('td',{},[yn(false,'No — none of them looks like a landlord')]),
+            el('td',{},[yn(true,'Yes — that was the whole point')])]),
+          el('tr',{},[el('td',{},['Do the accounts look normal?']),
+            el('td',{},[yn(true,'Yes — the money is spread thin')]),
+            el('td',{},[yn(false,'No — it all piles into a handful')])]),
+          el('tr',{class:'verdict'},[el('td',{},['So what happens?']),
+            el('td',{},[el('b',{style:'color:var(--neg)'},['The purpose check catches them'])]),
+            el('td',{},[el('b',{style:'color:var(--neg)'},['The account check catches them'])])])]));
+        return t;})()])]),
+    el('div',{class:'wrap'},[take('why this matters','They can look consistent <b>or</b> stay spread out — not both. So this field is worth more than the fraud it catches by itself: it also forces the scammer into a shape your existing checks can already see.','good')])]));
 
   /* 6 — break it */
   root.append(S('s-break',[el('div',{class:'wrap'},[
