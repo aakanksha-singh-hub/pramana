@@ -83,10 +83,23 @@ check("pre-registration names recall @ 0.1/0.5/1.0", True,
 check("pre-registration names FPR @ 50/70/90", True,
       "FPR @ recall = 50%, 70%, 90%" in prereg)
 
-# ---- 7. strings that must appear verbatim -------------------------------
-for phrase in ["1,535", "8,448", "167,345", "20,000 simulated", "8 of 10",
-               "+0.0007", "0.33 standard deviations", "91.9%"]:
+# ---- 7. figures that are written into the copy by hand ------------------
+for phrase in ["1,535", "8,448", "167,345", "+0.0007", "0.33 standard deviations"]:
     check(f"site shows “{phrase}”", True, on_site(phrase))
+
+# ---- 8. figures that must be read from the artefacts, not typed ---------
+# Stronger than a literal match: if the value is rendered from results/, it
+# cannot drift when the experiment is re-run.
+for expr, label in [("D.agentic.coverage.caught", "attack coverage"),
+                    ("D.agentic.false_positives_in_scope" if False else
+                     "D.agentic.false_positives_on_in_scope_traffic.rejected", "false alarms"),
+                    ("D.agentic.bounded_loss.reduction_persistent", "loss reduction"),
+                    ("D.meta.prereg_commit", "pre-registration commit")]:
+    check(f"{label} is read from results, not hardcoded", True, on_site(expr))
+for literal, label in [("8 of 10 attack types", "attack coverage"),
+                       ("20,000 simulated legitimate", "false-alarm trials"),
+                       ("91.9%", "loss reduction")]:
+    check(f"{label} is NOT hardcoded in the copy", False, on_site(literal))
 
 # ---- report --------------------------------------------------------------
 print(f"{len(ok)} checks passed, {len(bad)} failed\n")

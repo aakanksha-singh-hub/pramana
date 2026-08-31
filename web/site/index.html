@@ -177,6 +177,9 @@ h2.t{font-size:clamp(24px,3vw,31px);font-weight:600;letter-spacing:-.014em;line-
 .jump nav a.cta{background:var(--accent);color:var(--ground);font-weight:500}
 .jump nav a.cta:hover{opacity:.9;color:var(--ground)}
 
+.verify{padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+.verify b{color:var(--ink)}
+.verify .mono{font-size:11.5px;background:var(--sunk);padding:1px 6px;border-radius:3px}
 .land{min-height:calc(100vh - 56px);display:flex;align-items:center;background:var(--surface);padding:40px 0}
 .askclick{text-align:center;margin-top:22px}
 .askmain{font-size:16px;font-weight:600}
@@ -246,6 +249,15 @@ input[type=checkbox]{accent-color:var(--accent);width:15px;height:15px}
 </div></div>
 <main id="main"></main>
 <footer class="foot"><div class="wrap">
+  <div class="verify">
+    <b>Check the work.</b> The research question, the features and the condition under which we
+    would call the idea a failure were committed <em>before</em> the simulator existed, in commit
+    <span class="mono" id="pcommit"></span>, which has never been edited.
+    Verify with <span class="mono">git log --reverse --stat</span> in
+    <span class="mono">github.com/aakanksha-singh-hub/pramana</span> —
+    the repository also holds the 20-page write-up, the data and model cards, and the full
+    generative process.
+  </div>
   <b>Simulated data only.</b> No production, cardholder or personal data was used, and no live
   system was tested. All figures are like-for-like comparisons under identical conditions, not
   benchmarks of deployed performance.
@@ -306,49 +318,10 @@ const LINE=(x1,y1,x2,y2,o={})=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+
   '" '+(o.m?'marker-end="url(#'+o.m+')"':'')+'/>';
 
 /* 1 — every control passes */
-function figScam(){
-  const y=64,bw=132,bh=52,gap=34;
-  let s='';
-  const steps=[['Payer','the real customer'],['Password','correct'],['Device','recognised'],['Amount','unremarkable']];
-  steps.forEach((st,i)=>{const x=20+i*(bw+gap);
-    s+=BOX(x,y,bw,bh)+T(x+bw/2,y+22,st[0],{w:600,s:13})+T(x+bw/2,y+39,st[1],{s:11.5,c:'var(--muted)'});
-    s+=T(x+bw/2,y-10,'✓',{s:15,c:'var(--pos)',w:700});
-    if(i<3)s+=LINE(x+bw,y+bh/2,x+bw+gap-8,y+bh/2,{m:'ar'});});
-  const mx=20+4*(bw+gap);
-  s+=LINE(mx-gap,y+bh/2,mx-8,y+bh/2,{m:'arN',c:'var(--neg)'});
-  s+=BOX(mx,y,150,bh,{stroke:'var(--neg)',fill:'var(--neg-soft)'})+
-     T(mx+75,y+22,'Scammer’s account',{w:600,s:13,c:'var(--neg)'})+T(mx+75,y+39,'12 days old',{s:11.5,c:'var(--neg)'});
-  s+=BOX(20,y+96,bw*2+gap,46,{dash:'5 4',fill:'none'})+
-     T(20+(bw*2+gap)/2,y+118,'What the payer believed',{w:600,s:13})+
-     T(20+(bw*2+gap)/2,y+134,'never recorded, never checked',{s:11.5,c:'var(--muted)'});
-  s+=LINE(20+bw*2+gap+10,y+119,mx-10,y+119,{dash:'4 4',c:'var(--muted)',w:1.2});
-  s+=T((20+bw*2+gap+mx)/2,y+112,'the only thing that would have flagged it',{s:11,c:'var(--muted)'});
-  return {vb:'0 0 880 230',body:s};
-}
+
 
 /* 2 — the consistency check */
-function figConsistency(){
-  let s='';
-  const x0=90,x1=800,ymid=118;
-  s+=T(20,42,'Recipients that people normally send RENT to',{a:'start',w:600,s:13});
-  s+=BOX(x0,ymid-34,300,68,{fill:'var(--accent-soft)',stroke:'var(--accent)',r:34});
-  s+=T(x0+150,ymid+5,'the usual range',{s:12,c:'var(--accent-ink)'});
-  s+=LINE(x0-40,ymid,x1,ymid,{c:'var(--line-2)',w:1.2});
-  s+=T(x0+150,ymid+56,'years old · few payers · same date monthly · money stays',{s:11.5,c:'var(--muted)'});
-  s+=BOX(x0+110,ymid-52,80,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
-     T(x0+150,ymid-34,'landlord',{s:11.5,w:600,c:'var(--pos)'});
-  s+=LINE(x0+150,ymid-26,x0+150,ymid-8,{c:'var(--pos)',w:1.2});
-  const mx=640;
-  s+=BOX(mx-58,ymid-52,116,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
-     T(mx,ymid-34,'this recipient',{s:11.5,w:600,c:'var(--neg)'});
-  s+=LINE(mx,ymid-26,mx,ymid-8,{c:'var(--neg)',w:1.2});
-  s+='<circle cx="'+mx+'" cy="'+ymid+'" r="6" style="fill:var(--neg)"/>';
-  s+=T(mx,ymid+30,'12 days old · dozens of strangers · no rhythm',{s:11.5,c:'var(--neg)'});
-  s+=T(mx,ymid+47,'money forwarded within hours',{s:11.5,c:'var(--neg)'});
-  s+=LINE(x0+300+14,ymid-20,mx-20,ymid-20,{c:'var(--neg)',w:1.3,dash:'5 4',m:'arN'});
-  s+=T((x0+300+mx)/2+2,ymid-28,'distance from normal',{s:11,c:'var(--neg)'});
-  return {vb:'0 0 880 200',body:s};
-}
+
 
 /* 3 — three independent processes */
 function figProcesses(){
@@ -392,42 +365,7 @@ function figLadder(){
 }
 
 /* 5 — the coupling trade-off: the headline finding */
-function figCoupling(){
-  let s='';const py=44,ph=180,pw=396;
-  const panel=(x,title,sub)=>{
-    let g=BOX(x,py,pw,ph,{fill:'var(--surface)'});
-    g+=T(x+pw/2,py+26,title,{w:600,s:14.5});
-    g+=T(x+pw/2,py+45,sub,{s:11.5,c:'var(--muted)'});
-    return g;};
-  /* left: dispersed */
-  s+=panel(20,'Stay spread out','send to whatever account is free');
-  const sx=76,sy=py+92;
-  s+='<circle cx="'+sx+'" cy="'+sy+'" r="13" style="fill:var(--sunk);stroke:var(--line-2)"/>'+T(sx,sy+4,'₹',{s:12});
-  for(let i=0;i<6;i++){const tx=180+ (i%3)*68, ty=py+74+Math.floor(i/3)*46;
-    s+=LINE(sx+14,sy,tx-11,ty,{c:'var(--muted)',w:1});
-    s+='<circle cx="'+tx+'" cy="'+ty+'" r="9" style="fill:var(--raised);stroke:var(--line-2)"/>';}
-  s+=T(228,py+ph-14,'6 accounts, none of them fits “rent”',{s:11.5,c:'var(--muted)'});
-  s+=BOX(258,py+62,150,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
-     T(333,py+80,'recipient check: quiet',{s:11.5,c:'var(--pos)',w:600});
-  s+=BOX(258,py+120,150,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
-     T(333,py+138,'purpose check: FIRES',{s:11.5,c:'var(--neg)',w:600});
-  /* right: matched */
-  const ox=462;
-  s+=panel(ox,'Match the declared purpose','only a few accounts look like a landlord');
-  const mx2=ox+56,my=py+92;
-  s+='<circle cx="'+mx2+'" cy="'+my+'" r="13" style="fill:var(--sunk);stroke:var(--line-2)"/>'+T(mx2,my+4,'₹',{s:12});
-  for(let i=0;i<6;i++){const ty=py+78+ (i%2)*30;
-    s+=LINE(mx2+14,my,ox+142,ty,{c:'var(--neg)',w:1.1});}
-  s+='<circle cx="'+(ox+152)+'" cy="'+(py+78)+'" r="10" style="fill:var(--neg-soft);stroke:var(--neg);stroke-width:1.4"/>';
-  s+='<circle cx="'+(ox+152)+'" cy="'+(py+108)+'" r="10" style="fill:var(--neg-soft);stroke:var(--neg);stroke-width:1.4"/>';
-  s+=T(ox+196,py+ph-14,'all six funnel into 2 accounts',{s:11.5,c:'var(--neg)'});
-  s+=BOX(ox+206,py+62,168,26,{fill:'var(--neg-soft)',stroke:'var(--neg)'})+
-     T(ox+290,py+80,'recipient check: FIRES',{s:11.5,c:'var(--neg)',w:600});
-  s+=BOX(ox+206,py+120,168,26,{fill:'var(--pos-soft)',stroke:'var(--pos)'})+
-     T(ox+290,py+138,'purpose check: quiet',{s:11.5,c:'var(--pos)',w:600});
-  s+=T(440,26,'the attacker must choose',{s:12,c:'var(--muted)',w:600});
-  return {vb:'0 0 880 250',body:s};
-}
+
 
 
 /* ================= THE HOOK — tell these two apart ================= */
@@ -492,69 +430,10 @@ function hookAccounts(){
 
 
 /* ================= PAGE 1 — START ================= */
-function pStart(root){
-  root.append(el('div',{class:'pg'},[el('div',{class:'wrap'},[
-    el('div',{class:'kicker'},['Scam fraud · the missing field']),
-    el('h2',{class:'t',style:'max-width:22ch'},['Every payment records what happened. None records what the payer believed.']),
-    el('p',{class:'lede'},['Scam fraud lives entirely in that gap. The victim authorises the transfer themselves, so every fraud control correctly says yes — and the money is gone.'])])]));
 
-  root.append(sec([W([h3('Thirty seconds: try being the fraud system')]),
-    COL([p('Two real accounts from our simulation. Both take money from dozens of unrelated people and pass it straight on. One collects scam proceeds.')]),
-    W([hookAccounts()])]));
-
-  root.append(sec([W([h3('Why every control says yes')]),
-    W([fig(figScam(),
-      'A scam payment as the bank sees it. Each check passes because each is true — the customer really is the customer. The one fact that would have flagged it is never recorded.',
-      'A payment passing four green checks into a twelve-day-old scammer account, with the payer’s belief shown as an unrecorded dashed box')]),
-    COL([p('In India this cost <b>₹22,931 crore across 28 lakh reported cases</b> in 2025. The regulator has proposed four safeguards — a payment delay, a trusted-person check, a spending cap, a kill switch. Every one adds friction. Not one of them detects anything.')])]));
-
-  root.append(sec([COL([h3('So we asked a different question'),
-    p('Not “can we build a better fraud model”. Purpose codes already exist; checking them against the recipient is ordinary work. The unanswered question is how to <b>price</b> a signal like this <em>before</em> anyone builds it — because the criminals it targets will adapt to it.'),
-    p('So we attacked it with three scammers of escalating skill, ending with one that knows exactly how the defence works and picks its accounts to beat it, and measured the point at which the signal stops paying for itself.')]),
-    W([el('div',{class:'grid g2'},[
-      el('div',{class:'card'},[el('h4',{},['See what we found']),
-        el('p',{},['Three answers, and one result we did not design for.']),
-        el('div',{style:'margin-top:14px'},[el('button',{class:'btn p',type:'button',onclick:()=>show('p-findings')},['The findings →'])])]),
-      el('div',{class:'card'},[el('h4',{},['Or use it yourself']),
-        el('p',{},['A tool that tells you whether to collect this field — and one you can try to break.']),
-        el('div',{style:'margin-top:14px'},[el('button',{class:'btn',type:'button',onclick:()=>show('p-try')},['Try it →'])])])])])]));
-  root.append(nav(null,{id:'p-findings',label:'What we found'}));
-}
 
 /* ================= PAGE 2 — FINDINGS ================= */
-function pFindings2(root){
-  const find=(n,t,x,num,cap)=>el('div',{class:'find'},[
-    el('div',{class:'n'},['FINDING '+n]),el('h4',{},[t]),el('p',{html:x}),
-    el('div',{class:'num'},[num]),el('div',{class:'cap'},[cap])]);
-  root.append(head('What we found','Three answers, and one surprise',
-    'Everything below is measured against a system that already has transaction, behavioural and recipient intelligence. The question is only what one more field adds on top.'));
 
-  root.append(sec([W([el('div',{class:'grid g3'},[
-    find('01','Evasion is not free',
-      'To make a payment look consistent with its declared purpose, a scammer has to send it to accounts that fit — and few do. Their traffic bunches up, and bunching is what recipient monitoring already catches.',
-      'the surprise','explained just below'),
-    find('02','Six categories, minimum',
-      'A three-option menu — personal, commercial, other — was worth nothing measurable. At six options it worked. That is a dropdown you can specify on Monday.',
-      'three: useless · six: works','how many options the purpose menu needs'),
-    find('03','Keep the field, don’t model it',
-      'We built a consistency engine that learns what recipients normally look like for each purpose. Against a plain tick-box version of the same field, it added next to nothing.',
-      'next to nothing','what all the extra modelling was worth')])])]));
-
-  root.append(sec([W([h3('The one we did not design for')]),
-    COL([p('We expected the strongest scammer to make things worse. It did — for the purpose check. But it made the <b>rest of the system better</b>, and that was not supposed to happen.')]),
-    W([fig(figCoupling(),
-      'The attacker’s dilemma. Left: spread the payments around and the recipient monitor stays quiet, but the declared purpose matches none of those accounts. Right: use only accounts that fit the declared purpose and the purpose check goes quiet — but the payments bunch into a handful of accounts, and the recipient monitor fires.',
-      'Two panels comparing dispersed routing, where the purpose check fires, against purpose-matched routing, where the recipient check fires instead')]),
-    W([take('what it means','The scammer can look consistent <b>or</b> stay spread out. Not both. So this field is worth more than what it catches by itself — it also forces the attacker into a shape that the checks you already run can see. We found no published statement of this trade-off.','good')])]));
-
-  root.append(sec([COL([h3('And where it does not work'),
-    p('Under heavy coaching the signal loses roughly half its value. If your goal is cutting false alarms rather than catching more fraud, it stops paying almost immediately. Both of those measures were fixed before we ran anything, precisely so we could not pick the flattering one afterwards.'),
-    p('The decision tool puts those boundaries in your hands.')]),
-    W([el('div',{style:'display:flex;gap:12px;flex-wrap:wrap'},[
-      el('button',{class:'btn p',type:'button',onclick:()=>show('p-try')},['Should you collect it? →']),
-      el('button',{class:'btn',type:'button',onclick:()=>show('p-evidence')},['Show me the evidence →'])])])]));
-  root.append(nav({id:'p-start',label:'Start'},{id:'p-try',label:'Try it'}));
-}
 
 
 /* ================= PAGE 3 — TRY IT ================= */
@@ -916,78 +795,9 @@ const BEHZ=[[0,'calm, as usual'],[1,'rushed, hesitating, on a call']];
 const REVIEW=0.995;   /* a bank reviewing the riskiest 0.5% of payments */
 let SC={purpose:'salary_reimburse',age:400,payers:80,fanout:0.90,amount:2000,known:0,behave:1};
 
-function scIndex(){
-  const g=D.scorer.grid;
-  const i=[g.purpose.indexOf(SC.purpose),g.age.indexOf(SC.age),g.payers.indexOf(SC.payers),
-           g.fanout.indexOf(SC.fanout),g.amount.indexOf(SC.amount),g.known.indexOf(SC.known),
-           g.behave.indexOf(SC.behave)];
-  const s=D.scorer.shape;
-  return (((((i[0]*s[1]+i[1])*s[2]+i[2])*s[3]+i[3])*s[4]+i[4])*s[5]+i[5])*s[6]+i[6];}
 
-function renderScorer(root){
-  root.replaceChildren();
-  if(!D.scorer){root.append(el('p',{},['Scorer not generated.']));return;}
-  const redraw=()=>renderScorer(root);
-  const idx=scIndex();
-  const a=D.scorer.baseline.pct[idx], b=D.scorer.with_purpose.pct[idx];
-  const flagA=a>=REVIEW, flagB=b>=REVIEW;
 
-  const pick=(label,key,opts,fmt)=>el('div',{style:'margin-bottom:16px'},[
-    el('div',{class:'lbl'},[label]),
-    el('div',{class:'seg'},opts.map(o=>{const v=Array.isArray(o)?o[0]:o,t=fmt?fmt(o):o;
-      return el('button',{type:'button','aria-pressed':String(SC[key]===v),
-        onclick:()=>{SC[key]=v;redraw();}},[t]);}))]);
 
-  const meter=(title,pct,flag,tone)=>el('div',{class:'card',style:'border-color:'+
-      (flag?'var(--neg)':'var(--line)')+';border-width:1.5px'},[
-    el('div',{class:'lbl'},[title]),
-    el('div',{style:'font-family:\"IBM Plex Mono\",monospace;font-size:30px;font-weight:500;line-height:1;margin:8px 0 4px;color:'+
-      (flag?'var(--neg)':'var(--ink)')},[(pct*100).toFixed(1)+'%']),
-    el('div',{style:'font-size:13px;color:var(--muted)'},['riskier than this share of all payments']),
-    el('div',{style:'height:8px;background:var(--sunk);border-radius:4px;margin:14px 0 10px;position:relative;overflow:hidden'},[
-      el('div',{style:'position:absolute;left:0;top:0;bottom:0;width:'+(pct*100).toFixed(1)+'%;background:'+
-        (flag?'var(--neg)':'var(--accent)')}),
-      el('div',{style:'position:absolute;left:99.5%;top:-3px;bottom:-3px;width:2px;background:var(--ink)'})]),
-    el('div',{style:'font-size:13.5px;font-weight:600;color:'+(flag?'var(--neg)':'var(--muted)')},
-      [flag?'⚑ Held for review':'Goes through'])]);
-
-  root.append(el('div',{class:'grid g2'},[
-    el('div',{class:'card'},[
-      el('h4',{},['The payment']),
-      pick('The declared context — what the payer says it is for','purpose',D.scorer.grid.purpose,o=>PZ[o]),
-      pick('Amount','amount',AMTZ,o=>o[1]),
-      pick('Have they paid this account before?','known',KNWZ,o=>o[1]),
-      pick('How the payer behaved while sending it','behave',BEHZ,o=>o[1])]),
-    el('div',{class:'card'},[
-      el('h4',{},['The account receiving it']),
-      pick('How old it is','age',AGEZ,o=>o[1]),
-      pick('How many people paid into it last month','payers',PAYZ,o=>o[1]),
-      pick('What it does with the money','fanout',FANZ,o=>o[1])])]));
-
-  const moved=Math.abs(b-a)>0.005;
-  root.append(el('div',{class:'grid g2',style:'margin-top:18px'},[
-    meter('A bank’s system today',a,flagA),
-    meter('The same system, given the declared context',b,flagB)]));
-
-  let verdict,kind;
-  if(flagB&&!flagA){verdict='The purpose field caught this one. Without it, this payment goes straight through.';kind='good';}
-  else if(!flagB&&flagA){verdict='The purpose field cleared this one — it looked suspicious until you knew what it was for.';kind='good';}
-  else if(flagA&&flagB){verdict='Both catch it. The purpose field adds nothing here — this payment was already obvious.';kind='';}
-  else if(moved){verdict='Both let it through, though the purpose field did move the ranking. Not every payment is decidable.';kind='warn';}
-  else{verdict='No change. On payments like this one the field simply does not matter.';kind='warn';}
-  root.append(el('div',{style:'margin-top:16px'},[take('what happened',verdict,kind)]));
-
-  root.append(el('div',{style:'margin-top:16px'},[el('div',{class:'lbl'},['Three cases worth trying']),
-    el('div',{class:'seg'},[
-    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'salary_reimburse',age:400,payers:80,fanout:0.90,amount:2000,known:0,behave:1};redraw();}},
-      ['The field catches one']),
-    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'merchant_purchase',age:15,payers:400,fanout:0.90,amount:200000,known:0,behave:1};redraw();}},
-      ['The field clears one']),
-    el('button',{class:'btn',type:'button',onclick:()=>{SC={purpose:'investment',age:120,payers:25,fanout:0.90,amount:2000,known:1,behave:1};redraw();}},
-      ['A coached scammer beats it'])])]));
-  root.append(el('p',{style:'font-size:12.5px;color:var(--muted);margin-top:14px;max-width:62ch'},
-    ['These are real outputs from the two trained models, not a re-implementation. The line on each bar is where a bank reviewing its riskiest 0.5% of payments would draw the cut.']));
-}
 
 /* ================= THE CALCULATOR ================= */
 const QS=[
@@ -1194,6 +1004,29 @@ function renderFound(root){
         return t;})()])]),
     el('div',{class:'wrap'},[take('why this matters','They can look consistent <b>or</b> stay spread out — not both. So this field is worth more than the fraud it catches by itself: it also forces the scammer into a shape your existing checks can already see.','good')])]));
 
+  /* the cases it gets wrong */
+  if(D.inspector){
+    const one=b=>D.inspector.cases.find(c=>c.bucket===b);
+    const fa=one('misleads_false_alarm'), mf=one('misleads_missed_fraud');
+    const wrong=(c,title,note)=>c?el('div',{class:'card',style:'border-color:var(--neg)'},[
+      el('h4',{style:'color:var(--neg)'},[title]),
+      el('p',{style:'margin-bottom:12px'},[note]),
+      el('div',{style:'font-size:13.5px;line-height:1.9'},[
+        el('div',{},[el('span',{style:'color:var(--muted)'},['payer said it was for  ']),
+                     el('b',{},[c.declared_purpose.replace(/_/g,' ')])]),
+        el('div',{},[el('span',{style:'color:var(--muted)'},['it really was  ']),
+                     el('b',{},[c.is_fraud?'a scam':'a genuine payment'])]),
+        el('div',{},[el('span',{style:'color:var(--muted)'},['adding the context  ']),
+                     el('b',{style:'color:var(--neg)'},[(c.rank_shift>0?'moved it up ':'moved it down ')+
+                       Math.abs(c.rank_shift*100).toFixed(1)+' places per 100'])])])]):null;
+    root.append(sec([W([h3('And the cases it gets wrong')]),
+      COL([p('Two real payments from the test set. In both, adding the declared context pushed the decision in the wrong direction.')]),
+      W([el('div',{class:'grid g2'},[
+        wrong(fa,'A false alarm','A genuine payment the context made look worse, so a real customer gets held up.'),
+        wrong(mf,'Fraud it hid','Real fraud the context made look more ordinary, so it sinks down the queue.')])]),
+      W([take('why we show these','A signal that helps on average still moves individual decisions the wrong way. Anyone deciding whether to collect this field needs to see both directions, so these are on the page rather than in an appendix.','warn')])]));
+  }
+
   root.append(onward([['AI payments →','ai'],['Try it now','tool']]));
 }
 
@@ -1204,9 +1037,14 @@ function renderAI(root){
     el('p',{class:'sub'},['The instruction can be signed before anything is bought — so the check stops being a guess and becomes arithmetic. Set the rules, then try to get a payment past them.'])]),
     el('div',{class:'wrap'},[(()=>{const h=el('div',{});renderSandbox(h);return h;})()]),
     el('div',{class:'wrap'},[el('div',{class:'grid g3',style:'margin-top:26px'},[
-      card('8 of 10 attack types blocked','They break an explicit rule in the signed instruction, so no model is needed — the check is arithmetic.'),
-      card('0 false alarms','Across 20,000 simulated legitimate in-scope purchases, none was wrongly blocked.'),
-      card('2 types cannot be caught','They stay <em>inside</em> the instruction, so no conformance check can see them. Enforcement caps the loss at 91.9%; it does not detect intent.')])])]));
+      card(D.agentic.coverage.caught+' of '+D.agentic.coverage.total+' attack types blocked',
+           'They break an explicit rule in the signed instruction, so no model is needed — the check is arithmetic.'),
+      card(D.agentic.false_positives_on_in_scope_traffic.rejected+' false alarms',
+           'Across '+D.agentic.false_positives_on_in_scope_traffic.n.toLocaleString()+
+           ' simulated legitimate in-scope purchases, none was wrongly blocked.'),
+      card(D.agentic.coverage.uncaught.length+' types cannot be caught',
+           'They stay <em>inside</em> the instruction, so no conformance check can see them. Enforcement caps the loss at '+
+           (D.agentic.bounded_loss.reduction_persistent*100).toFixed(1)+'%; it does not detect intent.')])])]));
 
   root.append(onward([['Try it now →','tool'],['Back to the start','home']]));
 }
@@ -1220,6 +1058,8 @@ document.querySelectorAll('.jump nav a[data-v]').forEach(a=>{
     if(a.dataset.v==='tool')STEP=0;
     go(a.dataset.v);});});
 document.getElementById('brand').addEventListener('click',()=>go('home'));
+(function(){const e=document.getElementById('pcommit');
+  if(e&&D.meta&&D.meta.prereg_commit)e.textContent=D.meta.prereg_commit.slice(0,10);})();
 function show(){}   /* legacy no-op: nothing hides any more */
 </script>
 </body>
